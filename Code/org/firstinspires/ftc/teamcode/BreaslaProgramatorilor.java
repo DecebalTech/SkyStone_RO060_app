@@ -10,9 +10,7 @@ public class BreaslaProgramatorilor extends LinearOpMode{
 
     Movement mov = new Movement();
 
-    double motorPower = 1, minPower = 0.5, maxPower=2.5;
     @Override public void runOpMode() {
-
         initRobot();
 
         while(!isStarted())
@@ -21,18 +19,11 @@ public class BreaslaProgramatorilor extends LinearOpMode{
         }
         while(opModeIsActive())
         {
-          telemetry.addLine("yeethaw");
-          telemetry.update();
-          if(gamepad1.left_stick_y!=0){
-              mov.move(gamepad1.left_stick_y);
-          }
-          if (gamepad1.left_stick_x!=0){
-              mov.rotate(gamepad1.left_stick_x);
-          }
-          if(gamepad1.left_stick_x==0 && gamepad1.left_stick_y==0)
-          {
-              mov.stop();
-          }
+            telemetry.addLine("pola");
+            telemetry.update();
+
+            mov.updateMovement(gamepad1, gamepad2);
+
         }
     }
 
