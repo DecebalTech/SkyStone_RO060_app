@@ -18,8 +18,8 @@ public class Movement {
 
 
     public void move(float power) {
-        moto1.setPower(-power * turbo);
-        moto2.setPower(power * turbo);
+        moto1.setPower(power * turbo);
+        moto2.setPower(-power * turbo);
     }
 
     public void rotate(float power) {
@@ -62,7 +62,7 @@ public class Movement {
             turboIsPressed = false;
     }
 
-    public void initMovement(String moto1Name, String moto2Name, HardwareMap hwm) {
+    public void initMovement(HardwareMap hwm, String moto1Name, String moto2Name) {
         moto1 = hwm.dcMotor.get(moto1Name);
         moto2 = hwm.dcMotor.get(moto2Name);
     }
