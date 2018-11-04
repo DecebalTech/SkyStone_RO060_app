@@ -61,4 +61,9 @@ public class Movement {
         if(!gamepad1.left_bumper && !gamepad1.right_bumper)
             turboIsPressed = false;
     }
+
+    public void initMovement(String moto1Name, String moto2Name, HardwareMap hwm) {
+        moto1 = hwm.dcMotor.get(moto1Name);
+        moto2 = hwm.dcMotor.get(moto2Name);
+    }
 }
