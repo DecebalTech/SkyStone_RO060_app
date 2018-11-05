@@ -69,23 +69,21 @@ public class Movement {
         moto2 = hwm.dcMotor.get(moto2Name);
     }
 
-    public void moveWithEncoders(int pos, LinearOpMode op) {
+    public void moveWithEncoders(int pos, LinearOpMode op) { // WORK IN PROGRESS
 
         moto1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         moto2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        moto1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        moto2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        
         moto1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         moto2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         moto1.setTargetPosition(pos);
-        moto2.setTargetPosition(pos);
+        moto2.setTargetPosition(-pos);
 
         moto1.setPower(power);
         moto2.setPower(power);
-        while(moto1.getCurrentPosition() != pos && moto2.getCurrentPosition() != pos) {
+
+        while(moto1.isBusy() && moto2.isBusy()) {
             op.idle();
         }
         moto1.setPower(0);
@@ -94,13 +92,10 @@ public class Movement {
         moto2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void rotateWithEncoders(int pos, LinearOpMode op) {
+    public void rotateWithEncoders(int pos, LinearOpMode op) { // WORK IN PROGRESS
 
         moto1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         moto2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        moto1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        moto2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         moto1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         moto2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -108,14 +103,15 @@ public class Movement {
         moto1.setTargetPosition(pos);
         moto2.setTargetPosition(pos);
 
-        moto1.setPower(power);
+        moto1.setPower(-power);
         moto2.setPower(-power);
 
-        if(moto1.getCurrentPosition() == pos && moto2.getCurrentPosition() == pos) {
-            moto1.setPower(0);
-            moto2.setPower(0);
-            moto1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            moto2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        while(moto1.isBusy() && moto2.isBusy()) {
+            op.idle();
         }
+        moto1.setPower(0);
+        moto2.setPower(0);
+        moto1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        moto2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 }
