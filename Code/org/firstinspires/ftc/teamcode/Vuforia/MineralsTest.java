@@ -68,7 +68,7 @@ public class MineralsTest extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = "VUFORIA KEY - IT'S ON DESKTOP";
+    private static final String VUFORIA_KEY = "VUFORIA KEY - ASK ANDREI FOR IT :) ";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
