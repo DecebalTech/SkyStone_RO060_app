@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Modules.*;
 public class BreaslaProgramatorilor extends LinearOpMode{
 
     Movement mov = new Movement();
+    HorizontalArm horizontalArm = new HorizontalArm();
 
     @Override public void runOpMode() {
         initRobot();
@@ -21,10 +22,15 @@ public class BreaslaProgramatorilor extends LinearOpMode{
         while(opModeIsActive())
         {
             mov.updateMovement(gamepad1, gamepad2);
+            horizontalArm.updateArm(gamepad1, gamepad2);
+
+            telemetry.addData("Turbo", mov.turbo);
+            telemetry.update();
         }
     }
 
     public void initRobot() {
         mov.initMovement(hardwareMap, "moto1", "moto2");
+        horizontalArm.initHorizontalArm(hardwareMap);
     }
 }
