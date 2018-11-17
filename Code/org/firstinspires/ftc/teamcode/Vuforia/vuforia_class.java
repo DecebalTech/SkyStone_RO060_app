@@ -7,10 +7,18 @@ import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
+import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Hardware;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class vuforia_class {
 
@@ -21,7 +29,7 @@ public class vuforia_class {
       public VuforiaLocalizer vuforia;
       public TFObjectDetector tfod;
 
-      public int scan(LinearOpMode op) {
+      public int scan_minerals(LinearOpMode op) {
             int gold = -1; // pozitia
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
@@ -82,5 +90,55 @@ public class vuforia_class {
           TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
           tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
           tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+      }
+
+      public VuforiaTrackables targetsRoverRuckus;
+
+      VuforiaTrackable blueRover;
+      VuforiaTrackable redFootprint;
+      VuforiaTrackable frontCraters;
+      VuforiaTrackable backSpace;
+
+      public List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
+      public void initVuforiaForTarget() {
+          targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
+
+          blueRover = targetsRoverRuckus.get(0);
+          blueRover.setName("Blue-Rover");
+          redFootprint = targetsRoverRuckus.get(1);
+          redFootprint.setName("Red-Footprint");
+          frontCraters = targetsRoverRuckus.get(2);
+          frontCraters.setName("Front-Craters");
+          backSpace = targetsRoverRuckus.get(3);
+          backSpace.setName("Back-Space");
+
+          allTrackables.addAll(targetsRoverRuckus);
+
+          targetsRoverRuckus.activate();
+      }
+
+      public int scan_for_target(LinearOpMode op){
+          int img = -1;
+          boolean targetVisible = false;
+
+          for (VuforiaTrackable trackable : allTrackables) {
+              if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+                  if (trackable.getName() == "Blue-Rover"){
+                    img = 0;
+                  }
+                  if (trackable.getName() == "Red-Footprint"){
+                    img = 1;
+                  }
+                  if (trackable.getName() == "Front-Craters"){
+                    img = 2;
+                  }
+                  if (trackable.getName() == "Back-Space"){
+                    img = 3;
+                  }
+                  targetVisible = true;
+              }
+          }
+          return img;
       }
 }
