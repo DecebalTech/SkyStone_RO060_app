@@ -56,7 +56,7 @@ public class AutonomousTest extends LinearOpMode {
     }
 
     public void initRobot() {
-        mov.initMovement(hardwareMap, "moto1", "moto2");
+        mov.initMovement(hardwareMap);
         vf.initVuforia();
         vf.initTfod(hardwareMap);
         vf.tfod.activate();
