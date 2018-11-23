@@ -17,6 +17,9 @@ public class Movement {
     private float minTurbo = 0.5f, maxTurbo = 2.5f;
     private boolean turboIsPressed = false;
     public double power = 0.4;
+    
+    private String moto1Name = "moto1";
+    private String moto2Name = "moto2";
 
 
     public void move(float power) {
@@ -64,7 +67,7 @@ public class Movement {
             turboIsPressed = false;
     }
 
-    public void initMovement(HardwareMap hwm, String moto1Name, String moto2Name) {
+    public void initMovement(HardwareMap hwm) {
         moto1 = hwm.dcMotor.get(moto1Name);
         moto2 = hwm.dcMotor.get(moto2Name);
     }
