@@ -78,7 +78,7 @@ public class HorizontalArm
                 basculantaPosition = "UP";
             }
         }
-        
+
         if(gamepad2.left_trigger>0)
             matura.setPower(10);
         else if(gamepad2.right_trigger>0)
