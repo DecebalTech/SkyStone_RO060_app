@@ -27,6 +27,7 @@ public class BreaslaProgramatorilor extends LinearOpMode{
             verticalArm.updateArm(gamepad1, gamepad2);
             telemetry.addData("Turbo", mov.turbo);
             telemetry.addData("BascPos", horizontalArm.basculantaPosition);
+            telemetry.addData("BascPos_Encoder", horizontalArm.basculanta.getCurrentPosition());
             telemetry.update();
         }
     }

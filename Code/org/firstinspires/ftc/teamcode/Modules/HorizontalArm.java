@@ -22,21 +22,20 @@ public class HorizontalArm
     private String cuvaName = "cuva";
 
     private boolean basculantaIsPressed = false;
-    
+
     private int maxBasculanta = 750;
     private double basculantaPower = 0.5;
     public String basculantaPosition = "UP";
-    
+
     public void updateArm(Gamepad gamepad1, Gamepad gamepad2)
     {
         if(gamepad2.right_stick_y!=0)
             rail.setPower(gamepad2.right_stick_y);
         else rail.setPower(0);
 
-        if(gamepad2.y && !basculantaIsPressed)
-        {
-            basculantaIsPressed = true;
-            if(basculanta.getCurrentPosition() < maxBasculanta/2)
+        int basCurrPos = basculanta.getCurrentPosition();
+        if(gamepad2.x) {
+            if(basCurrPos < maxBasculanta/3)
             {
                 basculanta.setTargetPosition(maxBasculanta/4);
                 basculanta.setPower(basculantaPower/4);
@@ -46,26 +45,46 @@ public class HorizontalArm
                 basculanta.setPower(basculantaPower/4);
                 basculantaPosition = "DOWN";
             }
-            else
+            else if(basCurrPos > maxBasculanta/3 && basCurrPos < 2*maxBasculanta/3)
             {
-                basculanta.setTargetPosition(0);
-                basculanta.setPower(basculantaPower);
-                basculantaPosition = "UP";
-                ///suicide
+                basculanta.setTargetPosition(maxBasculanta/2);
+                basculanta.setPower(basculantaPower/4);
+                basculanta.setTargetPosition(maxBasculanta);
+                basculanta.setPower(basculantaPower/4);
+                basculantaPosition = "DOWN";
             }
         }
-        if(!gamepad2.y)
-            basculantaIsPressed = false;
-
-        if(gamepad2.x) {
-            matura.setPower(-10);
-        }
-        if(gamepad2.a) {
-            matura.setPower(0);
+        if(gamepad2.y) {
+            if(basCurrPos < maxBasculanta/3)
+            {
+                basculanta.setTargetPosition(maxBasculanta/2);
+                basculanta.setPower(basculantaPower/4);
+                basculanta.setTargetPosition(maxBasculanta/4);
+                basculanta.setPower(basculantaPower/4);
+                basculantaPosition = "MIDDLE";
+            }
+            else if(basCurrPos > 2*maxBasculanta/3)
+            {
+                basculanta.setTargetPosition(maxBasculanta/4);
+                basculanta.setPower(basculantaPower/4);
+                basculantaPosition = "MIDDLE";
+            }
         }
         if(gamepad2.b) {
-            matura.setPower(10);
+            if(basCurrPos > maxBasculanta/6)
+            {
+                basculanta.setTargetPosition(-20); //usually, 0
+                basculanta.setPower(basculantaPower/2);
+                basculantaPosition = "UP";
+            }
         }
+        
+        if(gamepad2.left_trigger>0)
+            matura.setPower(10);
+        else if(gamepad2.right_trigger>0)
+            matura.setPower(-10);
+        else matura.setPower(0);
+
         if(gamepad2.right_bumper) {
             cuva.setPosition(1);
         }
