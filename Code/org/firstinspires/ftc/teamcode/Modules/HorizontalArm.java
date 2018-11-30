@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class HorizontalArm
 {
     public DcMotor rail, basculanta;
-    public CRServo matura;
+    public DcMotor matura;
     public Servo cuva;
 
     private String railName = "rail";
@@ -24,7 +24,7 @@ public class HorizontalArm
     private boolean basculantaIsPressed = false;
 
     private int maxBasculanta = 750;
-    private double basculantaPower = 0.5;
+    private double basculantaPower = 0.7;
     public String basculantaPosition = "UP";
 
     public void updateArm(Gamepad gamepad1, Gamepad gamepad2)
@@ -32,7 +32,19 @@ public class HorizontalArm
         if(gamepad2.right_stick_y!=0)
             rail.setPower(gamepad2.right_stick_y);
         else rail.setPower(0);
-
+    
+        /*
+        if(gamepad1.left_stick_y > 0.1)
+        {
+            basculanta.setPower(0.3);
+        }
+        else if (gamepad1.left_stick_y < -0.1)
+        {
+            basculanta.setPower(-0.15);
+        }
+        else basculanta.setPower(0.2);
+        */
+        
         int basCurrPos = basculanta.getCurrentPosition();
         if(gamepad2.x) {
             if(basCurrPos < maxBasculanta/3)
@@ -73,16 +85,16 @@ public class HorizontalArm
         if(gamepad2.b) {
             if(basCurrPos > maxBasculanta/6)
             {
-                basculanta.setTargetPosition(-20); //usually, 0
-                basculanta.setPower(basculantaPower/2);
+                basculanta.setTargetPosition(25); //usually, 0
+                basculanta.setPower(basculantaPower/4);
                 basculantaPosition = "UP";
             }
         }
-
+        
         if(gamepad2.left_trigger>0)
-            matura.setPower(10);
+            matura.setPower(1);
         else if(gamepad2.right_trigger>0)
-            matura.setPower(-10);
+            matura.setPower(-1);
         else matura.setPower(0);
 
         if(gamepad2.right_bumper) {
@@ -98,7 +110,7 @@ public class HorizontalArm
         basculanta = hwm.dcMotor.get(basculantaName);
         basculanta.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         basculanta.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        matura = hwm.crservo.get(maturaName);
+        matura = hwm.dcMotor.get(maturaName);
         cuva = hwm.servo.get(cuvaName);
     }
 

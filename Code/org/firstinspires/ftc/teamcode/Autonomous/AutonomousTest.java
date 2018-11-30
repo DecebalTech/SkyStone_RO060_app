@@ -29,20 +29,19 @@ public class AutonomousTest extends LinearOpMode {
         telemetry.addData("Gold place", gold);
         telemetry.update();
 
-        //mov.moveWithEncoders(1000, this);
+        /*//mov.moveWithEncoders(1000, this);
         telemetry.addLine("M-am dus in fata. :)");
         telemetry.update();
         sleep(1000);
         //mov.rotateWithEncoders(1080, this);
         telemetry.addLine("M-am invartit xD");
         telemetry.update();
-        sleep(1000);
+        sleep(1000);*/
         vf.initVuforiaForTarget();
         for(int i=0;i<300;i++)
         {
             img = vf.scan_for_target(this);
-            telemetry.addData("Citii de atatea ori", i);
-            telemetry.addLine("OwO");
+            telemetry.addData("Am citit de atatea ori", i);
             telemetry.update();
             sleep(10);
         }
