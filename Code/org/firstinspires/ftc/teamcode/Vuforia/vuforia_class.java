@@ -25,7 +25,7 @@ public class vuforia_class {
       private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
       private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
       private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
-      private static final String VUFORIA_KEY = "AZCSKh//////AAAAGUd9HlnvcUptlccwBSszfyF+1O9yZ+N86t+CTRBRH5xnTa5hqW7Zj82WqVub6npiiOvaeVPqFO0DAbJOVK7mOU2n1v0h8zWl8I9T8s8CdYC+J68fX31cXCYUUiKPzK/HEqBde7NW6dVDTdUtwDe7suukDd2/WZo1anlmKa4+RcVhwLV1uzC1//mhQPbFcVcE3BcnmbmgBURFV1fhr/vDavoQmvG5jkZiZIg5QGfbIVlc5kQbDBdEyVBNHWyNpRoXEIctQt5DPUFN8MMoJ+UXswkc6gIqC9iPoGM31qYDzx8VCPTzXRZ9eC4Z4CRNL745R9z34gcFlHjTDsdtLBcWUy04SNOnwyREAq1GJO+urHZM";
+      private static final String VUFORIA_KEY = "ASK ANDREI FOR IT :) ";
       public VuforiaLocalizer vuforia;
       public TFObjectDetector tfod;
 
