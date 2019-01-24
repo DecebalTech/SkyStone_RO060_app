@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.*;
 import org.firstinspires.ftc.teamcode.Vuforia.*;
 import org.firstinspires.ftc.teamcode.Modules.*;
 
-@Autonomous(name = "Autonomous Test", group = "Autonomous")
+@Autonomous(name = "Test Autonomie", group = "Teste")
 
 public class AutonomousTest extends LinearOpMode {
 

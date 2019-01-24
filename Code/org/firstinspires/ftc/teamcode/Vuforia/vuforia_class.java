@@ -25,10 +25,25 @@ public class vuforia_class {
       private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
       private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
       private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
-      private static final String VUFORIA_KEY = "ASK ANDREI FOR IT :) ";
+      private static final String VUFORIA_KEY = "AZCSKh//////AAAAGUd9HlnvcUptlccwBSszfyF+1O9yZ+N86t+CTRBRH5xnTa5hqW7Zj82WqVub6npiiOvaeVPqFO0DAbJOVK7mOU2n1v0h8zWl8I9T8s8CdYC+J68fX31cXCYUUiKPzK/HEqBde7NW6dVDTdUtwDe7suukDd2/WZo1anlmKa4+RcVhwLV1uzC1//mhQPbFcVcE3BcnmbmgBURFV1fhr/vDavoQmvG5jkZiZIg5QGfbIVlc5kQbDBdEyVBNHWyNpRoXEIctQt5DPUFN8MMoJ+UXswkc6gIqC9iPoGM31qYDzx8VCPTzXRZ9eC4Z4CRNL745R9z34gcFlHjTDsdtLBcWUy04SNOnwyREAq1GJO+urHZM";
       public VuforiaLocalizer vuforia;
       public TFObjectDetector tfod;
 
+    public Boolean scanMineral(LinearOpMode op) {
+        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+        if(updatedRecognitions!=null)
+        {
+            if(updatedRecognitions.size() == 1)
+                {
+                    Recognition temp = updatedRecognitions.get(0);
+                    if(temp.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                        return true;
+                    }
+                    return false;
+                }
+        }
+        return false;
+    }
       public int scan_minerals(LinearOpMode op) {
             int gold = -1; // pozitia
             if (tfod != null) {
@@ -77,7 +92,7 @@ public class vuforia_class {
           VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
           parameters.vuforiaLicenseKey = VUFORIA_KEY;
-          parameters.cameraDirection = CameraDirection.BACK;
+          parameters.cameraDirection = CameraDirection.FRONT;
 
           //  Instantiate the Vuforia engine
           vuforia = ClassFactory.getInstance().createVuforia(parameters);

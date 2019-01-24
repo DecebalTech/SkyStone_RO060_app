@@ -18,6 +18,7 @@ public class VerticalArm {
         if(gamepad2.left_stick_y!=0)
             arm.setPower(gamepad2.left_stick_y * armPower);
         else arm.setPower(0);
+            
     }
     
     public void initVerticalArm(HardwareMap hwm)
