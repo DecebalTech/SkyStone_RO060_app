@@ -18,7 +18,7 @@ public class VerticalArm {
     public void updateArm(Gamepad gamepad1, Gamepad gamepad2)
     {
         if(gamepad2.right_stick_y!=0 && !moving)
-            arm.setPower(-gamepad2.right_stick_y * armPower);
+            arm.setPower(gamepad2.right_stick_y * armPower);
         else if (!moving) arm.setPower(0);
         
         
