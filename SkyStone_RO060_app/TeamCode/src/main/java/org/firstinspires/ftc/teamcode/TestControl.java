@@ -3,24 +3,21 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp
-public class PlayerControl extends LinearOpMode {
 
-    private Robot rb;
+@TeleOp
+public class TestControl extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        initRobot();
         while(!isStarted()) idle();
 
         while(opModeIsActive()) {
-            rb.LinearUpdate(gamepad1, gamepad2, this);
-
+            if (gamepad1.x) {
+                telemetry.addLine("Yeet");
+            }
+            if (gamepad1.y) telemetry.addLine("Haw");
             telemetry.update();
-        }
-    }
 
-    public void initRobot() {
-        rb = new Robot(hardwareMap);
+        }
     }
 }

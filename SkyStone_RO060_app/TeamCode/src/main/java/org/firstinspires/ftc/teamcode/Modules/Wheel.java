@@ -8,13 +8,13 @@ public class Wheel implements Modul {
 
     private boolean State;
     private String Name;
-    private DcMotor Motor;
+    private DcMotor Motor = null;
 
     @Override
     public void Init(String _Name, HardwareMap hwm) {
         SetName(_Name);
         try {
-        Motor = hwm.dcMotor.get(Name);
+            Motor = hwm.dcMotor.get(Name);
         }
         catch (Exception ex) {
             State = false;

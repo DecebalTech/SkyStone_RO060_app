@@ -5,16 +5,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Movement {
 
-    private Wheel frontLeft, frontRight, backLeft, backRight;
-    private String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
+    private Wheel frontLeft = new Wheel(), frontRight = new Wheel(), backLeft = new Wheel(), backRight = new Wheel();
+    private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
 
-    public Movement(HardwareMap hwm) {
+    public void Init(HardwareMap hwm) {
         frontLeft.Init(Names[0], hwm);
         frontRight.Init(Names[1], hwm);
-        frontRight.InvertDirection();
         backLeft.Init(Names[2], hwm);
         backRight.Init(Names[3], hwm);
-        backRight.InvertDirection();
+
+        if(AreWheelsActive()) {
+            frontRight.InvertDirection();
+            backRight.InvertDirection();
+        }
     }
 
     public String Move(Gamepad gamepad1) {
