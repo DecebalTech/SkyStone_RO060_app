@@ -1,21 +1,37 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
+import android.widget.Switch;
+
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Brat implements Modul {
 
     private boolean State;
     private String Name;
 
-    private DcMotor Motor;
+    private final Float[] PositionValues = {.3f, .7f};
+    private enum Position {UP, DOWN};
+    private Position ServoPosition = Position.DOWN;
+
+    private Servo Sv;
 
     @Override
     public void Init(String _Name, HardwareMap hwm) {
         SetName(_Name);
-        Motor = hwm.dcMotor.get(Name);
-        SwitchState(true);
+        try {
+            Sv = hwm.servo.get(Name);
+            SwitchState(true);
+
+            ServoPosition = Position.DOWN;
+            Sv.setPosition(PositionValues[1]);
+        }
+        catch (Exception ex) {
+            SwitchState(false);
+        }
     }
+
 
     @Override
     public boolean IsOn() {
@@ -24,7 +40,7 @@ public class Brat implements Modul {
 
     @Override
     public void Kill() {
-        State = false;
+        SwitchState(false);
     }
 
     @Override
@@ -35,5 +51,18 @@ public class Brat implements Modul {
     @Override
     public void SwitchState(boolean _State) {
         State = _State;
+    }
+
+    public String Move(Gamepad gamepad1) {
+        if(gamepad1.a && ServoPosition != Position.DOWN) {
+            Sv.setPosition(PositionValues[0]);
+            ServoPosition = Position.DOWN;
+        }
+        if(gamepad1.y && ServoPosition != Position.UP) {
+            Sv.setPosition(PositionValues[1]);
+            ServoPosition = Position.UP;
+        }
+
+        return ServoPosition.toString();
     }
 }

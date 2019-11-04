@@ -15,6 +15,7 @@ public class Wheel implements Modul {
         SetName(_Name);
         try {
             Motor = hwm.dcMotor.get(Name);
+            State = true;
         }
         catch (Exception ex) {
             State = false;

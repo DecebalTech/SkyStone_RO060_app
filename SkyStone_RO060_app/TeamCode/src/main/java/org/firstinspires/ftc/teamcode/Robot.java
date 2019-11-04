@@ -8,12 +8,15 @@ import org.firstinspires.ftc.teamcode.Modules.*;
 
 public class Robot {
     //public Brat brat = new Brat();
-    public Movement movement;
+    public TwoWheel_Movement movement;
+    public Brat brat;
 
     public Robot(HardwareMap hwm) {
         //brat.Init("Brat", hwm);
-        movement = new Movement();
+        movement = new TwoWheel_Movement();
         movement.Init(hwm);
+        brat = new Brat();
+        brat.Init("Brat", hwm);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
@@ -22,8 +25,10 @@ public class Robot {
         else
         { op.telemetry.addLine("Wheels not defined/connected.");}
 
+        if(brat.IsOn())
+            op.telemetry.addLine("Servo position: " + brat.Move(gamepad1));
+        else
+        { op.telemetry.addLine("Servo is not defined/connected.");}
     }
-
-    
 
 }
