@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Movement {
 
-    private Wheel frontLeft = new Wheel(), frontRight = new Wheel(), backLeft = new Wheel(), backRight = new Wheel();
+    private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
 
     public void Init(HardwareMap hwm) {

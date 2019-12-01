@@ -15,7 +15,6 @@ public class PlayerControl extends LinearOpMode {
 
         while(opModeIsActive()) {
             rb.LinearUpdate(gamepad1, gamepad2, this);
-
             telemetry.update();
         }
     }
