@@ -11,8 +11,10 @@ public class Robot {
     //public Brat brat = new Brat();
     public TwoWheel_Movement movement;
     public Brat brat;
-public Cub cub;
-public Marker marker;
+    public Cub cub;
+    public Marker marker;
+    public ServoBratePrindere servoBratePrindere;
+
     public Robot(HardwareMap hwm) {
         //brat.Init("Brat", hwm);
         movement = new TwoWheel_Movement();
@@ -23,6 +25,8 @@ public Marker marker;
         cub.Init("Cub", hwm);
         marker=new Marker();
         marker.Init("Marker",hwm);
+        servoBratePrindere = new ServoBratePrindere();
+        servoBratePrindere.Init("ServoPrindereLeft", "ServoPrindereRight", hwm);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
@@ -35,15 +39,19 @@ public Marker marker;
             op.telemetry.addLine("Servo position: " + brat.Move(gamepad1));
         else
         { op.telemetry.addLine("Servo is not defined/connected.");}
-   if(cub.IsOn())
-       op.telemetry.addLine("Servo position: " + cub.Move(gamepad1));
-   else
-   { op.telemetry.addLine("Servo is not defined/connected.");}
+        if(cub.IsOn())
+           op.telemetry.addLine("Servo position: " + cub.Move(gamepad1));
+        else
+        { op.telemetry.addLine("Servo is not defined/connected.");}
         if(marker.IsOn())
             op.telemetry.addLine("Servo position: " + marker.Move(gamepad1));
         else
         { op.telemetry.addLine("Servo is not defined/connected.");}
-     op.telemetry.addLine("Turbo:"+ movement.GetTurbo());
+        op.telemetry.addLine("Turbo:"+ movement.GetTurbo());
+        if(servoBratePrindere.IsOn()) {
+            op.telemetry.addLine(servoBratePrindere.Move(gamepad1));
+        }
+        else op.telemetry.addLine("ServoPrindereBrate is not defined/connected.");
     }
 
 }

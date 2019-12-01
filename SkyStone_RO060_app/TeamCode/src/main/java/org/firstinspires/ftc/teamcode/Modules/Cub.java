@@ -54,7 +54,7 @@ public class Cub implements Modul {
         State = _State;
     }
 
-    /*public String Move(Gamepad gamepad1) {
+    public String Move(Gamepad gamepad1) {
         if(gamepad1.x && ServoPosition != Position.DOWN) {
             Sv.setPosition(PositionValues[0]);
             ServoPosition = Position.DOWN;

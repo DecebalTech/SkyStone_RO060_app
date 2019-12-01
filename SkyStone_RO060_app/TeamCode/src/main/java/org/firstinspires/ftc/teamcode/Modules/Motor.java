@@ -33,9 +33,7 @@ public class Motor implements Modul {
     }
 
     @Override
-    public void SetName(String _Name) {
-        Name = _Name;
-    }
+    public void SetName(String _Name) {Name = _Name;}
 
     @Override
     public void SwitchState(boolean _State) {

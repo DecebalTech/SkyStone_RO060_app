@@ -4,66 +4,69 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-public class ServoBratePrindere implements Modul {
+public class ServoBratePrindere {
 
     private boolean State;
-    private String Name;
+    private String NameLeft, NameRight;
+    private Servo GripLeft, GripRight;
 
     private final Float[] PositionValues = {1f, 0.5f};
 
-    private enum Position {OPEN, CLOSED}
+    private enum Position {
+        CLOSED, OPEN
+    }
     private Position ServoPosition = Position.CLOSED;
 
-    private Servo GripLeft, GripRight;
 
-    @Override
-    public void Init(String _Name, HardwareMap hwm) {
-        SetName(_Name);
+    public void Init(String _NameLeft, String _NameRight, HardwareMap hwm) {
+        SetName(_NameLeft, _NameRight);
         try {
-            GripLeft = hwm.servo.get(Name);
-            GripRight = hwm.servo.get(Name);
-            SwitchState(true);
-
-            ServoPosition = Position.CLOSED;
-            GripLeft.setPosition(PositionValues[1]);
-            GripRight.setPosition(PositionValues[1]);
-        } catch (Exception ex) {
-            SwitchState(false);
+            GripLeft = hwm.servo.get(NameLeft);
+            GripRight = hwm.servo.get(NameRight);
+            State = true;
+            SetPos(Position.CLOSED);
+        }
+        catch (Exception ex) {
+            State = false;
         }
     }
 
-    @Override
     public boolean IsOn() {
         return State;
     }
 
-    @Override
     public void Kill() {
         SwitchState(false);
     }
 
-    @Override
-    public void SetName(String _Name) {
-        Name = _Name;
+    public void SetName(String _NameLeft, String _NameRight) {
+        NameLeft = _NameLeft;
+        NameRight = _NameRight;
     }
 
-    @Override
     public void SwitchState(boolean _State) {
         State = _State;
     }
 
-    public String Move(Gamepad gamepad1) {
-        if(gamepad1.x && ServoPosition != Position.CLOSED) {
+    public void SetPos(Position _pos) {
+        if(_pos == Position.CLOSED) {
             GripLeft.setPosition(PositionValues[0]);
-            GripRight.setPosition(PositionValues[0]);
-            ServoPosition = Position.OPEN;
+            GripRight.setPosition(1 - PositionValues[0]);
+            ServoPosition = Position.CLOSED;
         }
-        if(gamepad1.b && ServoPosition != Position.OPEN) {
+        else if(_pos == Position.OPEN) {
             GripLeft.setPosition(PositionValues[1]);
-            GripRight.setPosition(PositionValues[1]);
+            GripRight.setPosition(1 - PositionValues[1]);
             ServoPosition = Position.OPEN;
         }
+    }
 
-        return ServoPosition.toString();
+    public String Move(Gamepad gamepad1) {
+
+        if(gamepad1.left_bumper)
+            SetPos(Position.CLOSED);
+        else if(gamepad1.right_bumper)
+            SetPos(Position.OPEN);
+        return "ServoBratePrindere Position: [" + ServoPosition.toString() + "]";
     }
 }
