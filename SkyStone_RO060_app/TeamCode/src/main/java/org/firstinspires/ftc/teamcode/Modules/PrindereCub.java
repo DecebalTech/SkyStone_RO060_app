@@ -1,6 +1,7 @@
-/*package org.firstinspires.ftc.teamcode.Modules;
+package org.firstinspires.ftc.teamcode.Modules;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -10,20 +11,21 @@ public class PrindereCub {
     private boolean State;
     private String NameLeft, NameRight;
 
-    private float[] posVal = {};
-    public enum POS {
-        CLOSED,
-        OPEN
+    private float[] PowerValues = {-1, 0, 1};
+    public enum Direction {
+        IN,
+        STOP,
+        OUT
     }
-    private POS pos;
+    private Direction direction;
 
     public void Init(String _NameLeft, String _NameRight, HardwareMap hwm) {
         SetName(_NameLeft, _NameRight);
         try {
             GripMotorLeft = hwm.dcMotor.get(NameLeft);
             GripMotorRight = hwm.dcMotor.get(NameRight);
+            GripMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
             State = true;
-            SetPos(POS.CLOSED);
         }
         catch (Exception ex) {
             State = false;
@@ -47,15 +49,29 @@ public class PrindereCub {
         State = _State;
     }
 
-    public void SetPos(POS _pos) {
-        switch (_pos) {
-            case POS.CLOSED:
-                GripMotorLeft.set
-        }
+    public void SetPower(Float Pow) {
+        GripMotorLeft.setPower(Pow);
+        GripMotorRight.setPower(Pow);
     }
 
-    public String Move(Gamepad gamepad1){
-        if(gamepad1.a && )
+    public void SetDirection(Direction _Direction) {
+        direction = _Direction;
+        if(direction == Direction.IN)
+            SetPower(PowerValues[0]);
+        else if (direction == Direction.STOP)
+            SetPower(PowerValues[1]);
+        else if (direction == Direction.OUT)
+            SetPower(PowerValues[2]);
+    }
+
+    public String UpdateGrips(Gamepad gamepad2){
+        if(gamepad2.left_bumper)
+            SetDirection(Direction.OUT);
+        else if (gamepad2.right_bumper)
+            SetDirection((Direction.IN));
+        else
+            SetDirection(Direction.STOP);
+
+        return "Cube Grip Direction: [" + direction.toString() + "]";
     }
 }
-*/

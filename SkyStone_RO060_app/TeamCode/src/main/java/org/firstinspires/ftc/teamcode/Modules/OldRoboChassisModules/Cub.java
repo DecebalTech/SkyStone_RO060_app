@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Modules;
+package org.firstinspires.ftc.teamcode.Modules.OldRoboChassisModules;
 
 import android.widget.Switch;
 
@@ -6,13 +6,16 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class Brat implements Modul {
+import org.firstinspires.ftc.teamcode.Modules.Modul;
+
+public class Cub implements Modul {
 
     private boolean State;
     private String Name;
 
-    private final Float[] PositionValues = {0.1f, 0.4f};
-    private enum Position {UP, DOWN}
+    private final Float[] PositionValues = {0.98f, 0.65f};
+
+    private enum Position {UP, DOWN};
     private Position ServoPosition = Position.DOWN;
 
     private Servo Sv;
@@ -54,16 +57,14 @@ public class Brat implements Modul {
     }
 
     public String Move(Gamepad gamepad1) {
-
-        if(gamepad1.a && ServoPosition != Position.DOWN) {
+        if(gamepad1.x && ServoPosition != Position.DOWN) {
             Sv.setPosition(PositionValues[0]);
             ServoPosition = Position.DOWN;
         }
-        if(gamepad1.y && ServoPosition != Position.UP) {
+        if(gamepad1.b && ServoPosition != Position.UP) {
             Sv.setPosition(PositionValues[1]);
             ServoPosition = Position.UP;
         }
-
 
         return ServoPosition.toString();
     }

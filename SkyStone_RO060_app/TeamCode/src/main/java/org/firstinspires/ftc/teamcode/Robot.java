@@ -5,28 +5,24 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Modules.*;
-import org.firstinspires.ftc.teamcode.Modules.Marker;
+import org.firstinspires.ftc.teamcode.Modules.OldRoboChassisModules.Marker;
 
 public class Robot {
     //public Brat brat = new Brat();
-    public TwoWheel_Movement movement;
-    public Brat brat;
-    public Cub cub;
-    public Marker marker;
+    public Movement movement;
     public ServoBratePrindere servoBratePrindere;
+    public PrindereCub prindereCub;
 
     public Robot(HardwareMap hwm) {
         //brat.Init("Brat", hwm);
-        movement = new TwoWheel_Movement();
+        movement = new Movement();
         movement.Init(hwm);
-        brat = new Brat();
-        brat.Init("Brat", hwm);
-        cub=new Cub();
-        cub.Init("Cub", hwm);
-        marker=new Marker();
-        marker.Init("Marker",hwm);
+
         servoBratePrindere = new ServoBratePrindere();
         servoBratePrindere.Init("ServoPrindereLeft", "ServoPrindereRight", hwm);
+
+        prindereCub = new PrindereCub();
+        prindereCub.Init("GripMotorLeft", "GripMotorRight", hwm);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
@@ -35,23 +31,16 @@ public class Robot {
         else
         { op.telemetry.addLine("Wheels not defined/connected.");}
 
-        if(brat.IsOn())
-            op.telemetry.addLine("Servo position: " + brat.Move(gamepad1));
-        else
-        { op.telemetry.addLine("Servo is not defined/connected.");}
-        if(cub.IsOn())
-           op.telemetry.addLine("Servo position: " + cub.Move(gamepad1));
-        else
-        { op.telemetry.addLine("Servo is not defined/connected.");}
-        if(marker.IsOn())
-            op.telemetry.addLine("Servo position: " + marker.Move(gamepad1));
-        else
-        { op.telemetry.addLine("Servo is not defined/connected.");}
-        op.telemetry.addLine("Turbo:"+ movement.GetTurbo());
         if(servoBratePrindere.IsOn()) {
             op.telemetry.addLine(servoBratePrindere.Move(gamepad1));
         }
         else op.telemetry.addLine("ServoPrindereBrate is not defined/connected.");
+
+        if(prindereCub.IsOn()) {
+            op.telemetry.addLine(prindereCub.UpdateGrips(gamepad2));
+        }
+        else op.telemetry.addLine("PrindereCub is not defined/connected.");
+
     }
 
 }
