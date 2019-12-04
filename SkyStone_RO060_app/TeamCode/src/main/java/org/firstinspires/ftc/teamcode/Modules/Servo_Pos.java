@@ -40,4 +40,8 @@ public class Servo_Pos implements Modul {
     public void SwitchState(boolean _State) {
         State = _State;
     }
+
+    public void SetPosition(float _Position) {
+        Sv.setPosition(_Position);
+    }
 }

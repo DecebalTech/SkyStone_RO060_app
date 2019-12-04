@@ -17,12 +17,15 @@ public class AutonomousMovement extends LinearOpMode {
         }
 
         initRobot();
+        /*
         rb.movement.moveForwards(-0.5f, 500); // se indeparteaza de perete
         sleep(1000);
         rb.movement.rotate(0.5f, -1000); // se roteste catre locul de parcare
         sleep(1000);
         rb.movement.moveForwards(0.5f,500); // se parcheaza
         sleep(5000);
+        */
+
     }
 
     public void initRobot() {

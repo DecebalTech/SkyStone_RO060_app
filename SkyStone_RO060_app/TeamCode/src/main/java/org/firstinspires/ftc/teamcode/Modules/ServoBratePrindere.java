@@ -10,7 +10,7 @@ public class ServoBratePrindere {
     private String NameLeft, NameRight;
     private Servo GripLeft, GripRight;
 
-    private final Float[] PositionValues = {1f, 0.5f};
+    private final Float[] PositionValues = {1f, 0.75f};
 
     private enum Position {
         CLOSED, OPEN
@@ -62,11 +62,13 @@ public class ServoBratePrindere {
     }
 
     public String Move(Gamepad gamepad1) {
-
+        /*
         if(gamepad1.left_bumper)
             SetPos(Position.CLOSED);
         else if(gamepad1.right_bumper)
             SetPos(Position.OPEN);
+            
+         */
         return "ServoBratePrindere Position: [" + ServoPosition.toString() + "]";
     }
 }

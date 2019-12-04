@@ -12,6 +12,7 @@ public class Robot {
     public Movement movement;
     public ServoBratePrindere servoBratePrindere;
     public PrindereCub prindereCub;
+    public MarkerArm markerArm;
 
     public Robot(HardwareMap hwm) {
         //brat.Init("Brat", hwm);
@@ -23,6 +24,9 @@ public class Robot {
 
         prindereCub = new PrindereCub();
         prindereCub.Init("GripMotorLeft", "GripMotorRight", hwm);
+
+        markerArm = new MarkerArm();
+        markerArm.Init("MarkerArmRotation", "MarkerArmExtender", "MarkerGrab", hwm);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
@@ -37,9 +41,11 @@ public class Robot {
         else op.telemetry.addLine("ServoPrindereBrate is not defined/connected.");
 
         if(prindereCub.IsOn()) {
-            op.telemetry.addLine(prindereCub.UpdateGrips(gamepad2));
+            op.telemetry.addLine(prindereCub.UpdateGrips(gamepad1));
         }
         else op.telemetry.addLine("PrindereCub is not defined/connected.");
+
+        op.telemetry.addLine(markerArm.UpdateMarkerArm(gamepad2));
 
     }
 

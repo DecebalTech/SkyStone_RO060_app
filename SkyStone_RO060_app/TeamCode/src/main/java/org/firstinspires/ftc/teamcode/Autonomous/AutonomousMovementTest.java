@@ -12,7 +12,7 @@ public class AutonomousMovementTest extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException{
         initRobot();
-        rb.movement.moveForwards(0.3f, 100);
+        //rb.movement.moveForwards(0.3f, 100);
         sleep(5000);
     }
 
