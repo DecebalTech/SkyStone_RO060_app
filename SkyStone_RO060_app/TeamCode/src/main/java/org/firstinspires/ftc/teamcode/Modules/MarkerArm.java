@@ -76,10 +76,10 @@ public class MarkerArm {
         s+="\n";
 
         if(MarkerGrab.IsOn()) {
-            if(gamepad2.y) {
+            if(gamepad2.left_bumper) {
                 markerGrabPos = ServoPositions.OPEN;
             }
-            else if (gamepad2.a) {
+            else if (gamepad2.right_bumper) {
                 markerGrabPos = ServoPositions.CLOSED;
             }
 
@@ -92,10 +92,10 @@ public class MarkerArm {
         s+="\n";
 
         if(MarkerPivot.IsOn()) {
-            if(gamepad2.dpad_down && markerPivotPos+.005<.6f) {
+            if(gamepad2.y && markerPivotPos+.005<.6f) {
                 markerPivotPos+=.005;
             }
-            else if (gamepad2.dpad_up && markerPivotPos-.005>0f) {
+            else if (gamepad2.a && markerPivotPos-.005>0f) {
                 markerPivotPos-=.005;
             }
 
