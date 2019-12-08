@@ -17,8 +17,11 @@ public class Movement {
         backLeft.Init(Names[2], hwm);
         backRight.Init(Names[3], hwm);
 
-        if(AreWheelsActive()) {
+        if(frontRight.IsOn()) {
             frontRight.InvertDirection();
+        }
+
+        if(backRight.IsOn()) {
             backRight.InvertDirection();
         }
     }
@@ -36,13 +39,63 @@ public class Movement {
         powX = (float)(Math.cos(angle)*r);
         powY = (float)(Math.sin(angle)*r);
 
-        frontLeft.SetPower((powX - gamepad1.right_stick_x)*TurboMultipliers[TurboIndex]);
-        frontRight.SetPower((powY + gamepad1.right_stick_x)*TurboMultipliers[TurboIndex]);
-        backLeft.SetPower((powY - gamepad1.right_stick_x)*TurboMultipliers[TurboIndex]);
-        backRight.SetPower((powX + gamepad1.right_stick_x)*TurboMultipliers[TurboIndex]);
+        String s = "";
 
+        if(frontLeft.IsOn()) {
+            s += "frontLeft: ";
+            try {
+                float pow = (powX - gamepad1.right_stick_x) * TurboMultipliers[TurboIndex];
+                frontLeft.SetPower(pow);
+                s += pow + ";";
+            } catch (Exception ex) {
+                frontLeft.SwitchState(false);
+                s += "DISCONNECTED; ";
+            }
+        }
+        else s += "frontLeft: DISCONNECTED; ";
 
-        return "PowX: " + powX + "\nPowY: " + powY + "\nTurbo: " + TurboIndex;
+        if(frontRight.IsOn()) {
+            s += "frontRight: ";
+            try {
+                float pow = (powY + gamepad1.right_stick_x) * TurboMultipliers[TurboIndex];
+                frontRight.SetPower(pow);
+                s += pow + ";";
+            } catch (Exception ex) {
+                frontRight.SwitchState(false);
+                s += "DISCONNECTED; ";
+            }
+        }
+        else s += "frontRight: DISCONNECTED; ";
+
+        if(backLeft.IsOn()) {
+            s += "backLeft: ";
+            try {
+                float pow = (powY - gamepad1.right_stick_x)*TurboMultipliers[TurboIndex];
+                backLeft.SetPower(pow);
+                s += pow + ";";
+            }
+            catch (Exception ex) {
+                backLeft.SwitchState(false);
+                s += "DISCONNECTED; ";
+            }
+        }
+        else s += "backLeft: DISCONNECTED; ";
+
+        if(backRight.IsOn()) {
+            s+= "backRight: ";
+            try {
+                float pow = (powX + gamepad1.right_stick_x)*TurboMultipliers[TurboIndex];
+                backRight.SetPower(pow);
+                s += pow + ";";
+            }
+            catch (Exception ex) {
+                backRight.SwitchState(false);
+                s += "DISCONNECTED; ";
+            }
+        }
+        else s+= "backRight: DISCONNECTED; ";
+
+        return s +"\nTurbo: " + TurboIndex;
     }
 
     public boolean AreWheelsActive() {

@@ -20,6 +20,6 @@ public class PlayerControl extends LinearOpMode {
     }
 
     public void initRobot() {
-        rb = new Robot(hardwareMap);
+        rb = new Robot(hardwareMap, this);
     }
 }

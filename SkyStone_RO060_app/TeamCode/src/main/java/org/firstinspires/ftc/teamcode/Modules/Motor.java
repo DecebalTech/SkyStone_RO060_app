@@ -44,6 +44,9 @@ public class Motor implements Modul {
         Motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+    public void Brake() {Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);}
+    public void Float() {Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);}
+
     public void SetPower(Float Power) {
         Motor.setPower(Power);
     }

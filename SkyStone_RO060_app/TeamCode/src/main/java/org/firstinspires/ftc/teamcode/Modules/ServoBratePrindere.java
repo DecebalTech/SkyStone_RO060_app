@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -10,7 +11,7 @@ public class ServoBratePrindere {
     private String NameLeft, NameRight;
     private Servo GripLeft, GripRight;
 
-    private final Float[] PositionValues = {1f, 0.75f};
+    private final Float[] PositionValues = {0.60f, 0.55f};
 
     private enum Position {
         CLOSED, OPEN
@@ -18,12 +19,20 @@ public class ServoBratePrindere {
     private Position ServoPosition = Position.CLOSED;
 
 
-    public void Init(String _NameLeft, String _NameRight, HardwareMap hwm) {
+
+    public void Init(String _NameLeft, String _NameRight, HardwareMap hwm, LinearOpMode op) {
         SetName(_NameLeft, _NameRight);
         try {
             GripLeft = hwm.servo.get(NameLeft);
             GripRight = hwm.servo.get(NameRight);
             State = true;
+
+            GripLeft.setPosition(0.50f);
+            op.sleep(500);
+            GripRight.setPosition(0.40f);
+            op.sleep(500);
+            GripLeft.setPosition(0.60f);
+
             SetPos(Position.CLOSED);
         }
         catch (Exception ex) {
@@ -62,13 +71,12 @@ public class ServoBratePrindere {
     }
 
     public String Move(Gamepad gamepad1) {
-        /*
-        if(gamepad1.left_bumper)
+
+        if(gamepad1.y)
             SetPos(Position.CLOSED);
-        else if(gamepad1.right_bumper)
+        else if(gamepad1.a)
             SetPos(Position.OPEN);
-            
-         */
+
         return "ServoBratePrindere Position: [" + ServoPosition.toString() + "]";
     }
 }
