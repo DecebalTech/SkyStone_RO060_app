@@ -40,6 +40,21 @@ public class Movement {
         if(backRight.IsOn()) {
             backRight.InvertDirection();
         }
+
+        if(AreWheelsActive()) {
+            runUsingEncoder();
+        }
+    }
+
+    public String Encoders(Gamepad gamepad1) {
+        if(gamepad1.x) {
+            stopAndResetEncoder();
+            runUsingEncoder();
+        }
+        return "frontLeft: " + frontLeft.getCurrentPosition() + "\nfrontRight: "
+                + frontRight.getCurrentPosition() + "\nbackLeft: "
+                + backLeft.getCurrentPosition() + "\nbackRight: "
+                + backRight.getCurrentPosition();
     }
 
     public String Move(Gamepad gamepad1) {
@@ -141,18 +156,23 @@ public class Movement {
         setPower(0);
     }
 
-    public void move(double angle, int dist, LinearOpMode op) {
+    public void move(float angle, int dist, float pow, LinearOpMode op) {
         stopAndResetEncoder();
         runToPosition();
-        int t1, t2, t3, t4;
 
-        double robotAngle = angle - Math.PI/4;
+        int dx, dy;
+        float powx, powy;
 
-        t1 = t4 = (int)(Math.sin(robotAngle) * dist * TickPerCm);
-        t2 = t3 = (int)(Math.cos(robotAngle) * dist * TickPerCm);
+        float robotAngle = angle - (float)Math.PI/4;
 
-        setTargetPosition(-t1, t2, -t3, t4);
-        setPower(.5f);
+        dx = -(int)(Math.cos(robotAngle) * dist * TickPerCm);
+        dy = -(int)(Math.sin(robotAngle) * dist * TickPerCm);
+
+        powx = (float)Math.cos(robotAngle)*pow;
+        powy = (float)Math.sin(robotAngle)*pow;
+
+        setTargetPosition(dx, dy, dy, dx);
+        setPower(powx, powy, powy, powx);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }

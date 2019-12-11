@@ -62,6 +62,7 @@ public class Motor implements Modul {
         Motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void stopAndResetEncoder(){ Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
+    public int getCurrentPosition() {return Motor.getCurrentPosition();}
     public boolean isBusy() {return Motor.isBusy(); }
 
 }

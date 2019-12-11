@@ -20,12 +20,9 @@ public class Parking extends LinearOpMode {
             idle();
         }
 
-        rb.movement.stopAndResetEncoder();
-        rb.movement.runUsingEncoder();
-
-        rb.movement.move(90, 100, this);
+        rb.movement.move((float)Math.PI/3, 100, 1f, this);
         sleep(100);
-        rb.movement.moveForwards(100, this);
+        rb.movement.move((float)Math.PI / 2, 100, 1f, this);
         sleep(100);
 
     }
