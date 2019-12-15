@@ -28,7 +28,7 @@ public class Robot {
         prindereCub.Init("GripMotorLeft", "GripMotorRight", hwm);
         op.sleep(250);
         markerArm = new MarkerArm();
-        markerArm.Init("MarkerArmRotation", "MarkerArmExtender", "MarkerGrab", "MarkerPivot", hwm);
+        markerArm.Init("MarkerArmRotation", "MarkerArmExtender", "MarkerGrab", "MarkerPivot", "MagneticSwitch", hwm);
 
         foundationServos = new FoundationServos();
         foundationServos.Init("FoundationLeft", "FoundationRight", hwm);
@@ -37,7 +37,7 @@ public class Robot {
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
 
         op.telemetry.addLine(movement.Move(gamepad1));
-        op.telemetry.addLine(movement.Encoders(gamepad1));
+        //op.telemetry.addLine(movement.Encoders(gamepad1));
 
         if(servoBratePrindere.IsOn()) {
             op.telemetry.addLine(servoBratePrindere.Move(gamepad1));

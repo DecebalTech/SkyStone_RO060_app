@@ -26,6 +26,7 @@ public class Movement {
     private int TurboIndex = 1;
 
     private static float TickPerCm = 24.42f; //this is only for forward/backward movement
+    private static float Radius = 26f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm) {
         frontLeft.Init(Names[0], hwm);
@@ -173,6 +174,18 @@ public class Movement {
 
         setTargetPosition(dx, dy, dy, dx);
         setPower(powx, powy, powy, powx);
+        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
+        stop();
+    }
+
+    public void rotate(float angle, float pow, LinearOpMode op) {
+        stopAndResetEncoder();
+        runToPosition();
+
+        int d = (int)(Radius * angle * TickPerCm);
+
+        setTargetPosition(d, -d, d, -d);
+        setPower(pow);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }

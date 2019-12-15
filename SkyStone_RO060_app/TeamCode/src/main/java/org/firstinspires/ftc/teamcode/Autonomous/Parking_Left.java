@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
-public class Parking extends LinearOpMode {
+public class Parking_Left extends LinearOpMode {
 
     public Robot rb;
 
@@ -22,7 +22,7 @@ public class Parking extends LinearOpMode {
 
         rb.movement.move((float)Math.PI/3, 100, 1f, this);
         sleep(100);
-        rb.movement.move((float)Math.PI / 2, 100, 1f, this);
+        rb.movement.move((float)Math.PI, 50, 1f, this);
         sleep(100);
 
     }

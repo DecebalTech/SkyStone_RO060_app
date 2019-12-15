@@ -1,13 +1,49 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
+import android.inputmethodservice.ExtractEditText;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+/*
+class RunnableExtender implements Runnable {
+
+    private Thread t;
+    private String threadName;
+    private Motor Extender;
+
+    RunnableExtender(String _threadName, Motor _Extender) {
+        threadName = _threadName;
+        Extender = _Extender;
+    }
+
+    public void start() {
+        if(t==null) {
+            t = new Thread(this, threadName);
+            t.start();
+        }
+    }
+
+    @Override
+    public void run() {
+        Extender.runToPosition();
+        Extender.setTargetPosition(0);
+        Extender.SetPower(1f);
+        while(Extender.isBusy()) {
+
+        }
+        Extender.stopAndResetEncoder();
+        Extender.runUsingEncoder();
+    }
+}
+*/
 
 public class MarkerArm {
 
     private Motor Rotation, Extender;
     private Servo_Pos MarkerGrab, MarkerPivot;
+    private MagneticSwitch magneticSwitch;
 
     enum ServoPositions {
         OPEN,
@@ -17,16 +53,20 @@ public class MarkerArm {
     private float[] ServoPosValues = {.5f, 0};
     private float markerPivotPos = 0f;
 
-    public void Init(String _RotationName, String _ExtenderName, String _MarkerGrabName, String _MarkerPivotName, HardwareMap hwm) {
+    private int ExtenderTurboCoef = 2;
+
+    public void Init(String _RotationName, String _ExtenderName, String _MarkerGrabName, String _MarkerPivotName, String _MagneticSwitchName, HardwareMap hwm) {
         Rotation = new Motor();
         Extender = new Motor();
         MarkerGrab = new Servo_Pos();
         MarkerPivot = new Servo_Pos();
+        magneticSwitch = new MagneticSwitch();
 
         Rotation.Init(_RotationName, hwm);
         Extender.Init(_ExtenderName, hwm);
         if(Extender.IsOn()) {
             Extender.Brake();
+            Extender.runUsingEncoder();
         }
         MarkerGrab.Init(_MarkerGrabName, hwm);
         if(MarkerGrab.IsOn())  {
@@ -38,6 +78,8 @@ public class MarkerArm {
         if(MarkerPivot.IsOn()) {
             MarkerPivot.SetPosition(markerPivotPos);
         }
+
+        magneticSwitch.Init(_MagneticSwitchName, hwm);
     }
 
     public boolean IsOn() {
@@ -66,12 +108,19 @@ public class MarkerArm {
         s+="\n";
 
         if(Extender.IsOn()) {
-            float extPow = gamepad2.right_stick_y / 2;
+            float extPow = gamepad2.right_stick_y / ExtenderTurboCoef;
             Extender.SetPower(extPow);
 
             s+= "MarkerArmExtender power: " + extPow;
         }
         else s+= "MarkerArmExtender not defined/connected.";
+        s+= "\nMarkerExtenderPosition: " + Extender.getCurrentPosition();
+
+        if(gamepad2.right_trigger>0) {
+            ExtenderTurboCoef = 1;
+        }
+        else ExtenderTurboCoef = 2;
+        s+="\nMarkerArmExtender Turbo: " + ExtenderTurboCoef;
 
         s+="\n";
 
@@ -92,11 +141,11 @@ public class MarkerArm {
         s+="\n";
 
         if(MarkerPivot.IsOn()) {
-            if(gamepad2.y && markerPivotPos+.005<.6f) {
-                markerPivotPos+=.005;
+            if(gamepad2.y && markerPivotPos+.0005<.6f) {
+                markerPivotPos+=.0005;
             }
-            else if (gamepad2.a && markerPivotPos-.005>0f) {
-                markerPivotPos-=.005;
+            else if (gamepad2.a && markerPivotPos-.0005>0f) {
+                markerPivotPos-=.0005;
             }
 
             s+="MarkerPivot position: [" + markerPivotPos + "]";
@@ -107,8 +156,15 @@ public class MarkerArm {
                 MarkerPivot.SwitchState(false);
             }
         }
-        else s+="MarkerPIvot not defined/connected.";
+        else s+="MarkerPivot not defined/connected.";
 
+        if(magneticSwitch.IsOn()) {
+            if(magneticSwitch.getState() && Extender.getCurrentPosition() !=0) {
+                Extender.stopAndResetEncoder();
+                Extender.runUsingEncoder();
+                s += "\nHOOPAAAA";
+            }
+        }
 
         return s;
     }
