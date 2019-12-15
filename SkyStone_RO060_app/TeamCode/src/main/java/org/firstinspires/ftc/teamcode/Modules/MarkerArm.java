@@ -63,6 +63,10 @@ public class MarkerArm {
         magneticSwitch = new MagneticSwitch();
 
         Rotation.Init(_RotationName, hwm);
+        if(Rotation.IsOn()) {
+            Rotation.runUsingEncoder();
+        }
+
         Extender.Init(_ExtenderName, hwm);
         if(Extender.IsOn()) {
             Extender.Brake();
@@ -99,11 +103,19 @@ public class MarkerArm {
             float rotPow = gamepad2.left_stick_y;
             if( rotPow > 0) rotPow /= 2;
 
-            Rotation.SetPower(rotPow);
+            if(!Rotation.IsMoving()) Rotation.SetPower(rotPow);
 
             s += "MarkerArmRotation power: " + rotPow;
+
+            if(gamepad2.dpad_down && !Rotation.IsMoving()) {
+                Rotation.setTargetPosition(0);
+                Rotation.runToPosition();
+                Rotation.SetPower(.75f);
+                Rotation.SetMoving(true);
+            }
         }
         else s += "MarkerArmRotation not defined/connected.";
+        s+= "\nMarkerRotationPosition: " + Rotation.getCurrentPosition();
 
         s+="\n";
 
@@ -114,7 +126,6 @@ public class MarkerArm {
             s+= "MarkerArmExtender power: " + extPow;
         }
         else s+= "MarkerArmExtender not defined/connected.";
-        s+= "\nMarkerExtenderPosition: " + Extender.getCurrentPosition();
 
         if(gamepad2.right_trigger>0) {
             ExtenderTurboCoef = 1;
@@ -159,9 +170,10 @@ public class MarkerArm {
         else s+="MarkerPivot not defined/connected.";
 
         if(magneticSwitch.IsOn()) {
-            if(magneticSwitch.getState() && Extender.getCurrentPosition() !=0) {
-                Extender.stopAndResetEncoder();
-                Extender.runUsingEncoder();
+            if(!magneticSwitch.getState() && Extender.getCurrentPosition() !=0) {
+                Rotation.stopAndResetEncoder();
+                Rotation.runUsingEncoder();
+                Rotation.SetMoving(false);
                 s += "\nHOOPAAAA";
             }
         }

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Motor implements Modul {
 
-    private boolean State;
+    private boolean State, Moving;
     private String Name;
     private DcMotor Motor = null;
 
@@ -16,6 +16,7 @@ public class Motor implements Modul {
         try {
             Motor = hwm.dcMotor.get(Name);
             State = true;
+            Moving = false;
         }
         catch (Exception ex) {
             State = false;
@@ -39,6 +40,9 @@ public class Motor implements Modul {
     public void SwitchState(boolean _State) {
         State = _State;
     }
+
+    public boolean IsMoving() {return Moving;}
+    public void SetMoving(boolean _Moving) {Moving = _Moving;}
 
     public void InvertDirection() {
         Motor.setDirection(DcMotorSimple.Direction.REVERSE);
