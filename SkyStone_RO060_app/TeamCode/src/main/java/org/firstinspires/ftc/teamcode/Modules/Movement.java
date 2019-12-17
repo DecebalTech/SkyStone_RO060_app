@@ -9,14 +9,15 @@ public class Movement {
     /**
         d = 10cm (Diameter of Wheels)
 
-        ticks/rotation = 383.6 (Encoder Countable Events Per Revolution for GoBilda 5202)
-        cm/rotation = 31.415 (The Length of the Wheel)
+        ticks/motor rotation = 383.6 (Encoder Countable Events Per Revolution for GoBilda 5202)
         2:1 reduction
+        => ticks/wheel rotation = 767.2
+        cm/rotation = 31.415 (The Length of the Wheel)
 
-        tick/cm = (383.6 / 31.415) * 2
-        tick/cm = 12.21 * 2
 
-        tick/cm = 24.42
+        tick/cm = 767.2 / 31.415
+
+        tick/cm = 24.63
      **/
 
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
@@ -26,7 +27,7 @@ public class Movement {
     private int TurboIndex = 1;
 
     private static float TickPerCm = 24.42f; //this is only for forward/backward movement
-    private static float Radius = 26f; //distance from center of robot to center of a wheel
+    private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm) {
         frontLeft.Init(Names[0], hwm);
@@ -42,9 +43,8 @@ public class Movement {
             backRight.InvertDirection();
         }
 
-        if(AreWheelsActive()) {
-            runUsingEncoder();
-        }
+        runUsingEncoder();
+        Brake_ZeroPowerBehavior();
     }
 
     public String Encoders(Gamepad gamepad1) {
@@ -223,6 +223,15 @@ public class Movement {
             frontRight.runToPosition();
             backLeft.runToPosition();
             backRight.runToPosition();
+        }
+    }
+
+    public void Brake_ZeroPowerBehavior() {
+        if(AreWheelsActive()) {
+            frontLeft.Brake();
+            frontRight.Brake();
+            backLeft.Brake();
+            backRight.Brake();
         }
     }
 

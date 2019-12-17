@@ -20,7 +20,7 @@ public class RED_FOUNDATION extends LinearOpMode {
 
         rb.movement.move(0f, 100, 1f, this);
         sleep(100);
-        rb.movement.rotate((float)Math.PI, 1f, this);
+        rb.movement.rotate((float)Math.PI, .5f, this);
         sleep(100);
 
     }
