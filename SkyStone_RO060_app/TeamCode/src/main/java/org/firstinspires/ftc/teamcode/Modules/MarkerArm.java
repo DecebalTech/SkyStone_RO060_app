@@ -152,11 +152,12 @@ public class MarkerArm {
         s+="\n";
 
         if(MarkerPivot.IsOn()) {
-            if(gamepad2.y && markerPivotPos+.0005<.6f) {
-                markerPivotPos+=.0005;
+            double step = 0.01;
+            if(gamepad2.y && markerPivotPos+step<.6f) {
+                markerPivotPos+=step;
             }
-            else if (gamepad2.a && markerPivotPos-.0005>0f) {
-                markerPivotPos-=.0005;
+            else if (gamepad2.a && markerPivotPos-step>0f) {
+                markerPivotPos-=step;
             }
 
             s+="MarkerPivot position: [" + markerPivotPos + "]";

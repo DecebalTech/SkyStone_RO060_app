@@ -60,12 +60,12 @@ public class ServoBratePrindere {
     public void SetPos(Position _pos) {
         if(_pos == Position.CLOSED) {
             GripLeft.setPosition(PositionValues[0]);
-            GripRight.setPosition(1 - PositionValues[0]);
+            GripRight.setPosition(1 - PositionValues[0] + 0.02);
             ServoPosition = Position.CLOSED;
         }
         else if(_pos == Position.OPEN) {
             GripLeft.setPosition(PositionValues[1]);
-            GripRight.setPosition(1 - PositionValues[1]);
+            GripRight.setPosition(1 - PositionValues[1] + 0.02);
             ServoPosition = Position.OPEN;
         }
     }
