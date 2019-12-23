@@ -157,7 +157,7 @@ public class Movement {
         setPower(0);
     }
 
-    public void move(float angle, int dist, float pow, LinearOpMode op) {
+    public void moveCM(float angle, int dist_cm, float pow, LinearOpMode op) {
         stopAndResetEncoder();
         runToPosition();
 
@@ -166,8 +166,29 @@ public class Movement {
 
         float robotAngle = angle - (float)Math.PI/4;
 
-        dx = -(int)(Math.cos(robotAngle) * dist * TickPerCm);
-        dy = -(int)(Math.sin(robotAngle) * dist * TickPerCm);
+        dx = -(int)(Math.cos(robotAngle) * dist_cm * TickPerCm);
+        dy = -(int)(Math.sin(robotAngle) * dist_cm * TickPerCm);
+
+        powx = (float)Math.cos(robotAngle)*pow;
+        powy = (float)Math.sin(robotAngle)*pow;
+
+        setTargetPosition(dx, dy, dy, dx);
+        setPower(powx, powy, powy, powx);
+        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
+        stop();
+    }
+
+    public void moveTICKS(float angle, int dist, float pow, LinearOpMode op) {
+        stopAndResetEncoder();
+        runToPosition();
+
+        int dx, dy;
+        float powx, powy;
+
+        float robotAngle = angle - (float)Math.PI/4;
+
+        dx = -(int)(Math.cos(robotAngle) * dist);
+        dy = -(int)(Math.sin(robotAngle) * dist);
 
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;

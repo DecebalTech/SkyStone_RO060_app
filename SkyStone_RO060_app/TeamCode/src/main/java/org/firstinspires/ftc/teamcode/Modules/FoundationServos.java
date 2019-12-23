@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class FoundationServos {
     private Servo_Pos FoundationLeft = new Servo_Pos(), FoundationRight = new Servo_Pos();
 
-    private enum ServoPositions {
+    public enum ServoPositions {
         UP,
         DOWN
     };

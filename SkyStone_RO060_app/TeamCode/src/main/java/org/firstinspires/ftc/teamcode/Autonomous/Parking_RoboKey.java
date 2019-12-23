@@ -22,9 +22,9 @@ public class Parking_RoboKey extends LinearOpMode {
 
         sleep(1000);
 
-        rb.movement.move(0, 100, 1f, this);
+        rb.movement.moveCM(0, 100, 1f, this);
         sleep(50);
-        rb.movement.move((float)Math.PI/2, 100, 1f, this );
+        rb.movement.moveCM((float)Math.PI/2, 100, 1f, this );
 
     }
 }

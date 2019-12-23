@@ -20,9 +20,9 @@ public class Parking_Left extends LinearOpMode {
             idle();
         }
 
-        rb.movement.move((float)Math.PI/3, 100, 1f, this);
+        rb.movement.moveCM((float)Math.PI/3, 100, 1f, this);
         sleep(100);
-        rb.movement.move((float)Math.PI, 50, 1f, this);
+        rb.movement.moveCM((float)Math.PI, 50, 1f, this);
         sleep(100);
 
     }

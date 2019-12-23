@@ -22,9 +22,9 @@ public class Parking_IDL extends LinearOpMode {
 
         sleep(25000);
 
-        rb.movement.move((float)Math.PI, 100, 1f, this);
+        rb.movement.moveCM((float)Math.PI, 100, 1f, this);
         sleep(50);
-        rb.movement.move((float)Math.PI/2, 100, 1f, this );
+        rb.movement.moveCM((float)Math.PI/2, 100, 1f, this );
 
     }
 }
