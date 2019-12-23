@@ -13,8 +13,7 @@ import java.util.List;
 
 public class Scanner {
 
-    private static final String VUFORIA_KEY = "AZCSKh//////AAAAGUd9HlnvcUptlccwBSszfyF+1O9yZ+N86t+CTRBRH5xnTa5hqW7Zj82WqVub6npiiOvaeVPqFO0DAbJOVK7mOU2n1v0h8zWl8I9T8s8CdYC+J68fX31cXCYUUiKPzK/HEqBde7NW6dVDTdUtwDe7suukDd2/WZo1anlmKa4+RcVhwLV1uzC1//mhQPbFcVcE3BcnmbmgBURFV1fhr/vDavoQmvG5jkZiZIg5QGfbIVlc5kQbDBdEyVBNHWyNpRoXEIctQt5DPUFN8MMoJ+UXswkc6gIqC9iPoGM31qYDzx8VCPTzXRZ9eC4Z4CRNL745R9z34gcFlHjTDsdtLBcWUy04SNOnwyREAq1GJO+urHZM";
-
+    private static final String VUFORIA_KEY = "ASK ANDREI FOR IT";
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -41,6 +40,14 @@ public class Scanner {
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
+
+    public boolean activateTfod() {
+        if(tfod != null) {
+            tfod.activate();
+            return true;
+        }
+        return false;
     }
 
     public void scan(LinearOpMode op) {
