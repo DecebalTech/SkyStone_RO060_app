@@ -41,11 +41,11 @@ class RunnableExtender implements Runnable {
 
 public class MarkerArm {
 
-    private Motor Rotation, Extender;
+    public Motor Rotation, Extender;
     private Servo_Pos MarkerGrab, MarkerPivot;
     private MagneticSwitch magneticSwitch;
 
-    enum ServoPositions {
+    public enum ServoPositions {
         OPEN,
         CLOSED
     }
