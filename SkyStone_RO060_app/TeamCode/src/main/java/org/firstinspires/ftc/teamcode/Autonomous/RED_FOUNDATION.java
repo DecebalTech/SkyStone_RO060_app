@@ -36,13 +36,13 @@ public class RED_FOUNDATION extends LinearOpMode {
         sleep(1000);
         rb.movement.rotate(-5* (float)Math.PI/6, 1f, this);
         sleep(1000);
-        rb.movement.moveCM((3 * (float) Math.PI) / 2, 50, 1f, this);
+        rb.movement.moveCM((3 * (float) Math.PI) / 2, 40, 1f, this);
         sleep(1000);
 
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
         sleep(1000);
 
-        rb.movement.moveCM((float)Math.PI/2, 100, 1f, this);
+        rb.movement.moveCM((float)Math.PI/2, 140, 1f, this);
         sleep(1000);
 
 
