@@ -11,11 +11,14 @@ public class PrindereCub {
     private boolean State;
     private String NameLeft, NameRight;
 
-    private float[] PowerValues = {-.5f, 0, .5f};
+    private float[] PowerValues = {-.5f, 0, .5f, .2f,.8f,-.7f};
     public enum Direction {
         IN,
         STOP,
-        OUT
+        OUT,
+        RF,
+        INA,
+        OUTA
     }
     private Direction direction;
 
@@ -53,7 +56,10 @@ public class PrindereCub {
         GripMotorLeft.setPower(Pow);
         GripMotorRight.setPower(Pow);
     }
-
+    public void SetPowerRf(Float Pow) {
+        GripMotorLeft.setPower(-Pow);
+        GripMotorRight.setPower(Pow);
+    }
     public void SetDirection(Direction _Direction) {
         direction = _Direction;
         if(direction == Direction.IN)
@@ -62,6 +68,13 @@ public class PrindereCub {
             SetPower(PowerValues[1]);
         else if (direction == Direction.OUT)
             SetPower(PowerValues[2]);
+        else if(direction == Direction.RF)
+            SetPowerRf(PowerValues[3]);
+        else if(direction == Direction.OUTA)
+            SetPower(PowerValues[4]);
+        else if(direction == Direction.OUTA)
+            SetPower(PowerValues[5]);
+        else direction = _Direction;
     }
 
     public String UpdateGrips(Gamepad gamepad2){
@@ -69,6 +82,8 @@ public class PrindereCub {
             SetDirection(Direction.OUT);
         else if (gamepad2.right_bumper)
             SetDirection((Direction.IN));
+        else if(gamepad2.dpad_left)
+            SetDirection((Direction.RF));
         else
             SetDirection(Direction.STOP);
 

@@ -11,7 +11,7 @@ public class ServoBratePrindere {
     private String NameLeft, NameRight;
     private Servo GripLeft, GripRight;
 
-    private final Float[] PositionValues = {0.60f, 0.53f}; //was 0.60f , 0.55f, prea exterior , ROBY: 0.59f , 0.55f
+    private final Float[] PositionValues = {0.61f, 0.53f}; //was 0.60f , 0.55f, prea exterior , ROBY: 0.59f , 0.55f
 
     public enum Position {
         CLOSED, OPEN
