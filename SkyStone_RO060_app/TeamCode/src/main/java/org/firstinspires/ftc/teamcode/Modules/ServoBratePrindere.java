@@ -11,10 +11,10 @@ public class ServoBratePrindere {
     private String NameLeft, NameRight;
     private Servo GripLeft, GripRight;
 
-    private final Float[] PositionValues = {0.61f, 0.53f}; //was 0.60f , 0.55f, prea exterior , ROBY: 0.59f , 0.55f
+    private final Float[] PositionValues = {0.60f, 0.53f,0.67f}; //was 0.60f , 0.55f, prea exterior , ROBY: 0.59f , 0.55f
 
     public enum Position {
-        CLOSED, OPEN
+        CLOSED, OPEN , gateClosed;
     }
     private Position ServoPosition = Position.CLOSED;
 
@@ -67,6 +67,11 @@ public class ServoBratePrindere {
             GripLeft.setPosition(PositionValues[1]);
             GripRight.setPosition(1 - PositionValues[1] + 0.02);
             ServoPosition = Position.OPEN;
+        }
+        else if(_pos == Position.gateClosed) {
+            GripLeft.setPosition(PositionValues[2]);
+            GripRight.setPosition(1 - PositionValues[2] + 0.02);
+            ServoPosition = Position.gateClosed;
         }
     }
 
