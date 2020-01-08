@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.Modules.*;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
+@Disabled
 public class AutonomousMovement extends LinearOpMode {
 
     private Robot rb;

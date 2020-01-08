@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Modules.ServoBratePrindere;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous (name = "RED FOUNDATION")
-public class RED_FOUNDATION extends LinearOpMode {
+@Autonomous (name = "BLUE FOUNDATION")
+public class BLUE_FOUNDATION extends LinearOpMode {
 
     public Robot rb;
 
@@ -19,48 +19,43 @@ public class RED_FOUNDATION extends LinearOpMode {
         int time=1,gtime=600;
         float ac=.65f;
         while(!isStarted()) {
-          idle();
+            idle();
         }
-        /*
-             rb.movement.rotate((float)Math.PI/2, ac, this);
-     sleep(time);
-     rb.movement.moveCM((float)Math.PI/2, -70 , 1f, this);
-     sleep(time);
-     rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-     sleep(time);
-         */
-        rb.movement.moveCM((float)Math.PI/1.07f, -110 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/13, 120 , 1f, this);
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.07f, -20 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/16, 20, 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.1f, 100 , 0.7f, this);
+        rb.movement.moveCM((float)Math.PI/7, -100 , 1f, this);
         sleep(time);
-        rb.movement.rotate((float)Math.PI/-1.77f, ac, this);
+        rb.movement.rotate((float)Math.PI/2*1.3f, ac, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI, -75 , 1f, this);
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI, 30 , 0.8f, this);
+        rb.movement.moveCM((float)Math.PI, 15 , 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2, 40 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/2, 30 , 1f, this);
         sleep(time);
         rb.movement.rotate((float)Math.PI/2.1f, ac, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2, 205 , 1f, this); //130
+        rb.movement.moveCM((float)Math.PI/2, -55 , 1f, this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI/2, 220 , 1f, this); //130
         sleep(time);
         rb.prindereCub.SetDirection(PrindereCub.Direction.IN);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI, -45 , 1f, this);
+        rb.movement.moveCM((float)Math.PI, 45 , 1f, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 26 , 0.45f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI, 55 , 1f, this);
+        rb.movement.moveCM((float)Math.PI, -45 , 1f, this);
         sleep(time);
         rb.prindereCub.SetDirection(PrindereCub.Direction.STOP);
         sleep(time);
+
         rb.movement.rotate((float)Math.PI, ac, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 140 , 1f, this);
@@ -71,24 +66,27 @@ public class RED_FOUNDATION extends LinearOpMode {
         sleep(time);
         rb.prindereCub.SetDirection(PrindereCub.Direction.STOP);
         sleep(time);
+
         rb.movement.rotate((float)Math.PI, ac, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2, 100 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/2, 110 , 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI, -50 , 1f, this);
-        sleep(time);
-        rb.movement.rotate((float)Math.PI/24, ac, this);
+        rb.movement.moveCM((float)Math.PI, 50 , 1f, this);
         sleep(time);
         rb.prindereCub.SetDirection(PrindereCub.Direction.IN);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 25 , 0.7f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI, 50 , 1f, this);
+        rb.movement.moveCM((float)Math.PI, -45 , 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2, -240 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/2, -230 , 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2.5f, 30 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/1.8f, 30 , 1f, this);
         sleep(time);
+       /*
 
+
+
+*/
     }
 }

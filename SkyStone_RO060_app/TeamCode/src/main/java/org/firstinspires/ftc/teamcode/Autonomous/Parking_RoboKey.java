@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
-
+@Disabled
 @Autonomous(name="BLUE - STONES")
 public class Parking_RoboKey extends LinearOpMode {
 
@@ -13,6 +14,7 @@ public class Parking_RoboKey extends LinearOpMode {
 
 
     @Override
+
     public void runOpMode() throws InterruptedException {
         rb = new Robot(hardwareMap, this); //Initialization of the Robot
 
