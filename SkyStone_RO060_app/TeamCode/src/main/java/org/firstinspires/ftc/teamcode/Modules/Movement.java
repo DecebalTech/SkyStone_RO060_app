@@ -21,6 +21,9 @@ public class Movement {
      **/
 
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
+    //private Gyro gyro = new Gyro();
+    private IMU imu = new IMU();
+    private double LastAngle = 0.0;
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
 
     private float[] TurboMultipliers = {0.25f, 0.5f, 1};
@@ -34,6 +37,7 @@ public class Movement {
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
         backRight.Init(Names[3], hwm);
+        imu.Init("imu", hwm);
 
         if(frontRight.IsOn()) {
             frontRight.InvertDirection();
@@ -57,6 +61,7 @@ public class Movement {
                 + backLeft.getCurrentPosition() + "\nbackRight: "
                 + backRight.getCurrentPosition();
     }
+
 
     public String Move(Gamepad gamepad1) {
         float angle, r, powX, powY;
@@ -140,6 +145,14 @@ public class Movement {
         }
     }
 
+
+    /**
+     *
+     * @param p1 frontLeft
+     * @param p2 frontRight
+     * @param p3 backLeft
+     * @param p4 backRight
+     */
     public void setPower(float p1, float p2, float p3, float p4) {
         if(AreWheelsActive()) {
             frontLeft.SetPower(p1);
@@ -211,6 +224,65 @@ public class Movement {
         stop();
     }
 
+    public void rotateIMU(double angle, float pow, LinearOpMode op) {
+        if(!imu.IsOn()) {
+            op.telemetry.addLine("Error. Cannot find IMU.");
+            op.telemetry.update();
+            return;
+        }
+        runUsingEncoder();
+        double error;
+        double steer;
+        boolean onTarget = false;
+        double pLeft, pRight;
+        LastAngle += angle;
+
+        while(!onTarget) {
+            error = imu.getError(LastAngle);
+
+            if(Math.abs(error) < Math.PI/200) {
+                steer = 0;
+                pLeft = pRight = steer * pow;
+                onTarget = true;
+            }
+            else
+            {
+                steer = imu.getSteer(error, Gyro.P_TURN_COEFF);
+                pLeft = steer * pow;
+                pRight = -pLeft;
+            }
+
+            setPower((float)pLeft, (float)pRight, (float)pLeft, (float)pRight);
+        }
+    }
+
+    /*
+    public void rotateGyro(double angle, float pow, LinearOpMode op) {
+        if(!gyro.IsOn()) return;
+        double error;
+        double steer;
+        boolean onTarget = false;
+        double pLeft, pRight;
+
+        while (!onTarget) {
+            error = gyro.getError(angle);
+
+            if (error < Gyro.HEADING_THRESHOLD) {
+                steer = 0.0;
+                pLeft = pRight = 0.0;
+                onTarget = true;
+            }
+            else
+            {
+                steer = gyro.getSteer(angle, Gyro.P_TURN_COEFF);
+                pLeft = steer * pow;
+                pRight = -pLeft;
+            }
+
+            setPower((float)pLeft, (float)pRight, (float)pLeft, (float)pRight);
+        }
+    }
+    */
     public void moveForwards(int cm, LinearOpMode op) {
         stopAndResetEncoder();
         runToPosition();

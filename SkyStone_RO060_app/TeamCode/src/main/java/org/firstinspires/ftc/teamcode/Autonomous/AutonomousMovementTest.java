@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.Modules.*;
+
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
@@ -14,8 +14,11 @@ public class AutonomousMovementTest extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException{
         initRobot();
-        //rb.movement.moveForwards(0.3f, 100);
-        sleep(5000);
+
+        while(!isStarted()) idle();
+        rb.movement.rotateIMU(-Math.PI/2, 1f, this);
+        sleep(1000);
+        rb.movement.rotateIMU(Math.PI/4, 1f, this);
     }
 
     public void initRobot() {
