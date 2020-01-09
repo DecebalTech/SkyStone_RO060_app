@@ -23,7 +23,6 @@ public class Movement {
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
     //private Gyro gyro = new Gyro();
     private IMU imu = new IMU();
-    private double LastAngle = 0.0;
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
 
     private float[] TurboMultipliers = {0.25f, 0.5f, 1};
@@ -223,8 +222,7 @@ public class Movement {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }
-
-    public void rotateIMU(double angle, float pow, LinearOpMode op) {
+    public void rotateIMUAbsolute(double angle, float pow, LinearOpMode op) { //the reference orientation is the one the Robot has at Init
         if(!imu.IsOn()) {
             op.telemetry.addLine("Error. Cannot find IMU.");
             op.telemetry.update();
@@ -235,12 +233,43 @@ public class Movement {
         double steer;
         boolean onTarget = false;
         double pLeft, pRight;
-        LastAngle += angle;
 
         while(!onTarget) {
-            error = imu.getError(LastAngle);
+            error = imu.getError(angle);
 
-            if(Math.abs(error) < Math.PI/200) {
+            if(Math.abs(error) < Math.PI/100) {
+                steer = 0;
+                pLeft = pRight = steer * pow;
+                onTarget = true;
+            }
+            else
+            {
+                steer = imu.getSteer(error, Gyro.P_TURN_COEFF);
+                pLeft = steer * pow;
+                pRight = -pLeft;
+            }
+
+            setPower((float)pLeft, (float)pRight, (float)pLeft, (float)pRight);
+        }
+    }
+
+    public void rotateIMURelative(double angle, float pow, LinearOpMode op) {
+        if(!imu.IsOn()) {
+            op.telemetry.addLine("Error. Cannot find IMU.");
+            op.telemetry.update();
+            return;
+        }
+        runUsingEncoder();
+        double error;
+        double steer;
+        boolean onTarget = false;
+        double pLeft, pRight;
+
+        double nextAngle = imu.GetAngles().firstAngle + angle;
+        while(!onTarget) {
+            error = imu.getError(nextAngle);
+
+            if(Math.abs(error) < Math.PI/100) {
                 steer = 0;
                 pLeft = pRight = steer * pow;
                 onTarget = true;

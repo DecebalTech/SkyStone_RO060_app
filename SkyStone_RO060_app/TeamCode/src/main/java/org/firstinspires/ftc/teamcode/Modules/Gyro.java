@@ -18,7 +18,7 @@ public class Gyro implements Modul {
     public static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
 
     public static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-    public static final double     P_TURN_COEFF            = 0.5;     // Larger is more responsive, but also less stable
+    public static final double     P_TURN_COEFF            = 1;     // Larger is more responsive, but also less stable
     public static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
     @Override

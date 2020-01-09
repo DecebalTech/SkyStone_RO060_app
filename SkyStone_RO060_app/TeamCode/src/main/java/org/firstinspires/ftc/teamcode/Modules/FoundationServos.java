@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Modules;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 public class FoundationServos {
     private Servo_Pos FoundationLeft = new Servo_Pos(), FoundationRight = new Servo_Pos();
@@ -17,7 +16,8 @@ public class FoundationServos {
 
     public void Init(String _FoundationLeftName, String _FoundationRightName, HardwareMap hwm) {
         FoundationLeft.Init(_FoundationLeftName, hwm);
-        FoundationRight .Init(_FoundationRightName, hwm);
+        FoundationRight.Init(_FoundationRightName, hwm);
+        SetPosition(ServoPositions.UP);
     }
 
     public void SetPosition(ServoPositions _pos) {
