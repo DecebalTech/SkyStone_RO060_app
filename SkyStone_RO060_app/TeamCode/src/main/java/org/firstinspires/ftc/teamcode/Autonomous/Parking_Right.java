@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
 @Disabled
+@Deprecated
 public class Parking_Right extends LinearOpMode {
 
     public Robot rb;

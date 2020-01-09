@@ -17,30 +17,28 @@ public class BLUE_FOUNDATION extends LinearOpMode {
         initRobot();
 
         while(!isStarted()) idle();
-        rb.movement.moveCM((float)(Math.PI-1)/1.07f, 55 , 1f, this);
-        sleep(time);
-        rb.movement.rotateIMURelative(Math.PI, 1f, this);
-        sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.07f, -55 , 1f, this);
+        rb.movement.moveCM((float)Math.PI+((float)Math.PI*(1-1/1.08f)), -120 , 1f, this);
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.07f, 20 , 1f, this);
+        rb.movement.moveCM((float)Math.PI+((float)Math.PI*(1-1/1.08f)), -20, 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.1f, -90 , 0.7f, this); //strafe cu placa
+
+        rb.movement.moveCM((float)Math.PI/3, -90 , 1f, this); //strafe cu placa
         sleep(time);
         rb.movement.rotate((float)Math.PI/1.77f, ac, this);
         //rb.movement.rotateIMU(-Math.PI, 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI, 75 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/2, 30 , 1f, this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI, -90 , 1f, this);
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI, -30 , 0.8f, this);
+        rb.movement.moveCM((float)Math.PI, 30 , 0.8f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2, 40 , 1f, this);
-        sleep(time);
-        rb.movement.rotateIMUAbsolute(0, 1f, this);
+
+        rb.movement.rotateIMUAbsolute((double)Math.PI+Math.PI/28, 1f, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 110 , 1f, this); //130
         sleep(time);

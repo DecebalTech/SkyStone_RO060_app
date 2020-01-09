@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.Modules.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
+@Disabled
+@Deprecated
 public class Test1 extends LinearOpMode {
     DcMotor ms;
     DcMotor md;

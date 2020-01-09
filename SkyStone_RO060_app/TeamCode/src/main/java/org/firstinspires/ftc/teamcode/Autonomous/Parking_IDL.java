@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 @Disabled
+@Deprecated
 @Autonomous (name="RED - STONES")
 public class Parking_IDL extends LinearOpMode {
 

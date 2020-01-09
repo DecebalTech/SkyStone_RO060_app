@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 @Disabled
+@Deprecated
 @Autonomous(name="BLUE - STONES")
 public class Parking_RoboKey extends LinearOpMode {
 

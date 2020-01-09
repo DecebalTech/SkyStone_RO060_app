@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
 @Disabled
+@Deprecated
 public class AutonomousMovement extends LinearOpMode {
 
     private Robot rb;

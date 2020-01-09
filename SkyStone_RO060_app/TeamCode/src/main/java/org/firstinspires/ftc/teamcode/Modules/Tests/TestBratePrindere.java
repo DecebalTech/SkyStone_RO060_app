@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Modules.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
+@Disabled
+@Deprecated
 public class TestBratePrindere extends LinearOpMode{
 
     DcMotor GripMotorLeft;
