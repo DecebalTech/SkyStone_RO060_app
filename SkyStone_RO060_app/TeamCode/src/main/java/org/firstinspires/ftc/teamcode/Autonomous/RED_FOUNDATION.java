@@ -14,21 +14,12 @@ public class RED_FOUNDATION extends LinearOpMode {
     public Robot rb;
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        rb = new Robot(hardwareMap, this); //Initialization of the Robot
+    public void runOpMode() throws InterruptedException{
         int time=1,gtime=600;
-        float ac=.65f;
-        while(!isStarted()) {
-          idle();
-        }
-        /*
-             rb.movement.rotate((float)Math.PI/2, ac, this);
-     sleep(time);
-     rb.movement.moveCM((float)Math.PI/2, -70 , 1f, this);
-     sleep(time);
-     rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-     sleep(time);
-         */
+        float ac=.45f;
+        initRobot();
+
+        while(!isStarted()) idle();
         rb.movement.moveCM((float)Math.PI/1.07f, -110 , 1f, this);
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
@@ -47,7 +38,7 @@ public class RED_FOUNDATION extends LinearOpMode {
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 40 , 1f, this);
         sleep(time);
-        rb.movement.rotate((float)Math.PI/2.1f, ac, this);
+        rb.movement.rotateIMU((float)Math.PI/2.1f, ac, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 205 , 1f, this); //130
         sleep(time);
@@ -91,4 +82,9 @@ public class RED_FOUNDATION extends LinearOpMode {
         sleep(time);
 
     }
+
+    public void initRobot() {
+        rb = new Robot(hardwareMap, this);
+    }
 }
+

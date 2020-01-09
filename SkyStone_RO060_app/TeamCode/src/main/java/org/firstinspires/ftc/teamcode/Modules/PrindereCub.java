@@ -83,8 +83,10 @@ public class PrindereCub {
         else if (gamepad2.right_bumper)
             SetDirection((Direction.IN));
         else if(gamepad2.dpad_left)
-            SetDirection((Direction.RF));
-        else
+            SetDirection((Direction.OUTA));
+        else if(gamepad2.dpad_right)
+            SetDirection((Direction.OUTS));
+       else
             SetDirection(Direction.STOP);
 
         return "Cube Grip Direction: [" + direction.toString() + "]";

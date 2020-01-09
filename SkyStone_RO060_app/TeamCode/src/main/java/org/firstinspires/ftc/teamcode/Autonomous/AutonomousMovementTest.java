@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
-@Disabled
+
 public class AutonomousMovementTest extends LinearOpMode {
 
     private Robot rb;
@@ -16,9 +16,9 @@ public class AutonomousMovementTest extends LinearOpMode {
         initRobot();
 
         while(!isStarted()) idle();
-        rb.movement.rotateIMU(-Math.PI/2, 1f, this);
+        rb.movement.rotateIMU(Math.PI/2, 1f, this);
         sleep(1000);
-        rb.movement.rotateIMU(Math.PI/4, 1f, this);
+        rb.movement.rotateIMU(-Math.PI/4, 1f, this);
     }
 
     public void initRobot() {
