@@ -12,7 +12,7 @@ public class BLUE_FOUNDATION extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException{
-        int time=1,gtime=600;
+        int time=300;
         float ac=.45f;
         initRobot();
 
@@ -23,7 +23,6 @@ public class BLUE_FOUNDATION extends LinearOpMode {
         sleep(time);
         rb.movement.moveCM((float)Math.PI+((float)Math.PI*(1-1/1.08f)), -20, 1f, this);
         sleep(time);
-
         rb.movement.moveCM((float)Math.PI/3, -90 , 1f, this); //strafe cu placa
         sleep(time);
         rb.movement.rotate((float)Math.PI/1.77f, ac, this);
@@ -37,10 +36,21 @@ public class BLUE_FOUNDATION extends LinearOpMode {
         sleep(time);
         rb.movement.moveCM((float)Math.PI, 30 , 0.8f, this);
         sleep(time);
-
+        /*
         rb.movement.rotateIMUAbsolute((double)Math.PI+Math.PI/28, 1f, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 110 , 1f, this); //130
+        sleep(time);
+        */
+        rb.movement.rotateIMUAbsolute(0, 1f, this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI, 110, 1f, this);
+        sleep(time);
+        rb.movement.moveCM(0, 10, 1f, this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI/2, 110, 1f, this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI, 10, 1f, this);
         sleep(time);
     }
 

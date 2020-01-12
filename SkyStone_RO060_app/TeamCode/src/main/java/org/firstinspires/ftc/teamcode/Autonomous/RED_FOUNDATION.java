@@ -17,11 +17,11 @@ public class RED_FOUNDATION extends LinearOpMode {
         initRobot();
 
         while(!isStarted()) idle();
-        rb.movement.moveCM((float)Math.PI/1.07f, -110 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/1.09f, -110 , 1f, this);
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.07f, -20 , 1f, this);
+        rb.movement.moveCM((float)Math.PI/1.09f, -20 , 1f, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/1.1f, 90 , 0.7f, this); //strafe cu placa
         sleep(time);
@@ -34,12 +34,18 @@ public class RED_FOUNDATION extends LinearOpMode {
         sleep(time);
         rb.movement.moveCM((float)Math.PI, 30 , 0.8f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2, 40 , 1f, this);
+        //rb.movement.moveCM((float)Math.PI/2, 25 , 1f, this);
         sleep(time);
         rb.movement.rotateIMUAbsolute(0, 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2, 110 , 1f, this); //130
+        rb.movement.moveCM((float)Math.PI, 90, 1f, this);
         sleep(time);
+        rb.movement.moveCM(0, 10, 1f, this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI/2, 115 , 1f, this); //130
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI, 30, 1f, this);
+        sleep(100);
     }
 
     public void initRobot() {

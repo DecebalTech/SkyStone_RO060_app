@@ -18,7 +18,7 @@ public class BLUE_FOUNDATION_STONES extends LinearOpMode {
         initRobot();
 
         while(!isStarted()) idle();
-        rb.movement.moveCM((float)Math.PI+((float)Math.PI*(1-1/1.08f)), -120 , 1f, this);
+        rb.movement.moveCM((float)Math.PI+((float)Math.PI*(1-1/1.08f)), -118 , 1f, this);
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
         sleep(time);
@@ -37,9 +37,9 @@ public class BLUE_FOUNDATION_STONES extends LinearOpMode {
         sleep(time);
         rb.movement.moveCM((float)Math.PI, 30 , 0.8f, this);
         sleep(time);
-        rb.movement.rotateIMUAbsolute((double)Math.PI+Math.PI/28, 1f, this);
+        rb.movement.rotateIMUAbsolute(Math.PI+Math.PI/28, 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2.1f, 200 , 1f, this); //130
+        rb.movement.moveCM((float)Math.PI/1.95f, 200 , 1f, this); //130
         sleep(time);
         rb.prindereCub.SetDirection(PrindereCub.Direction.IN);
         sleep(time);
@@ -77,7 +77,15 @@ public class BLUE_FOUNDATION_STONES extends LinearOpMode {
         sleep(time);
         rb.movement.moveCM((float)Math.PI/1.8f, -230 , 1f, this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.5f, 40 , 1f, this);
+        //de aici
+        rb.movement.rotateIMUAbsolute(0, 1f, this);
+        sleep(time);
+        rb.prindereCub.SetDirection(PrindereCub.Direction.OUT);
+        sleep(time);
+        //pana aici
+        rb.movement.moveCM((float)Math.PI/1.5f, -30 , 1f, this);
+        //si aici
+        rb.prindereCub.SetDirection(PrindereCub.Direction.STOP);
         sleep(time);
     }
 
