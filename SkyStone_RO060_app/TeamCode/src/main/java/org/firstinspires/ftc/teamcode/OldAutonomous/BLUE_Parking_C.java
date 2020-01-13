@@ -1,13 +1,11 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OldAutonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
-import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous (name = "BLUE Parking W- park near wall")
-public class BLUE_Parking_W extends LinearOpMode {
+@Autonomous (name = "BLUE Parking C- park near Center")
+public class BLUE_Parking_C extends LinearOpMode {
 
     public Robot rb;
 
@@ -18,7 +16,9 @@ public class BLUE_Parking_W extends LinearOpMode {
         initRobot();
 
         while(!isStarted()) idle();
-        rb.movement.moveCM((float)Math.PI/2.2f, -70 , 1f, this);
+        rb.movement.moveCM((float)Math.PI,85,1f,this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI/2.2f, -80 , 1f, this);
         sleep(time);
     }
 

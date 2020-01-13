@@ -1,15 +1,14 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OldAutonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
-
-@Autonomous
 @Disabled
 @Deprecated
-public class Parking_Right extends LinearOpMode {
+@Autonomous (name="RED - STONES")
+public class Parking_IDL extends LinearOpMode {
 
     public Robot rb;
 
@@ -23,10 +22,11 @@ public class Parking_Right extends LinearOpMode {
             idle();
         }
 
-        rb.movement.moveCM(2*(float)Math.PI/3, 100, 1f, this);
-        sleep(100);
-        rb.movement.moveCM(0, 50, 1f, this);
-        sleep(100);
+        sleep(25000);
+
+        rb.movement.moveCM((float)Math.PI, 100, 1f, this);
+        sleep(50);
+        rb.movement.moveCM((float)Math.PI/2, 100, 1f, this );
 
     }
 }
