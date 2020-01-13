@@ -237,7 +237,7 @@ public class Movement {
         while(!onTarget) {
             error = imu.getError(angle);
 
-            if(Math.abs(error) < Math.PI/100) {
+            if(Math.abs(error) < Math.PI/300) {
                 steer = 0;
                 pLeft = pRight = steer * pow;
                 onTarget = true;
@@ -269,7 +269,7 @@ public class Movement {
         while(!onTarget) {
             error = imu.getError(nextAngle);
 
-            if(Math.abs(error) < Math.PI/100) {
+            if(Math.abs(error) < Math.PI/300) {
                 steer = 0;
                 pLeft = pRight = steer * pow;
                 onTarget = true;

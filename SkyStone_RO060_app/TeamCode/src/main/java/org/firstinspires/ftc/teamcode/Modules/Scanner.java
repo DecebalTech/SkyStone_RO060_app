@@ -50,7 +50,7 @@ public class Scanner {
         return false;
     }
 
-    public void scan(LinearOpMode op) {
+    public int scan(LinearOpMode op) {
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -67,7 +67,20 @@ public class Scanner {
                             recognition.getRight(), recognition.getBottom());
                 }
                 op.telemetry.update();
+                if(updatedRecognitions.size() == 3) {
+                    if(updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT) {
+                        return 0;
+                    }
+                    else if(updatedRecognitions.get(1).getLabel() == LABEL_SECOND_ELEMENT) {
+                        return 1;
+                    }
+                    else return 2;
+                }
+                else
+                    return -1;
             }
+            else return -1;
         }
+        else return -1;
     }
 }

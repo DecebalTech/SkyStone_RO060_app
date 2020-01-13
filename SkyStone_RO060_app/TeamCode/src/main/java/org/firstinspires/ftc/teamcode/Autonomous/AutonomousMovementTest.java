@@ -23,6 +23,7 @@ public class AutonomousMovementTest extends LinearOpMode {
         /*while(opModeIsActive()){
             stoneArm.Update(gamepad1);
         }*/
+        /*
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 100, 1f, this);
         sleep(time);
@@ -32,6 +33,12 @@ public class AutonomousMovementTest extends LinearOpMode {
         sleep(time);
         rb.movement.rotateIMUAbsolute(0, 1f, this);
         sleep(time);
+
+         */
+
+        rb.movement.rotateIMURelative(Math.PI,1f, this);
+        sleep(time);
+        rb.movement.rotateIMUAbsolute(0, 1f, this);
     }
 
     public void initRobot() {
