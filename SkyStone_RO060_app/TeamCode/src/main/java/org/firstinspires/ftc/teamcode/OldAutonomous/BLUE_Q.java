@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OldAutonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous (name = "RED Q")
-public class RED_Q extends LinearOpMode {
+@Autonomous (name = "BLUE Q")
+public class BLUE_Q extends LinearOpMode {
 
     public Robot rb;
 
@@ -18,9 +18,9 @@ public class RED_Q extends LinearOpMode {
 
         while(!isStarted()) idle();
         sleep(12000);
-        rb.movement.moveCM((float)Math.PI/2.05f,210,1f,this);
+        rb.movement.moveCM((float)Math.PI/1.95f,200,1f,this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI,-140,1f,this);
+        rb.movement.moveCM((float)Math.PI,140,1f,this);
         sleep(time);
         rb.prindereCub.SetDirection(PrindereCub.Direction.IN);
         sleep(time);
@@ -28,17 +28,17 @@ public class RED_Q extends LinearOpMode {
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2,-35,1f,this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI,130,1f,this);
+        rb.movement.moveCM((float)Math.PI,-130,1f,this);
         sleep(time);
         rb.movement.rotateIMUAbsolute(Math.PI,1f,this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI,-35,1f,this);
+        rb.movement.moveCM((float)Math.PI,35,1f,this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI,10,1f,this);
+        rb.movement.moveCM((float)Math.PI,-10,1f,this);
         sleep(time);
         rb.prindereCub.SetDirection(PrindereCub.Direction.STOP);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.95f,200,1f,this);
+        rb.movement.moveCM((float)Math.PI/2.05f,200,1f,this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2,-45,1f,this);
         sleep(time);

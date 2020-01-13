@@ -7,19 +7,20 @@ import org.firstinspires.ftc.teamcode.Modules.*;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
-@Disabled
-@Deprecated
 public class AutonomousMovement extends LinearOpMode {
 
     private Robot rb;
 
     public void runOpMode() throws InterruptedException{
 
-        while(!isStarted()){
+        initRobot();
 
+        while(!isStarted()){
+            idle();
         }
 
-        initRobot();
+
+
         /*
         rb.movement.moveForwards(-0.5f, 500); // se indeparteaza de perete
         sleep(1000);

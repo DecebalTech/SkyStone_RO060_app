@@ -1,21 +1,21 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OldAutonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
+
+@Autonomous
 @Disabled
 @Deprecated
-@Autonomous(name="BLUE - STONES")
-public class Parking_RoboKey extends LinearOpMode {
+public class Parking_Left extends LinearOpMode {
 
     public Robot rb;
 
 
 
     @Override
-
     public void runOpMode() throws InterruptedException {
         rb = new Robot(hardwareMap, this); //Initialization of the Robot
 
@@ -23,11 +23,10 @@ public class Parking_RoboKey extends LinearOpMode {
             idle();
         }
 
-        sleep(1000);
-
-        rb.movement.moveCM(0, 100, 1f, this);
-        sleep(50);
-        rb.movement.moveCM((float)Math.PI/2, 100, 1f, this );
+        rb.movement.moveCM((float)Math.PI/3, 100, 1f, this);
+        sleep(100);
+        rb.movement.moveCM((float)Math.PI, 50, 1f, this);
+        sleep(100);
 
     }
 }

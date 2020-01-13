@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Scanner {
 
-    private static final String VUFORIA_KEY = "ASK ANDREI FOR IT";
+    private static final String VUFORIA_KEY = "ASK ANDREI FOR IT ;)";
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
