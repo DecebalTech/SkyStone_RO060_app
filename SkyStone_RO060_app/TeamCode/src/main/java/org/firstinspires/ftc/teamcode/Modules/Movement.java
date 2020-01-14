@@ -1,24 +1,16 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
+import com.qualcomm.hardware.motors.GoBILDA5202Series;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 public class Movement {
 
-    /**
-        d = 10cm (Diameter of Wheels)
-
-        ticks/motor rotation = 383.6 (Encoder Countable Events Per Revolution for GoBilda 5202)
-        2:1 reduction
-        => ticks/wheel rotation = 767.2
-        cm/rotation = 31.415 (The Length of the Wheel)
-
-
-        tick/cm = 767.2 / 31.415
-
-        tick/cm = 24.63
-     **/
+    public static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202Series.class);
+    public static final int WHEEL_DIAMETER = 10; //in cm
+    public static final int GEAR_RATIO = 2;
 
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
     //private Gyro gyro = new Gyro();
@@ -28,7 +20,8 @@ public class Movement {
     private float[] TurboMultipliers = {0.25f, 0.5f, 1};
     private int TurboIndex = 1;
 
-    private static float TickPerCm = 24.42f; //this is only for forward/backward movement
+    //private static float TickPerCm = 24.42f; //this is only for forward/backward movement
+    public double getTickPerCm() {return MOTOR_CONFIG.getTicksPerRev() / WHEEL_DIAMETER * Math.PI * GEAR_RATIO;}
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm) {
@@ -178,8 +171,8 @@ public class Movement {
 
         float robotAngle = angle - (float)Math.PI/4;
 
-        dx = -(int)(Math.cos(robotAngle) * dist_cm * TickPerCm);
-        dy = -(int)(Math.sin(robotAngle) * dist_cm * TickPerCm);
+        dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
+        dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
@@ -188,6 +181,58 @@ public class Movement {
         setPower(powx, powy, powy, powx);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
+    }
+
+    public void moveCM_IMU(double angle, int dist_cm, float pow, LinearOpMode op) {
+        if(!imu.IsOn()) {
+            op.telemetry.addLine("Error. Cannot find IMU.");
+            op.telemetry.update();
+            return;
+        }
+
+        stopAndResetEncoder();
+
+        int     newLeftTarget;
+        int     newRightTarget;
+        int     moveCounts;
+        double  max;
+        double  error;
+        double  steer;
+        double  leftSpeed;
+        double  rightSpeed;
+
+        moveCounts = (int)(dist_cm * getTickPerCm());
+        newLeftTarget = moveCounts;
+        newRightTarget = moveCounts;
+
+        setTargetPosition(newLeftTarget, newRightTarget, newLeftTarget, newRightTarget);
+
+        runToPosition();
+
+        setPower(1);
+
+        while(AreAllWheelsBusy()) {
+            error = imu.getError(angle);
+            steer = imu.getSteer(error, Gyro.P_DRIVE_COEFF);
+
+            if(dist_cm<0) steer*=-1;
+
+            leftSpeed = 1 - steer;
+            rightSpeed = 1 + steer;
+
+            max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+            if(max > 1) {
+                leftSpeed /= max;
+                rightSpeed /= max;
+            }
+
+            setPower((float)leftSpeed, (float)rightSpeed, (float)leftSpeed, (float)rightSpeed);
+
+        }
+
+        stop();
+
+        runUsingEncoder();
     }
 
     public void moveTICKS(float angle, int dist, float pow, LinearOpMode op) {
@@ -215,7 +260,7 @@ public class Movement {
         stopAndResetEncoder();
         runToPosition();
 
-        int d = (int)(Radius * angle * TickPerCm);
+        int d = (int)(Radius * angle * getTickPerCm());
 
         setTargetPosition(d, -d, d, -d);
         setPower(pow);
@@ -315,7 +360,7 @@ public class Movement {
     public void moveForwards(int cm, LinearOpMode op) {
         stopAndResetEncoder();
         runToPosition();
-        setTargetPosition(-(int)(cm*TickPerCm), -(int)(cm*TickPerCm), -(int)(cm*TickPerCm), -(int)(cm*TickPerCm));
+        setTargetPosition(-(int)(cm*getTickPerCm()), -(int)(cm*getTickPerCm()), -(int)(cm*getTickPerCm()), -(int)(cm*getTickPerCm()));
         setPower(.5f);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
@@ -355,6 +400,10 @@ public class Movement {
             backLeft.Brake();
             backRight.Brake();
         }
+    }
+
+    public boolean AreAllWheelsBusy() {
+        return frontRight.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy();
     }
 
 
