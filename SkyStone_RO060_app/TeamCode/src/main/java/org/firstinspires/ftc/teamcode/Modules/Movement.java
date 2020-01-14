@@ -5,12 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Movement {
 
     public static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202Series.class);
     public static final int WHEEL_DIAMETER = 10; //in cm
     public static final int GEAR_RATIO = 2;
+    public static final int kP = 2;
+    public static final int kI = 0;
+    public static final int kD = 19;
 
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
     //private Gyro gyro = new Gyro();
@@ -53,7 +57,6 @@ public class Movement {
                 + backLeft.getCurrentPosition() + "\nbackRight: "
                 + backRight.getCurrentPosition();
     }
-
 
     public String Move(Gamepad gamepad1) {
         float angle, r, powX, powY;
@@ -127,7 +130,6 @@ public class Movement {
         return s +"\nTurbo: " + TurboIndex;
     }
 
-
     public void setTargetPosition(int p1, int p2, int p3, int p4) {
         if(AreWheelsActive()) {
             frontLeft.setTargetPosition(p1);
@@ -136,7 +138,6 @@ public class Movement {
             backRight.setTargetPosition(p4);
         }
     }
-
 
     /**
      *
@@ -197,9 +198,12 @@ public class Movement {
         int     moveCounts;
         double  max;
         double  error;
+        double  prevError;
         double  steer;
         double  leftSpeed;
         double  rightSpeed;
+        double  integral;
+        double  derivative;
 
         moveCounts = (int)(dist_cm * getTickPerCm());
         newLeftTarget = moveCounts;
@@ -211,15 +215,28 @@ public class Movement {
 
         setPower(1);
 
+        integral = 0;
+        prevError = 0;
+
+        ElapsedTime elapsedTime = new ElapsedTime();
+        elapsedTime.reset();
+
+
         while(AreAllWheelsBusy()) {
             error = imu.getError(angle);
+            integral += integral + error * elapsedTime.milliseconds();
+            derivative = (error - prevError) / elapsedTime.milliseconds();
             steer = imu.getSteer(error, Gyro.P_DRIVE_COEFF);
 
             if(dist_cm<0) steer*=-1;
 
-            leftSpeed = 1 - steer;
-            rightSpeed = 1 + steer;
+            leftSpeed = (1) - steer;
+            rightSpeed = (1) + steer;
 
+            /*
+                leftSpeed = (kP * error + kI * integral + kD * derivative) - steer;
+                rightSpeed = (kP * error + kI * integral + kD * derivative) + steer;
+            */
             max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
             if(max > 1) {
                 leftSpeed /= max;
@@ -228,6 +245,7 @@ public class Movement {
 
             setPower((float)leftSpeed, (float)rightSpeed, (float)leftSpeed, (float)rightSpeed);
 
+            prevError = error;
         }
 
         stop();
