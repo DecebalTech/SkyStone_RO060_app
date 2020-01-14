@@ -36,9 +36,22 @@ public class AutonomousMovementTest extends LinearOpMode {
 
          */
 
-        rb.movement.rotateIMURelative(Math.PI,1f, this);
+
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
+        sleep(500);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN);
         sleep(time);
-        rb.movement.rotateIMUAbsolute(0, 1f, this);
+        rb.movement.moveDist(14,1f,this);
+        sleep(time);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH);
+        sleep(time);
+        rb.movement.moveDist(10,1f,this);
+        sleep(time);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO);
+        sleep(time);
+
+
+
     }
 
     public void initRobot() {

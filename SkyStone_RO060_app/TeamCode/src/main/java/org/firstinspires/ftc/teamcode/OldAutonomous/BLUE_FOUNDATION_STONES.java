@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OldAutonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
@@ -7,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous (name = "BLUE FOUNDATION_STONES - foundation, 2 stones, park")
+@Disabled
 public class BLUE_FOUNDATION_STONES extends LinearOpMode {
 
     public Robot rb;

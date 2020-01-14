@@ -9,15 +9,22 @@ import org.firstinspires.ftc.teamcode.Robot;
 @Autonomous
 public class AutonomousMovement extends LinearOpMode {
 
+    private Scanner sc;
     private Robot rb;
 
     public void runOpMode() throws InterruptedException{
 
         initRobot();
+        sc = new Scanner();
+        sc.Init("webcam", hardwareMap);
+        sc.initTfod(hardwareMap);
 
         while(!isStarted()){
-            idle();
+            sc.scan(this);
+
         }
+
+
 
 
 

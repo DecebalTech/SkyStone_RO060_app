@@ -13,15 +13,12 @@ public class VuforiaTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         sc = new Scanner();
-        while(!isStarted()) idle();
 
         sc.Init("webcam", hardwareMap);
 
         sc.initTfod(hardwareMap);
-
-        if(sc.activateTfod()) {
-
-        }
+        sc.activateTfod();
+        waitForStart();
 
         while(opModeIsActive()) {
             sc.scan(this);

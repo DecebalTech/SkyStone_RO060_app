@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Movement {
 
@@ -25,6 +28,8 @@ public class Movement {
     private IMU imu = new IMU();
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
 
+    private DistanceSensor sensorRange;
+
     private float[] TurboMultipliers = {0.25f, 0.5f, 1};
     private int TurboIndex = 1;
 
@@ -32,6 +37,8 @@ public class Movement {
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm) {
+
+        sensorRange = hwm.get(DistanceSensor.class, "sensor_range");
         frontLeft.Init(Names[0], hwm);
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
@@ -189,7 +196,45 @@ public class Movement {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }
+    public void moveDist(int dist_cm, float pow, LinearOpMode op) {
 
+        stopAndResetEncoder();
+        runUsingEncoder();
+ /*       while (dist_cm<sensorRange.getDistance(DistanceUnit.CM))
+        {
+            frontRight.SetPower(pow);
+            backRight.SetPower(pow);
+            backLeft.SetPower(pow);
+            frontLeft.SetPower(pow);
+        }
+        */
+
+        double error,mull=1;
+
+        error = sensorRange.getDistance(DistanceUnit.CM)-dist_cm;
+
+        while (Math.abs(error)>2)
+        {
+            error = sensorRange.getDistance(DistanceUnit.CM)-dist_cm;
+
+            if(error>0)
+            {
+                mull = Math.max(0.2,Math.min(error/50,0.9));
+            }
+            else if(error<0)
+            {
+                mull = Math.min(-0.2,Math.max(error/50,-0.9));
+            }
+            frontRight.SetPower((float) (pow*mull));
+            backRight.SetPower(-(float) (pow*mull));
+            backLeft.SetPower((float) (pow*mull));
+            frontLeft.SetPower(-(float) (pow*mull));
+        }
+        frontRight.SetPower((float) 0);
+        backRight.SetPower((float) 0);
+        backLeft.SetPower((float) 0);
+        frontLeft.SetPower((float) 0);
+    }
     public void moveTICKS(float angle, int dist, float pow, LinearOpMode op) {
         stopAndResetEncoder();
         runToPosition();

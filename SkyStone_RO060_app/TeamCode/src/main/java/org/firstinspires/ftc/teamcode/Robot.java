@@ -39,6 +39,7 @@ public class Robot {
 
         stoneArm = new Auto_StoneArm();
         stoneArm.Init("grabber", "arm", hwm);
+
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
