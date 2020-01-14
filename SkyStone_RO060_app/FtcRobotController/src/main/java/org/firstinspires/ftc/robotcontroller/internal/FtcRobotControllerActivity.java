@@ -61,6 +61,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.robomatic.config.OpModeConfigurationActivity;
 import com.google.blocks.ftcrobotcontroller.ProgrammingWebHandlers;
 import com.google.blocks.ftcrobotcontroller.runtime.BlocksOpMode;
 import com.qualcomm.ftccommon.ClassManagerFactory;
@@ -315,6 +316,7 @@ public class FtcRobotControllerActivity extends Activity
         });
         popupMenu.inflate(R.menu.ftc_robot_controller);
         FtcDashboard.populateMenu(popupMenu.getMenu());
+        OpModeConfigurationActivity.populateMenu(popupMenu.getMenu(), FtcRobotControllerActivity.this);
         popupMenu.show();
       }
     });
@@ -538,6 +540,7 @@ public class FtcRobotControllerActivity extends Activity
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.ftc_robot_controller, menu);
     FtcDashboard.populateMenu(menu);
+    OpModeConfigurationActivity.populateMenu(menu, this);
     return true;
   }
 

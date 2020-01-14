@@ -17,7 +17,7 @@ public class Parking_Left extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        rb = new Robot(hardwareMap, this); //Initialization of the Robot
+        rb = new Robot(hardwareMap, this); //Initialization of the DecebalBot
 
         while(!isStarted()) {
             idle();

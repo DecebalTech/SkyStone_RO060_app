@@ -1,0 +1,3 @@
+[submodule "SkyStone_RO060_app/robomatic"]
+	path = SkyStone_RO060_app/robomatic
+	url = https://github.com/acmerobotics/robomatic.git
