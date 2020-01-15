@@ -9,11 +9,11 @@ public class Auto_StoneArm {
     private Servo_Pos arm = new Servo_Pos();
 
     public enum armPositions{
-        UP,
-        MID,
-        AUTO,
-        DOWN,
-        FOUNDATION
+        UP, // sus
+        MID, // ca sa treaca sub bridge
+        AUTO, // deplasare autonomie
+        DOWN,  // prindere stone
+        FOUNDATION // pentru pus pe fundatie
     }
 
     public enum grabberPositions{

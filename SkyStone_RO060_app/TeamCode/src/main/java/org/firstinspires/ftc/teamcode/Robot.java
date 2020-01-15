@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
+import org.firstinspires.ftc.teamcode.Modules.DistSensor;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.MarkerArm;
 import org.firstinspires.ftc.teamcode.Modules.Movement;
@@ -19,6 +20,7 @@ public class Robot {
     public MarkerArm markerArm;
     public FoundationServos foundationServos;
     public Auto_StoneArm stoneArm;
+    public DistSensor distSensor;
 
     public Robot(HardwareMap hwm, LinearOpMode op) {
         //brat.Init("Brat", hwm);
@@ -39,6 +41,9 @@ public class Robot {
 
         stoneArm = new Auto_StoneArm();
         stoneArm.Init("grabber", "arm", hwm);
+
+        distSensor = new DistSensor();
+        distSensor.Init("rangeSensor", hwm);
 
     }
 
