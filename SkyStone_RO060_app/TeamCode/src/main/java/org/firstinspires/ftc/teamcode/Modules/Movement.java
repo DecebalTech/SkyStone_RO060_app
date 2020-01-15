@@ -5,16 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Movement {
 
     public static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202Series.class);
     public static final int WHEEL_DIAMETER = 10; //in cm
     public static final int GEAR_RATIO = 2;
-    public static final int kP = 2;
-    public static final int kI = 0;
-    public static final int kD = 19;
 
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
     //private Gyro gyro = new Gyro();
@@ -182,75 +178,6 @@ public class Movement {
         setPower(powx, powy, powy, powx);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
-    }
-
-    public void moveCM_IMU(double angle, int dist_cm, float pow, LinearOpMode op) {
-        if(!imu.IsOn()) {
-            op.telemetry.addLine("Error. Cannot find IMU.");
-            op.telemetry.update();
-            return;
-        }
-
-        stopAndResetEncoder();
-
-        int     newLeftTarget;
-        int     newRightTarget;
-        int     moveCounts;
-        double  max;
-        double  error;
-        double  prevError;
-        double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
-        double  integral;
-        double  derivative;
-
-        moveCounts = (int)(dist_cm * getTickPerCm());
-        newLeftTarget = moveCounts;
-        newRightTarget = moveCounts;
-
-        setTargetPosition(newLeftTarget, newRightTarget, newLeftTarget, newRightTarget);
-
-        runToPosition();
-
-        setPower(1);
-
-        integral = 0;
-        prevError = 0;
-
-        ElapsedTime elapsedTime = new ElapsedTime();
-        elapsedTime.reset();
-
-
-        while(AreAllWheelsBusy()) {
-            error = imu.getError(angle);
-            integral += integral + error * elapsedTime.milliseconds();
-            derivative = (error - prevError) / elapsedTime.milliseconds();
-            steer = imu.getSteer(error, Gyro.P_DRIVE_COEFF);
-
-            if(dist_cm<0) steer*=-1;
-
-            leftSpeed = (1) - steer;
-            rightSpeed = (1) + steer;
-
-            /*
-                leftSpeed = (kP * error + kI * integral + kD * derivative) - steer;
-                rightSpeed = (kP * error + kI * integral + kD * derivative) + steer;
-            */
-            max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-            if(max > 1) {
-                leftSpeed /= max;
-                rightSpeed /= max;
-            }
-
-            setPower((float)leftSpeed, (float)rightSpeed, (float)leftSpeed, (float)rightSpeed);
-
-            prevError = error;
-        }
-
-        stop();
-
-        runUsingEncoder();
     }
 
     public void moveTICKS(float angle, int dist, float pow, LinearOpMode op) {
