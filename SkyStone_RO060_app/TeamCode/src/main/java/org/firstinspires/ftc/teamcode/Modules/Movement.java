@@ -38,7 +38,7 @@ public class Movement {
 
     public void Init(HardwareMap hwm) {
 
-        sensorRange = hwm.get(DistanceSensor.class, "sensor_range");
+        sensorRange = hwm.get(DistanceSensor.class, "rangeSensor");
         frontLeft.Init(Names[0], hwm);
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
@@ -196,18 +196,11 @@ public class Movement {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }
+
     public void moveDist(int dist_cm, float pow, LinearOpMode op) {
 
         stopAndResetEncoder();
         runUsingEncoder();
- /*       while (dist_cm<sensorRange.getDistance(DistanceUnit.CM))
-        {
-            frontRight.SetPower(pow);
-            backRight.SetPower(pow);
-            backLeft.SetPower(pow);
-            frontLeft.SetPower(pow);
-        }
-        */
 
         double error,mull=1;
 

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Modules.*;
 public class BLUE_STONES extends LinearOpMode {
 
     private Robot rb = null;
-    private final int time = 300;
+    private final int time = 1;
     private Scanner scanner = new Scanner();
     private int scanResult = -1;
 
@@ -36,10 +36,8 @@ public class BLUE_STONES extends LinearOpMode {
         5. Move to Foundation and place the stone
 
          */
-        int time=1;
 
-
-
+        telemetry.addData("distance in cm", rb.distSensor.getDistanceCM());
 
         switch (scanResult) {
             case 0:
@@ -52,14 +50,17 @@ public class BLUE_STONES extends LinearOpMode {
                 break;
             default:
                 //telemetry.addLine("🍆, dar mergem pe mijloc");
-
+                telemetry.addData("distance in cm", rb.distSensor.getDistanceCM());
                     rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
                 sleep(time);
 
                     rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
                 sleep(time);
 
-                    rb.movement.moveDist(15,1f,this);  // mergem la 15 cm fata de skystone
+                rb.movement.moveCM((float)Math.PI/3,50,1f,this); // mergem spre fundatie
+                sleep(time);
+
+                    rb.movement.moveDist(15,1,this);  // mergem la 15 cm fata de skystone
                 sleep(time);
 
                     rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
@@ -80,13 +81,13 @@ public class BLUE_STONES extends LinearOpMode {
                     rb.movement.moveCM((float)Math.PI,20,1f,this); // strafe catre perete
                 sleep(time);
 
-                    rb.movement.moveCM((float)Math.PI/2,193,1f,this); // mergem spre fundatie
+                    rb.movement.moveCM((float)Math.PI/2,200,1f,this); // mergem spre fundatie
                 sleep(time);
 
                    rb.movement.moveCM((float)Math.PI/2.5f,70,1f,this); // ceva miscari in diagonala ca sa ajungem langa fundatie
                 sleep(time);
 
-                  rb.movement.moveCM((float)Math.PI/3f,10,1f,this); // ceva miscari in diagonala ca sa ajungem langa fundatie
+                  rb.movement.moveCM((float)Math.PI/3f,20,1f,this); // ceva miscari in diagonala ca sa ajungem langa fundatie
                 sleep(time);
 
                     rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION);  // lasam skystone-ul pe fundatie
@@ -96,7 +97,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
 
                   rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
-                sleep(300);
+                sleep(100);
 
                     rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.MID); // ridicam bratul
                 sleep(time);
@@ -110,7 +111,10 @@ public class BLUE_STONES extends LinearOpMode {
                     rb.movement.moveCM((float)Math.PI/3,-40,1f,this);//// cev miscari in diagonala ca sa ajungem de unde am plecat
                 sleep(time);
 
-                    rb.movement.moveCM((float)Math.PI/2,-315,1f,this); //mergem sa luam celalat skystone
+           //         rb.movement.rotateIMUAbsolute(0, 1f, this); // ne rotim cu giroscopul la unghiul la care robotul ar trebui sa fie pentru siguranta
+                sleep(time);
+
+                    rb.movement.moveCM((float)Math.PI/2,-325,1f,this); //mergem sa luam celalat skystone
                 sleep(time);
 
                     rb.movement.moveDist(17,1f,this);  // ne setam distanta fata de skystone
@@ -125,9 +129,6 @@ public class BLUE_STONES extends LinearOpMode {
                     rb.movement.moveDist(11,1f,this);  // ne apropiem de skystone
                 sleep(time);
 
-                    rb.movement.rotateIMUAbsolute(0, 1f, this); // ne rotim cu giroscopul la unghiul la care robotul ar trebui sa fie pentru siguranta
-                sleep(time);
-
                     rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // prindem skystone-ul
                 sleep(300);
 
@@ -135,6 +136,9 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
 
                     rb.movement.moveCM((float)Math.PI,18,1f,this); //strafe catre perete
+                sleep(time);
+
+                    //  rb.movement.rotateIMUAbsolute(0, 1f, this); // ne rotim cu giroscopul la unghiul la care robotul ar trebui sa fie pentru siguranta
                 sleep(time);
 
                     rb.movement.moveCM((float)Math.PI/2,275,1f,this); // mergem in fata catre fundatie
