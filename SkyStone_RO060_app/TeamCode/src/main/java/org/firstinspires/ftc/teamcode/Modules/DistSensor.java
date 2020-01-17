@@ -40,6 +40,8 @@ public class DistSensor implements Modul {
         Name = _Name;
     }
 
+    public String GetName() {return Name;}
+
     @Override
     public void SwitchState(boolean _State) {
         State = _State;

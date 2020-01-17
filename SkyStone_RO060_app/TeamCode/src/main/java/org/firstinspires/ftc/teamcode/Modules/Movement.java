@@ -1,37 +1,37 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
-import com.qualcomm.hardware.motors.GoBILDA5202Series;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Alternative.GoBILDA5202_435RPM;
 
 public class Movement {
 
-    public static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202Series.class);
-    public static final int WHEEL_DIAMETER = 10; //in cm
-    public static final int GEAR_RATIO = 2;
+    public static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202_435RPM.class);
+    public static final double WHEEL_DIAMETER = 10; //in cm
+    public static final double GEAR_RATIO = 0.5;
 
+    public DistSensor rightDist = new DistSensor(), frontDist = new DistSensor(), backDist = new DistSensor();
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
     //private Gyro gyro = new Gyro();
     private IMU imu = new IMU();
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
 
-    private DistanceSensor sensorRange;
-
     private float[] TurboMultipliers = {0.25f, 0.5f, 1};
     private int TurboIndex = 1;
 
     //private static float TickPerCm = 24.42f; //this is only for forward/backward movement
-    public double getTickPerCm() {return MOTOR_CONFIG.getTicksPerRev() / WHEEL_DIAMETER * Math.PI * GEAR_RATIO;}
+    public double getTickPerCm() {return MOTOR_CONFIG.getTicksPerRev() / (WHEEL_DIAMETER * Math.PI * GEAR_RATIO);}
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm) {
 
-        sensorRange = hwm.get(DistanceSensor.class, "rangeSensor");
+        rightDist.Init("rightDist", hwm);
+        frontDist.Init("frontDist", hwm);
+        backDist.Init("backDist", hwm);
+
         frontLeft.Init(Names[0], hwm);
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
@@ -69,7 +69,7 @@ public class Movement {
         else TurboIndex = 1;
 
         angle = (float)(Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI/4);
-        r = (float)Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+        r = (float)Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y) * 2;
 
         powX = (float)(Math.cos(angle)*r);
         powY = (float)(Math.sin(angle)*r);
@@ -79,7 +79,7 @@ public class Movement {
         if(frontLeft.IsOn()) {
             s += "frontLeft: ";
             try {
-                float pow = (powX - gamepad1.right_stick_x) * TurboMultipliers[TurboIndex];
+                float pow = (powX - 2*gamepad1.right_stick_x) * TurboMultipliers[TurboIndex];
                 frontLeft.SetPower(pow);
                 s += pow + ";";
             } catch (Exception ex) {
@@ -92,7 +92,7 @@ public class Movement {
         if(frontRight.IsOn()) {
             s += "frontRight: ";
             try {
-                float pow = (powY + gamepad1.right_stick_x) * TurboMultipliers[TurboIndex];
+                float pow = (powY + 2*gamepad1.right_stick_x) * TurboMultipliers[TurboIndex];
                 frontRight.SetPower(pow);
                 s += pow + ";";
             } catch (Exception ex) {
@@ -105,7 +105,7 @@ public class Movement {
         if(backLeft.IsOn()) {
             s += "backLeft: ";
             try {
-                float pow = (powY - gamepad1.right_stick_x)*TurboMultipliers[TurboIndex];
+                float pow = (powY - 2*gamepad1.right_stick_x)*TurboMultipliers[TurboIndex];
                 backLeft.SetPower(pow);
                 s += pow + ";";
             }
@@ -119,7 +119,7 @@ public class Movement {
         if(backRight.IsOn()) {
             s+= "backRight: ";
             try {
-                float pow = (powX + gamepad1.right_stick_x)*TurboMultipliers[TurboIndex];
+                float pow = (powX + 2*gamepad1.right_stick_x)*TurboMultipliers[TurboIndex];
                 backRight.SetPower(pow);
                 s += pow + ";";
             }
@@ -184,10 +184,30 @@ public class Movement {
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
         setPower(powx, powy, powy, powx);
-        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
+        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
         stop();
     }
+    public void moveCMNS(float angle, int dist_cm, float pow, LinearOpMode op) {
+        stopAndResetEncoder();
 
+        int dx, dy;
+        float powx, powy;
+
+        float robotAngle = angle - (float)Math.PI/4;
+
+        dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
+        dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
+
+
+        powx = (float)Math.cos(robotAngle)*pow;
+        powy = (float)Math.sin(robotAngle)*pow;
+
+        setTargetPosition(dx, dy, dy, dx);
+        runToPosition();
+        setPower(powx, powy, powy, powx);
+        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
+
+    }
     public void moveDist(int dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
 
         if(!sensor.IsOn()) {
@@ -201,11 +221,11 @@ public class Movement {
 
         double error,mull=1;
 
-        error = sensorRange.getDistance(DistanceUnit.CM)-dist_cm;
+        error = sensor.getDistanceCM()-dist_cm;
 
-        while (Math.abs(error)>2)
+        while (Math.abs(error)>2 && op.opModeIsActive())
         {
-            error = sensorRange.getDistance(DistanceUnit.CM)-dist_cm;
+            error = sensor.getDistanceCM()-dist_cm;
 
             if(error>0)
             {
@@ -215,16 +235,27 @@ public class Movement {
             {
                 mull = Math.min(-0.2,Math.max(error/50,-0.9));
             }
-            frontRight.SetPower((float) (pow*mull));
-            backRight.SetPower(-(float) (pow*mull));
-            backLeft.SetPower((float) (pow*mull));
-            frontLeft.SetPower(-(float) (pow*mull));
+            double power = pow * mull;
+            String devName = sensor.GetName();
+            op.telemetry.addLine(devName);
+            op.telemetry.update();
+            switch(devName) {
+                case "rightDist":
+                    setPower((float)-power, (float)power, (float)power, (float)-power);
+                    break;
+                case "frontDist":
+                    setPower(-(float)power);
+                    break;
+                case "backDist":
+                    setPower((float)power);
+                    break;
+                default:
+                    break;
+            }
         }
-        frontRight.SetPower((float) 0);
-        backRight.SetPower((float) 0);
-        backLeft.SetPower((float) 0);
-        frontLeft.SetPower((float) 0);
+        stop();
     }
+
     public void moveTICKS(float angle, int dist, float pow, LinearOpMode op) {
         stopAndResetEncoder();
         runToPosition();
@@ -242,7 +273,7 @@ public class Movement {
 
         setTargetPosition(dx, dy, dy, dx);
         setPower(powx, powy, powy, powx);
-        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
+        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
         stop();
     }
 
@@ -254,7 +285,7 @@ public class Movement {
 
         setTargetPosition(d, -d, d, -d);
         setPower(pow);
-        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
+        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
         stop();
     }
     public void rotateIMUAbsolute(double angle, float pow, LinearOpMode op) { //the reference orientation is the one the DecebalBot has at Init
@@ -272,7 +303,7 @@ public class Movement {
         while(!onTarget) {
             error = imu.getError(angle);
 
-            if(Math.abs(error) < Math.PI/300) {
+            if(Math.abs(error) < Math.PI/180) {
                 steer = 0;
                 pLeft = pRight = steer * pow;
                 onTarget = true;
@@ -301,10 +332,10 @@ public class Movement {
         double pLeft, pRight;
 
         double nextAngle = imu.GetAngles().firstAngle + angle;
-        while(!onTarget) {
+        while(!onTarget && op.opModeIsActive()) {
             error = imu.getError(nextAngle);
 
-            if(Math.abs(error) < Math.PI/300) {
+            if(Math.abs(error) < Math.PI/180) {
                 steer = 0;
                 pLeft = pRight = steer * pow;
                 onTarget = true;

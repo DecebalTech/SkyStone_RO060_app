@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Scanner {
 
-    private static final String VUFORIA_KEY = "Ask Andrei for it ;)";
+    private static final String VUFORIA_KEY = "AbXLjNX/////AAABmd7RkeSKpEklu5OVocY44bJIRu7RtNd3OkIDmFdoeUUQfYIgvhVG4DSt83DCY3sX1zqoC4AkeMz58y+JEtZY8lt5oOea/F4rxQ9/RUavbOVmW8ArTs3CrpKDg/u5Vw8YA280sHCm/3U9L+5tJntAD1w5Yw3ZfAtGN/7C1F8OqU/E5PR1zXAfORaW1hdMeCT0Pq/1EqM71Sci4NUWsoliqrqKDnHcbhvC53taDIh8c55KTuaYfy7UibCyFkWAXod+zMr3fp39MW4HsT75YSE7iV4gB/I536009S39cR0wNa0jbBAEQcde0feNvnDGqx22XkkDTdTn9iJpekBmVJ5ONqPHlhqS4hYPKm1Vtw4socTh";
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";

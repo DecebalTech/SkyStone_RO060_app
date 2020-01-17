@@ -81,6 +81,11 @@ public class IMU implements Modul {
     }
 
     public double getSteer(double error, double Pcoeff) {
-        return Range.clip(error * Pcoeff , -1, 1);
+        if(error<0) {
+            return Range.clip(error * Pcoeff, -0.9, -0.1);
+        }
+        else {
+            return Range.clip(error * Pcoeff, 0.1, 0.9);
+        }
     }
 }

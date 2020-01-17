@@ -18,7 +18,7 @@ public class Robot {
     public MarkerArm markerArm;
     public FoundationServos foundationServos;
     public Auto_StoneArm stoneArm;
-    public DistSensor distSensor;
+    public DistSensor rightDist, frontDist, backDist;
 
     public Robot(HardwareMap hwm, LinearOpMode op) {
         //brat.Init("Brat", hwm);
@@ -38,8 +38,14 @@ public class Robot {
         stoneArm = new Auto_StoneArm();
         stoneArm.Init("grabber", "arm", hwm);
 
-        distSensor = new DistSensor();
-        distSensor.Init("rangeSensor", hwm);
+        rightDist = new DistSensor();
+        rightDist.Init("rightDist", hwm);
+
+        frontDist = new DistSensor();
+        frontDist.Init("frontDist", hwm);
+
+        backDist = new DistSensor();
+        backDist.Init("backDist", hwm);
 
     }
 
@@ -57,9 +63,17 @@ public class Robot {
 
         op.telemetry.addLine(foundationServos.Update(gamepad1));
 
-        if(distSensor.IsOn()) {
-            op.telemetry.addData("DistSensor (cm)", distSensor.getDistanceCM());
+        if(rightDist.IsOn()) {
+            op.telemetry.addData("RightSensor (cm)", rightDist.getDistanceCM());
         }
+        if(frontDist.IsOn()) {
+            op.telemetry.addData("FrontSensor (cm)", frontDist.getDistanceCM());
+        }
+        if(backDist.IsOn()) {
+            op.telemetry.addData("BackSensor (cm)", backDist.getDistanceCM());
+        }
+
+        op.telemetry.addLine(stoneArm.Update(gamepad2));
 
     }
 
