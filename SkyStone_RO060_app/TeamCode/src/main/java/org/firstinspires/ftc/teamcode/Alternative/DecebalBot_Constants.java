@@ -3,18 +3,17 @@ package org.firstinspires.ftc.teamcode.Alternative;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
-import com.qualcomm.hardware.motors.GoBILDA5201Series;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 @Config
 public class DecebalBot_Constants {
-    private static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5201Series.class);
+    private static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202_435RPM.class);
 
     public static final boolean RUN_USING_ENCODER = true;
     public static final PIDCoefficients MOTOR_VELO_PID = null;
 
     public static double WHEEL_RADIUS = 5; // in CM
-    public static double GEAR_RATIO = 2; // output (wheel) speed / input (motor) speed
+    public static double GEAR_RATIO = 0.5; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 1; //the distance between the centerline of two roadwheels on the same axle
 
     /*

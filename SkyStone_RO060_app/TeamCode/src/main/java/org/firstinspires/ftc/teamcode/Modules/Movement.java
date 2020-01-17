@@ -312,14 +312,6 @@ public class Movement {
         }
     }
     */
-    public void moveForwards(int cm, LinearOpMode op) {
-        stopAndResetEncoder();
-        runToPosition();
-        setTargetPosition(-(int)(cm*TickPerCm), -(int)(cm*TickPerCm), -(int)(cm*TickPerCm), -(int)(cm*TickPerCm));
-        setPower(.5f);
-        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
-        stop();
-    }
 
     public void runUsingEncoder() {
         if(AreWheelsActive()) {
