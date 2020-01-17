@@ -1,24 +1,16 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
+import com.qualcomm.hardware.motors.GoBILDA5202Series;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 public class Movement {
 
-    /**
-        d = 10cm (Diameter of Wheels)
-
-        ticks/motor rotation = 383.6 (Encoder Countable Events Per Revolution for GoBilda 5202)
-        2:1 reduction
-        => ticks/wheel rotation = 767.2
-        cm/rotation = 31.415 (The Length of the Wheel)
-
-
-        tick/cm = 767.2 / 31.415
-
-        tick/cm = 24.63
-     **/
+    public static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202Series.class);
+    public static final int WHEEL_DIAMETER = 10; //in cm
+    public static final int GEAR_RATIO = 2;
 
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
     //private Gyro gyro = new Gyro();
@@ -28,7 +20,8 @@ public class Movement {
     private float[] TurboMultipliers = {0.25f, 0.5f, 1};
     private int TurboIndex = 1;
 
-    private static float TickPerCm = 24.42f; //this is only for forward/backward movement
+    //private static float TickPerCm = 24.42f; //this is only for forward/backward movement
+    public double getTickPerCm() {return MOTOR_CONFIG.getTicksPerRev() / WHEEL_DIAMETER * Math.PI * GEAR_RATIO;}
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm) {
@@ -60,7 +53,6 @@ public class Movement {
                 + backLeft.getCurrentPosition() + "\nbackRight: "
                 + backRight.getCurrentPosition();
     }
-
 
     public String Move(Gamepad gamepad1) {
         float angle, r, powX, powY;
@@ -134,7 +126,6 @@ public class Movement {
         return s +"\nTurbo: " + TurboIndex;
     }
 
-
     public void setTargetPosition(int p1, int p2, int p3, int p4) {
         if(AreWheelsActive()) {
             frontLeft.setTargetPosition(p1);
@@ -143,7 +134,6 @@ public class Movement {
             backRight.setTargetPosition(p4);
         }
     }
-
 
     /**
      *
@@ -178,8 +168,8 @@ public class Movement {
 
         float robotAngle = angle - (float)Math.PI/4;
 
-        dx = -(int)(Math.cos(robotAngle) * dist_cm * TickPerCm);
-        dy = -(int)(Math.sin(robotAngle) * dist_cm * TickPerCm);
+        dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
+        dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
@@ -215,7 +205,7 @@ public class Movement {
         stopAndResetEncoder();
         runToPosition();
 
-        int d = (int)(Radius * angle * TickPerCm);
+        int d = (int)(Radius * angle * getTickPerCm());
 
         setTargetPosition(d, -d, d, -d);
         setPower(pow);
@@ -312,7 +302,6 @@ public class Movement {
         }
     }
     */
-
     public void runUsingEncoder() {
         if(AreWheelsActive()) {
             frontLeft.runUsingEncoder();
@@ -347,6 +336,10 @@ public class Movement {
             backLeft.Brake();
             backRight.Brake();
         }
+    }
+
+    public boolean AreAllWheelsBusy() {
+        return frontRight.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy();
     }
 
 
