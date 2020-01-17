@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name="RED STONES WALL P")
+@Disabled
 public class RED_STONES_WALL_P extends LinearOpMode {
 
     public Robot rb;

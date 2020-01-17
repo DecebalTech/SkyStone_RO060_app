@@ -15,6 +15,11 @@ public class IMU implements Modul {
     private String Name;
     private boolean State;
 
+    public static double FORWARD_ANGLE = Math.PI/2;
+    public static double BACKWARD_ANGLE = 3 * Math.PI/2;
+    public static double LEFTWARD_ANGLE = Math.PI;
+    public static double RIGHTWARD_ANGLE = 0;
+
     @Override
     public void Init(String _Name, HardwareMap hwm) {
         try {
@@ -71,7 +76,7 @@ public class IMU implements Modul {
         // calculate error in -179 to +180 range  (
         robotError = targetAngle - GetAngles().firstAngle;
         while (robotError > Math.PI)  robotError -= 2*Math.PI;
-        while (robotError <= -Math.PI) robotError += 2*Math.PI;
+        while (robotError < -Math.PI) robotError += 2*Math.PI;
         return robotError;
     }
 

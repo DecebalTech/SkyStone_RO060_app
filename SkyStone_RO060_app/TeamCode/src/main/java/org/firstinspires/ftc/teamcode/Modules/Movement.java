@@ -2,9 +2,12 @@ package org.firstinspires.ftc.teamcode.Modules;
 
 import com.qualcomm.hardware.motors.GoBILDA5202Series;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Movement {
 
@@ -17,6 +20,8 @@ public class Movement {
     private IMU imu = new IMU();
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
 
+    private DistanceSensor sensorRange;
+
     private float[] TurboMultipliers = {0.25f, 0.5f, 1};
     private int TurboIndex = 1;
 
@@ -25,6 +30,8 @@ public class Movement {
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm) {
+
+        sensorRange = hwm.get(DistanceSensor.class, "rangeSensor");
         frontLeft.Init(Names[0], hwm);
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
@@ -161,7 +168,6 @@ public class Movement {
 
     public void moveCM(float angle, int dist_cm, float pow, LinearOpMode op) {
         stopAndResetEncoder();
-        runToPosition();
 
         int dx, dy;
         float powx, powy;
@@ -171,15 +177,54 @@ public class Movement {
         dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
         dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
+
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
 
         setTargetPosition(dx, dy, dy, dx);
+        runToPosition();
         setPower(powx, powy, powy, powx);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }
 
+    public void moveDist(int dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
+
+        if(!sensor.IsOn()) {
+            op.telemetry.addLine("Cannot find DistanceSensor");
+            op.telemetry.update();
+            return;
+        }
+
+        stopAndResetEncoder();
+        runUsingEncoder();
+
+        double error,mull=1;
+
+        error = sensorRange.getDistance(DistanceUnit.CM)-dist_cm;
+
+        while (Math.abs(error)>2)
+        {
+            error = sensorRange.getDistance(DistanceUnit.CM)-dist_cm;
+
+            if(error>0)
+            {
+                mull = Math.max(0.2,Math.min(error/50,0.9));
+            }
+            else if(error<0)
+            {
+                mull = Math.min(-0.2,Math.max(error/50,-0.9));
+            }
+            frontRight.SetPower((float) (pow*mull));
+            backRight.SetPower(-(float) (pow*mull));
+            backLeft.SetPower((float) (pow*mull));
+            frontLeft.SetPower(-(float) (pow*mull));
+        }
+        frontRight.SetPower((float) 0);
+        backRight.SetPower((float) 0);
+        backLeft.SetPower((float) 0);
+        frontLeft.SetPower((float) 0);
+    }
     public void moveTICKS(float angle, int dist, float pow, LinearOpMode op) {
         stopAndResetEncoder();
         runToPosition();

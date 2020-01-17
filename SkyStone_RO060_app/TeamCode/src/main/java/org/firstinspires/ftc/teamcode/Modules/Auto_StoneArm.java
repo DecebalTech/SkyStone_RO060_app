@@ -8,18 +8,24 @@ public class Auto_StoneArm {
     private Servo_Pos grabber = new Servo_Pos();
     private Servo_Pos arm = new Servo_Pos();
 
-    private enum grabberPositions{
+    public enum armPositions{
+        UP, // sus
+        MID, // ca sa treaca sub bridge
+        AUTO, // deplasare autonomie
+        DOWN,  // prindere stone
+        FOUNDATION, // pentru pus pe fundatie
+        PICKandGO // special pentru colectare stone
+    }
+
+    public enum grabberPositions{
         CATCH,
-        RELEASE
+        RELEASE,
+        OPEN
     }
 
-    private enum armPositions{
-        UP,
-        DOWN
-    }
 
-    private float[] armPositionValues = {0, .39f};
-    private float[] grabberPositionValues = {0, 1};
+    private float[] armPositionValues = {0, .1f, .15f, .405f ,.30f ,.25f};
+    private float[] grabberPositionValues = {0, 0.2f , 0.35f};
 
     private grabberPositions grabberPosition = grabberPositions.RELEASE;
     private armPositions armPosition = armPositions.UP;
@@ -28,7 +34,7 @@ public class Auto_StoneArm {
         grabber.Init(_grabberName,hwm);
         arm.Init(_armName,hwm);
         grabberSetPosition(grabberPositions.CATCH);
-        armSetPosition(armPositions.UP);
+        armSetPosition(armPositions.MID);
     }
 
     public void grabberSetPosition(grabberPositions _pos){
@@ -40,6 +46,9 @@ public class Auto_StoneArm {
         else if(grabberPosition == grabberPositions.RELEASE){
             if(grabber.IsOn()) grabber.SetPosition(grabberPositionValues[1]);
         }
+        else if(grabberPosition == grabberPositions.OPEN){
+            if(grabber.IsOn()) grabber.SetPosition(grabberPositionValues[2]);
+        }
     }
 
     public void armSetPosition(armPositions _pos){
@@ -48,8 +57,20 @@ public class Auto_StoneArm {
         if(armPosition == armPositions.UP){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[0]);
         }
-        else if(armPosition == armPositions.DOWN){
+        else if(armPosition == armPositions.MID){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[1]);
+        }
+        else if(armPosition == armPositions.AUTO){
+            if(arm.IsOn()) arm.SetPosition(armPositionValues[2]);
+        }
+        else if(armPosition == armPositions.DOWN){
+            if(arm.IsOn()) arm.SetPosition(armPositionValues[3]);
+        }
+        else if(armPosition == armPositions.FOUNDATION){
+            if(arm.IsOn()) arm.SetPosition(armPositionValues[4]);
+        }
+        else if(armPosition == armPositions.PICKandGO){
+            if(arm.IsOn()) arm.SetPosition(armPositionValues[5]);
         }
     }
 

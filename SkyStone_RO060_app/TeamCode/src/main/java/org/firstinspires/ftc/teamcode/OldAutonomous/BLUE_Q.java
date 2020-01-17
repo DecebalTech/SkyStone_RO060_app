@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.OldAutonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous (name = "BLUE Q")
+@Disabled
 public class BLUE_Q extends LinearOpMode {
 
     public Robot rb;
