@@ -67,6 +67,10 @@ public class Robot {
 
         op.telemetry.addLine(foundationServos.Update(gamepad1));
 
+        if(distSensor.IsOn()) {
+            op.telemetry.addData("DistSensor (cm)", distSensor.getDistanceCM());
+        }
+
     }
 
 }

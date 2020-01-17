@@ -50,124 +50,152 @@ public class BLUE_STONES extends LinearOpMode {
                 break;
             default:
                 //telemetry.addLine("🍆, dar mergem pe mijloc");
+
                 telemetry.addData("distance in cm", rb.distSensor.getDistanceCM());
+                sleep(time);
+
                     rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
                 sleep(time);
 
-                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
+                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);
 
-                rb.movement.moveCM((float)Math.PI/3,50,1f,this); // mergem spre fundatie
+                    rb.movement.moveDist(15, rb.distSensor,1,this);  // mergem la 15 cm fata de skystone
                 sleep(time);
-
-                    rb.movement.moveDist(15,1,this);  // mergem la 15 cm fata de skystone
+                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(time);
+                rb.movement.moveDist(10, rb.distSensor,1,this);  // mergem la 15 cm fata de skystone
+                sleep(100);
 
-                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
-                sleep(time);
-
-                    rb.movement.moveDist(12,1f,this); // ne apropiem si mai mult de skystone
+                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(time);
 
                     rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
-                sleep(time);
-
-                    rb.movement.moveDist(10,1f,this); // ne apropiem de skystone in timp ce servo-ul se inchide pentru a salva timp
-                sleep(time);
+                sleep(300);
 
                   rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO); // ridicam mana(bratul) cu skystone
-                sleep(time);
-
-                    rb.movement.moveCM((float)Math.PI,20,1f,this); // strafe catre perete
-                sleep(time);
-
-                    rb.movement.moveCM((float)Math.PI/2,200,1f,this); // mergem spre fundatie
-                sleep(time);
-
-                   rb.movement.moveCM((float)Math.PI/2.5f,70,1f,this); // ceva miscari in diagonala ca sa ajungem langa fundatie
-                sleep(time);
-
-                  rb.movement.moveCM((float)Math.PI/3f,20,1f,this); // ceva miscari in diagonala ca sa ajungem langa fundatie
-                sleep(time);
-
-                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION);  // lasam skystone-ul pe fundatie
-                sleep(time);
-
-                    rb.movement.moveCM((float)Math.PI,-20,1f,this);  // facem strafe catre fundatie
-                sleep(time);
-
-                  rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
-                sleep(100);
-
-                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.MID); // ridicam bratul
-                sleep(time);
-
-                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // inchidem ghiara ca sa putem trece sub pod
-                sleep(time);
-
-                    rb.movement.moveCM((float)Math.PI,15,1f,this);// facem strafe catre perete
-                sleep(time);
-
-                    rb.movement.moveCM((float)Math.PI/3,-40,1f,this);//// cev miscari in diagonala ca sa ajungem de unde am plecat
-                sleep(time);
-
-           //         rb.movement.rotateIMUAbsolute(0, 1f, this); // ne rotim cu giroscopul la unghiul la care robotul ar trebui sa fie pentru siguranta
-                sleep(time);
-
-                    rb.movement.moveCM((float)Math.PI/2,-325,1f,this); //mergem sa luam celalat skystone
-                sleep(time);
-
-                    rb.movement.moveDist(17,1f,this);  // ne setam distanta fata de skystone
-                sleep(time);
-
-                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // deschidem servoul de prindere
-                sleep(time);
-
-                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
-                sleep(time);
-
-                    rb.movement.moveDist(11,1f,this);  // ne apropiem de skystone
-                sleep(time);
-
-                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // prindem skystone-ul
                 sleep(300);
 
-                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO); // ridicam skystone-ul
+                    rb.movement.moveCM((float)Math.PI/2,25,1f,this); // strafe catre perete
                 sleep(time);
 
-                    rb.movement.moveCM((float)Math.PI,18,1f,this); //strafe catre perete
+                rb.movement.moveDist(25, rb.distSensor,1,this);  // mergem la 15 cm fata de skystone
                 sleep(time);
 
-                    //  rb.movement.rotateIMUAbsolute(0, 1f, this); // ne rotim cu giroscopul la unghiul la care robotul ar trebui sa fie pentru siguranta
+                rb.movement.moveCM((float)Math.PI/2.05f,70,1f,this); //Catre bridge
                 sleep(time);
 
-                    rb.movement.moveCM((float)Math.PI/2,275,1f,this); // mergem in fata catre fundatie
-                sleep(time);
 
-                    rb.movement.moveCM((float)Math.PI/2.5f,75,1f,this); // ceva miscari in diagonala ca sa ajungem langa fundatie
-                sleep(time);
 
-                    rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION);  // lasam skystone-ul pe fundatie
-                sleep(time);
+/*                   rb.movement.moveCM((float)Math.PI/3f,80,1f,this); // ceva miscari in diagonala ca sa ajungem langa fundatie
+                sleep(time);*/
 
-                    rb.movement.moveCM((float)Math.PI,-10,1f,this); // strafe catre fundatie
-                sleep(time);
 
-                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
-                sleep(300);
-                /*
-                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN);
-                sleep(1000);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH);
-                sleep(500);
-                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP);
-                sleep(1000);
-                rb.movement.moveCM((float)IMU.LEFTWARD_ANGLE, 100, 1f, this);
-                sleep(time);
-                 */
+
 
                 break;
         }
+
+        telemetry.addData("distance in cm", rb.distSensor.getDistanceCM());
+        sleep(time);
+
+        rb.movement.moveCM((float)Math.PI/2.05f,180,1f,this); //Catre bridge
+        sleep(time);
+
+        rb.movement.moveDist(3, rb.distSensor,1,this);  //
+        sleep(time);
+
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
+        sleep(400);
+
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // inchidem ghiara ca sa putem trece sub pod
+        sleep(time);
+
+        rb.movement.moveDist(30, rb.distSensor,1,this);  //
+        sleep(time);
+
+        rb.movement.moveCM((float)Math.PI/2,-135,1f,this); //mergem sa luam celalat skystone
+        sleep(time);
+        rb.movement.rotateIMUAbsolute(0, 1f, this);
+        sleep(time);
+        rb.movement.moveDist(18, rb.distSensor,1,this);  // mergem la 15 cm fata de skystone
+        sleep(time);
+
+        switch (scanResult) {
+            case 0:
+                telemetry.addLine("1 sau 4 pe zar");
+
+                break;
+            case 2:
+                telemetry.addLine("3 sau 6 pe zar");
+
+                break;
+            default:
+                //telemetry.addLine("🍆, dar mergem pe mijloc");
+                telemetry.addData("distance in cm", rb.distSensor.getDistanceCM());
+                sleep(time);
+
+                rb.movement.moveCM((float)Math.PI/2,-220,1f,this); //mergem sa luam celalat skystone
+                sleep(time);
+
+                rb.movement.moveDist(17, rb.distSensor,1f,this);  // ne setam distanta fata de skystone
+                sleep(time);
+
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // deschidem servoul de prindere
+                sleep(100);
+
+                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
+                sleep(time);
+
+                rb.movement.moveDist(11, rb.distSensor,1f,this);  // ne apropiem de skystone
+                sleep(time);
+
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // prindem skystone-ul
+                sleep(200);
+
+                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO); // ridicam skystone-ul
+                sleep(300);
+
+                rb.movement.moveCM((float)Math.PI/2,25,1f,this); // strafe catre perete
+                sleep(time);
+
+                rb.movement.moveDist(25, rb.distSensor,1,this);  // mergem la 15 cm fata de skystone
+                sleep(time);
+
+                rb.movement.moveCM((float)Math.PI/2.05f,154,1f,this); //Catre bridge
+                sleep(time);
+                rb.movement.moveDist(18, rb.distSensor,1,this);  // mergem la 15 cm fata de skystone
+                sleep(time);
+
+                break;
+        }
+
+/*                rb.movement.moveCM((float)Math.PI/2.02f,170,1f,this); // mergem in fata catre fundatie
+                sleep(time);
+
+                 rb.movement.moveDist(6, rb.distSensor,1,this);  //
+                 sleep(time);
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
+                sleep(time);
+
+                rb.movement.moveDist(3, rb.distSensor,1,this);  //
+                sleep(time);
+
+                rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+                sleep(500);
+                rb.movement.moveCM((float)Math.PI/1.1f, 40, 1f, this);
+                sleep(time);
+                rb.movement.moveCM((float)Math.PI/2, -25 , 1f, this); //strafe cu placa
+                sleep(time);
+                rb.movement.rotate((float)Math.PI/2, 0.5f, this);
+
+                sleep(time);
+                rb.movement.moveCM((float)Math.PI, -50 , 1f, this);
+                sleep(time);
+                rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
+                sleep(time);
+                rb.movement.moveCM((float)Math.PI, 50 , 1f, this);
+                sleep(time);*/
         telemetry.update();
 
 

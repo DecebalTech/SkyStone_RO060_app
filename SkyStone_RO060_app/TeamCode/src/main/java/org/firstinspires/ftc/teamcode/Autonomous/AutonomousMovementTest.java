@@ -48,7 +48,7 @@ public class AutonomousMovementTest extends LinearOpMode {
         sleep(time);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO);
         sleep(time);*/
-        rb.movement.moveCM(0, 30, 1f, this);
+/*        rb.movement.moveCM(0, 30, 1f, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI/2, 30, 1f, this);
         sleep(time);
@@ -65,7 +65,7 @@ public class AutonomousMovementTest extends LinearOpMode {
         rb.movement.moveCM((float)Math.PI/2, -30, 1f, this);
         sleep(time);
         rb.movement.moveCM((float)Math.PI, 30, 1f, this);
-        sleep(time);
+        sleep(time);*/
 /*       // telemetry.addData("distance in cm", rb.distSensor.getDistanceCM());
 *//*
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
@@ -132,7 +132,8 @@ public class AutonomousMovementTest extends LinearOpMode {
 
         rb.movement.moveCM((float)Math.PI/3,-40,1f,this);//// cev miscari in diagonala ca sa ajungem de unde am plecat
         sleep(time);*/
-
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
+        sleep(30000);
 
     }
 

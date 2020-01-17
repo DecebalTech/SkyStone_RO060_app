@@ -13,7 +13,8 @@ public class Auto_StoneArm {
         MID, // ca sa treaca sub bridge
         AUTO, // deplasare autonomie
         DOWN,  // prindere stone
-        FOUNDATION // pentru pus pe fundatie
+        FOUNDATION, // pentru pus pe fundatie
+        PICKandGO // special pentru colectare stone
     }
 
     public enum grabberPositions{
@@ -23,7 +24,7 @@ public class Auto_StoneArm {
     }
 
 
-    private float[] armPositionValues = {0, .1f, .15f, .4f ,.35f};
+    private float[] armPositionValues = {0, .1f, .15f, .405f ,.30f ,.25f};
     private float[] grabberPositionValues = {0, 0.2f , 0.35f};
 
     private grabberPositions grabberPosition = grabberPositions.RELEASE;
@@ -67,6 +68,9 @@ public class Auto_StoneArm {
         }
         else if(armPosition == armPositions.FOUNDATION){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[4]);
+        }
+        else if(armPosition == armPositions.PICKandGO){
+            if(arm.IsOn()) arm.SetPosition(armPositionValues[5]);
         }
     }
 

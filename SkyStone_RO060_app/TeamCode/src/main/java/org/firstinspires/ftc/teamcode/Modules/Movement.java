@@ -178,7 +178,6 @@ public class Movement {
 
     public void moveCM(float angle, int dist_cm, float pow, LinearOpMode op) {
         stopAndResetEncoder();
-        runToPosition();
 
         int dx, dy;
         float powx, powy;
@@ -188,16 +187,24 @@ public class Movement {
         dx = -(int)(Math.cos(robotAngle) * dist_cm * TickPerCm);
         dy = -(int)(Math.sin(robotAngle) * dist_cm * TickPerCm);
 
+
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
 
         setTargetPosition(dx, dy, dy, dx);
+        runToPosition();
         setPower(powx, powy, powy, powx);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }
 
-    public void moveDist(int dist_cm, float pow, LinearOpMode op) {
+    public void moveDist(int dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
+
+        if(!sensor.IsOn()) {
+            op.telemetry.addLine("Cannot find DistanceSensor");
+            op.telemetry.update();
+            return;
+        }
 
         stopAndResetEncoder();
         runUsingEncoder();
