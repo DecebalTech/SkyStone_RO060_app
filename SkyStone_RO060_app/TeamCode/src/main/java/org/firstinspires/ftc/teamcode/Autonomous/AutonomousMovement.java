@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.Modules.*;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous
+@Disabled
+@Deprecated
 public class AutonomousMovement extends LinearOpMode {
 
     private Scanner sc;
@@ -28,14 +30,12 @@ public class AutonomousMovement extends LinearOpMode {
 
 
 
-        /*
-        rb.movement.moveForwards(-0.5f, 500); // se indeparteaza de perete
+/*        rb.movement.moveForwards(-0.5f, 500); // se indeparteaza de perete
         sleep(1000);
         rb.movement.rotate(0.5f, -1000); // se roteste catre locul de parcare
         sleep(1000);
         rb.movement.moveForwards(0.5f,500); // se parcheaza
-        sleep(5000);
-        */
+        sleep(5000);*/
 
     }
 

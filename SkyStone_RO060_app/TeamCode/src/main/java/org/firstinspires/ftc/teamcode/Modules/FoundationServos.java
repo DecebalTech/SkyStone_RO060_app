@@ -12,7 +12,7 @@ public class FoundationServos {
     };
 
     private ServoPositions ServoPosition = ServoPositions.UP;
-    private float[] ServoPositionsValues = {.67f, .15f};
+    private float[] ServoPositionsValues = {.67f, .1f};
 
     public void Init(String _FoundationLeftName, String _FoundationRightName, HardwareMap hwm) {
         FoundationLeft.Init(_FoundationLeftName, hwm);

@@ -3,10 +3,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous (name = "BLUE Parking C- park near Center")
-@Disabled
+
 public class BLUE_Parking_C extends LinearOpMode {
 
     public Robot rb;
@@ -18,9 +19,13 @@ public class BLUE_Parking_C extends LinearOpMode {
         initRobot();
 
         while(!isStarted()) idle();
-        rb.movement.moveCM((float)Math.PI,85,1f,this);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
         sleep(time);
-        rb.movement.moveCM((float)Math.PI/2.2f, -80 , 1f, this);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // deschidem servoul de prindere
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI,-105,1f,this);
+        sleep(time);
+        rb.movement.moveCM((float)Math.PI/2, 80 , 1f, this);
         sleep(time);
     }
 

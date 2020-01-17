@@ -208,7 +208,7 @@ public class Movement {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
 
     }
-    public void moveDist(int dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
+    public void moveDist(float dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
 
         if(!sensor.IsOn()) {
             op.telemetry.addLine("Cannot find DistanceSensor");
@@ -229,11 +229,11 @@ public class Movement {
 
             if(error>0)
             {
-                mull = Math.max(0.2,Math.min(error/50,0.9));
+                mull = Math.max(0.3,Math.min(error/42,0.95));
             }
             else if(error<0)
             {
-                mull = Math.min(-0.2,Math.max(error/50,-0.9));
+                mull = Math.min(-0.3,Math.max(error/42,-0.95));
             }
             double power = pow * mull;
             String devName = sensor.GetName();
@@ -303,7 +303,7 @@ public class Movement {
         while(!onTarget) {
             error = imu.getError(angle);
 
-            if(Math.abs(error) < Math.PI/180) {
+            if(Math.abs(error) < Math.PI/200) {
                 steer = 0;
                 pLeft = pRight = steer * pow;
                 onTarget = true;
