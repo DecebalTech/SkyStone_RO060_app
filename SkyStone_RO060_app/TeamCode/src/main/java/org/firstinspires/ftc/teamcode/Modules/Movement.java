@@ -212,7 +212,7 @@ public class Movement {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
         stop();
     }
-    public void rotateIMUAbsolute(double angle, float pow, LinearOpMode op) { //the reference orientation is the one the Robot has at Init
+    public void rotateIMUAbsolute(double angle, float pow, LinearOpMode op) { //the reference orientation is the one the DecebalBot has at Init
         if(!imu.IsOn()) {
             op.telemetry.addLine("Error. Cannot find IMU.");
             op.telemetry.update();
@@ -302,15 +302,6 @@ public class Movement {
         }
     }
     */
-    public void moveForwards(int cm, LinearOpMode op) {
-        stopAndResetEncoder();
-        runToPosition();
-        setTargetPosition(-(int)(cm*getTickPerCm()), -(int)(cm*getTickPerCm()), -(int)(cm*getTickPerCm()), -(int)(cm*getTickPerCm()));
-        setPower(.5f);
-        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) { op.idle(); }
-        stop();
-    }
-
     public void runUsingEncoder() {
         if(AreWheelsActive()) {
             frontLeft.runUsingEncoder();
