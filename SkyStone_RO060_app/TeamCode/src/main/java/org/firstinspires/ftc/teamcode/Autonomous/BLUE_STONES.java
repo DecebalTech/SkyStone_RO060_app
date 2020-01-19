@@ -14,7 +14,9 @@ public class BLUE_STONES extends LinearOpMode {
     private final int time = 1;
     private Scanner scanner = new Scanner();
     private int scanResult = -1;
-
+    private float stoneDist = 10f;
+    private float ap = 13f;
+    private float calibrateDist =20f;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -45,13 +47,13 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);
-                rb.movement.moveDist(10, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
                 sleep(time);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(time);
-                rb.movement.moveDist(6.7f, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
                 sleep(time);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
                 sleep(400);
@@ -118,24 +120,24 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
-                rb.movement.moveCM((float)Math.PI/2,-180,1f,this); //mergem sa luam celalat skystone
+                rb.movement.moveCM((float)Math.PI/2,-200,1f,this); //mergem sa luam celalat skystone
                 sleep(time);
-                rb.movement.moveDist(20, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
                 sleep(10);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);
-                rb.movement.moveCM((float)Math.PI/2,-50,1f,this); //mergem sa luam celalat skystone
+                rb.movement.moveCM((float)Math.PI/2,-30,1f,this); //mergem sa luam celalat skystone
                 sleep(time);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
 
                 rb.movement.moveDist(21, rb.backDist,1,this);  // mergem la 10 cm fata de skystone
                 sleep(time);
-                rb.movement.moveDist(10, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
                 sleep(10);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(time);
-                rb.movement.moveDist(7f, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
                 sleep(300);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
                 sleep(400);

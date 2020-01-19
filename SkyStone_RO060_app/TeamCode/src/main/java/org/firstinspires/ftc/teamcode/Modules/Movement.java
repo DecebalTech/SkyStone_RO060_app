@@ -183,6 +183,7 @@ public class Movement {
 
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
+        //if(angle==Math.PI/2 ||  angle==3*Math.PI/2) powx=powy=pow;
         setPower(powx, powy, powy, powx);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
         stop();
@@ -201,7 +202,7 @@ public class Movement {
 
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
-
+        //if(angle==Math.PI/2 ||  angle==3*Math.PI/2) powx=powy=pow;
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
         setPower(powx, powy, powy, powx);
@@ -229,15 +230,16 @@ public class Movement {
 
             if(error>0)
             {
-                mull = Math.max(0.3,Math.min(error/42,0.95));
+                mull = Math.max(0.2,Math.min(error/50,0.95));
             }
             else if(error<0)
             {
-                mull = Math.min(-0.3,Math.max(error/42,-0.95));
+                mull = Math.min(-0.2,Math.max(error/50,-0.95));
             }
             double power = pow * mull;
             String devName = sensor.GetName();
             op.telemetry.addLine(devName);
+            op.telemetry.addData("Distance (CM): ", sensor.getDistanceCM());
             op.telemetry.update();
             switch(devName) {
                 case "rightDist":
@@ -300,7 +302,7 @@ public class Movement {
         boolean onTarget = false;
         double pLeft, pRight;
 
-        while(!onTarget) {
+        while(!onTarget && op.opModeIsActive()) {
             error = imu.getError(angle);
 
             if(Math.abs(error) < Math.PI/200) {

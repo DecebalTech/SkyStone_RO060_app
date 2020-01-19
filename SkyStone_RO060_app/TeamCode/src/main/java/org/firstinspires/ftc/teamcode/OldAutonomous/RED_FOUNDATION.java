@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.OldAutonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous (name = "RED FOUNDATION - foundation, park")
-@Disabled
 public class RED_FOUNDATION extends LinearOpMode {
 
     public Robot rb;

@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
-import android.inputmethodservice.ExtractEditText;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -107,12 +104,14 @@ public class MarkerArm {
 
             s += "MarkerArmRotation power: " + rotPow;
 
+            /*
             if(gamepad2.dpad_down && !Rotation.IsMoving()) {
                 Rotation.setTargetPosition(0);
                 Rotation.runToPosition();
                 Rotation.SetPower(.75f);
                 Rotation.SetMoving(true);
             }
+            */
         }
         else s += "MarkerArmRotation not defined/connected.";
         s+= "\nMarkerRotationPosition: " + Rotation.getCurrentPosition();
@@ -170,6 +169,7 @@ public class MarkerArm {
         }
         else s+="MarkerPivot not defined/connected.";
 
+        /*
         if(magneticSwitch.IsOn()) {
             if(!magneticSwitch.getState() && Extender.getCurrentPosition() !=0) {
                 Rotation.stopAndResetEncoder();
@@ -178,6 +178,8 @@ public class MarkerArm {
                 s += "\nHOOPAAAA";
             }
         }
+
+         */
 
         return s;
     }
