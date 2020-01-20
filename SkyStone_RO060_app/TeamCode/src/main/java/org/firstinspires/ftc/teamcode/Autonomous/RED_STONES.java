@@ -242,7 +242,7 @@ public class RED_STONES extends LinearOpMode {
     }
 
     public void initRobot(HardwareMap hwm) {
-        rb = new Robot(hwm, this);
+        rb = new Robot(hwm, this, false);
         scanner.Init("webcam", hwm);
         scanner.initTfod(hwm);
         scanner.activateTfod();

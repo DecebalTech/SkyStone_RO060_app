@@ -14,9 +14,9 @@ public class BLUE_STONES extends LinearOpMode {
     private final int time = 1;
     private Scanner scanner = new Scanner();
     private int scanResult = -1;
-    private float stoneDist = 10f;
+    private float stoneDist = 8f;
     private float ap = 13f;
-    private float calibrateDist =20f;
+    private float calibrateDist = 20f;
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -29,15 +29,21 @@ public class BLUE_STONES extends LinearOpMode {
 
         telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
 
+        scanResult = -1;
+
         switch (scanResult) {
-/*            case 0:
+            case 0:
                 telemetry.addLine("1 sau 4 pe zar");
+
+                break;
+            case 1:
+                telemetry.addLine("2 sau 5 pe zar");
 
                 break;
             case 2:
                 telemetry.addLine("3 sau 6 pe zar");
 
-                break;*/
+                break;
             default:
                 //telemetry.addLine("🍆, dar mergem pe mijloc");
 
@@ -47,13 +53,13 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);
-                rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(time);
-                rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
                 sleep(400);
@@ -63,7 +69,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveCM((float)Math.PI/2,25,1f,this); //Catre bridge
                 sleep(time);
-                rb.movement.moveDist(10, rb.rightDist,1,this);  // mergem la 10 cm fata de skystone
+                rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
                 rb.movement.moveCMNS((float)Math.PI/2,95,1f,this); //Catre bridge
 
@@ -104,14 +110,18 @@ public class BLUE_STONES extends LinearOpMode {
 
 
         switch (scanResult) {
-/*            case 0:
+            case 0:
                 telemetry.addLine("1 sau 4 pe zar");
+
+                break;
+            case 1:
+                telemetry.addLine("2 sau 5 pe zar");
 
                 break;
             case 2:
                 telemetry.addLine("3 sau 6 pe zar");
 
-                break;*/
+                break;
             default:
                 //telemetry.addLine("🍆, dar mergem pe mijloc");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
@@ -209,7 +219,7 @@ sleep(time);
     }
 
     public void initRobot(HardwareMap hwm) {
-        rb = new Robot(hwm, this);
+        rb = new Robot(hwm, this, true);
         scanner.Init("webcam", hwm);
         scanner.initTfod(hwm);
         scanner.activateTfod();

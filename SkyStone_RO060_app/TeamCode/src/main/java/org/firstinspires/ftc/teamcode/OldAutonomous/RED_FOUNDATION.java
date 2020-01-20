@@ -49,7 +49,7 @@ public class RED_FOUNDATION extends LinearOpMode {
     }
 
     public void initRobot() {
-        rb = new Robot(hardwareMap, this);
+        rb = new Robot(hardwareMap, this, true);
     }
 }
 

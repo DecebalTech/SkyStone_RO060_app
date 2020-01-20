@@ -15,7 +15,7 @@ public class RED_STONES_WALL_P extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        rb = new Robot(hardwareMap, this);
+        rb = new Robot(hardwareMap, this, true);
         int time=1;
         float ac=.5f;
         while(!isStarted()) {

@@ -17,7 +17,7 @@ public class Parking_RoboKey extends LinearOpMode {
     @Override
 
     public void runOpMode() throws InterruptedException {
-        rb = new Robot(hardwareMap, this); //Initialization of the DecebalBot
+        rb = new Robot(hardwareMap, this, true); //Initialization of the DecebalBot
 
         while(!isStarted()) {
             idle();

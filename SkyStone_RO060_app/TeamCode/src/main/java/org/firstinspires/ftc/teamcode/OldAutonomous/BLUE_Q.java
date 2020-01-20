@@ -48,6 +48,6 @@ public class BLUE_Q extends LinearOpMode {
     }
 
     public void initRobot() {
-        rb = new Robot(hardwareMap, this);
+        rb = new Robot(hardwareMap, this, true);
     }
 }

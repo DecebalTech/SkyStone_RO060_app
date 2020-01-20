@@ -30,6 +30,6 @@ public class BLUE_Parking_W extends LinearOpMode {
     }
 
     public void initRobot() {
-        rb = new Robot(hardwareMap, this);
+        rb = new Robot(hardwareMap, this, true);
     }
 }

@@ -20,7 +20,7 @@ public class Robot {
     public Auto_StoneArm stoneArm;
     public DistSensor rightDist, frontDist, backDist;
 
-    public Robot(HardwareMap hwm, LinearOpMode op) {
+    public Robot(HardwareMap hwm, LinearOpMode op, boolean autonomous) {
         //brat.Init("Brat", hwm);
         movement = new Movement();
         movement.Init(hwm);
@@ -38,15 +38,16 @@ public class Robot {
         stoneArm = new Auto_StoneArm();
         stoneArm.Init("grabber", "arm", hwm);
 
-        rightDist = new DistSensor();
-        rightDist.Init("rightDist", hwm);
+        if(autonomous) {
+            rightDist = new DistSensor();
+            rightDist.Init("rightDist", hwm);
 
-        frontDist = new DistSensor();
-        frontDist.Init("frontDist", hwm);
+            frontDist = new DistSensor();
+            frontDist.Init("frontDist", hwm);
 
-        backDist = new DistSensor();
-        backDist.Init("backDist", hwm);
-
+            backDist = new DistSensor();
+            backDist.Init("backDist", hwm);
+        }
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
@@ -63,7 +64,7 @@ public class Robot {
 
         op.telemetry.addLine(foundationServos.Update(gamepad1));
 
-        if(rightDist.IsOn()) {
+        /*if(rightDist.IsOn()) {
             op.telemetry.addData("RightSensor (cm)", rightDist.getDistanceCM());
         }
         if(frontDist.IsOn()) {
@@ -71,7 +72,7 @@ public class Robot {
         }
         if(backDist.IsOn()) {
             op.telemetry.addData("BackSensor (cm)", backDist.getDistanceCM());
-        }
+        }*/
 
         op.telemetry.addLine(stoneArm.Update(gamepad2));
 
