@@ -6,25 +6,29 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
+import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
+import org.firstinspires.ftc.teamcode.Modules.IMU;
+import org.firstinspires.ftc.teamcode.Modules.Scanner;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.Modules.*;
 
-@Autonomous (name = "B_STONES", group = "BLUE")
-public class BLUE_STONES extends LinearOpMode {
+@Autonomous (name = "RED_STONES_V2", group = "RED")
+public class RED_STONESV2 extends LinearOpMode {
 
     private Robot rb = null;
-    private final int time = 10;
+    private final int time = 1;
     private Scanner scanner = new Scanner();
     private int scanResult = -1;
-    private float stoneDist = 7f;
+    private float stoneDist = 6f;
     private float ap = 10f;
-    private float calibrateDist = 20f;
+    private float calibrateDist = 25f;
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         initRobot(hardwareMap);
-
 
         FtcDashboard.getInstance().startCameraStream(scanner.getVuforia(), 0);
 
@@ -35,10 +39,9 @@ public class BLUE_STONES extends LinearOpMode {
 
         telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
 
-
         switch (scanResult) {
             case 2:
-                telemetry.addLine("1 sau 4 pe zar");
+                telemetry.addLine("1 sau 4 pe zar skystone la perete");
 
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(time);
@@ -62,15 +65,15 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
-                rb.movement.moveCM((float)Math.PI/2,25,1f,this); //Catre bridge
+                rb.movement.moveCM(3*(float)Math.PI/2,25,1f,this); //Catre bridge
                 sleep(time);
-                rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
+                rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
-                rb.movement.moveCMNS((float)Math.PI/2,130,1f,this); //Catre bridge
+                rb.movement.moveCMNS(3*(float)Math.PI/2,130,1f,this); //Catre bridge
                 sleep(time);
                 break;
             case 0:
-                telemetry.addLine("3 sau 6 pe zar");
+                telemetry.addLine("3 sau 6 pe zar skystone catre bridge");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(time);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
@@ -93,11 +96,11 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
-                rb.movement.moveCM((float)Math.PI/2,25,1f,this); //Catre bridge
+                rb.movement.moveCM(3*(float)Math.PI/2,25,1f,this); //Catre bridge
                 sleep(time);
-/*        rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-        sleep(time);*/
-                rb.movement.moveCMNS((float)Math.PI/2,80,1f,this); //Catre bridge
+                rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
+                sleep(time);
+                rb.movement.moveCMNS(3*(float)Math.PI/2,80,1f,this); //Catre bridge
                 sleep(time);
 
                 break;
@@ -110,6 +113,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);
+
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
@@ -124,18 +128,19 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
-                rb.movement.moveCM((float)Math.PI/2,25,1f,this); //Catre bridge
+                rb.movement.moveCM(3*(float)Math.PI/2,25,1f,this); //Catre bridge
                 sleep(time);
-                rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
+                rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);
                 sleep(time);
-                rb.movement.moveCMNS((float)Math.PI/2,95,1f,this); //Catre bridge
+                rb.movement.moveCMNS(3*(float)Math.PI/2,75,1f,this); //Catre bridge
 
 
                 break;
         }
 
-
-        rb.movement.moveCM((float)Math.PI/2,150,1f,this); // mergem in fata catre fundatie
+        rb.movement.rotateIMUAbsolute(0, 0.4f, this);
+        sleep(time);
+        rb.movement.moveCM(3*(float)Math.PI/2,180,1f,this); // mergem in fata catre fundatie
         sleep(time);
 
         rb.movement.moveDist(5, rb.rightDist,1,this);  //
@@ -144,44 +149,46 @@ public class BLUE_STONES extends LinearOpMode {
         sleep(time);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
         sleep(400);
-        rb.movement.moveCM((float)IMU.RIGHTWARD_ANGLE, 10, 1f, this);
-        sleep(time);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
         sleep(200);
 
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
         sleep(time);
 
-        rb.movement.moveCM((float)Math.PI/2,30,1f,this); // mergem in fata catre fundatie
+        rb.movement.moveCM(3*(float)Math.PI/2,40,1f,this); // mergem in fata catre fundatie
         sleep(time);
 
-/////trage
-//        //aliniere cu mijloc
         rb.movement.rotateIMUAbsolute(0,1f,this);
         sleep(time);
-        rb.movement.moveCM(0,10,1f,this); //Catre fundatie
+        rb.movement.moveDist(1.5f, rb.rightDist,1,this);
+        sleep(time);
+        rb.movement.moveCM(0,10,0.5f,this); //Catre fundatie
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-        sleep(time);
-        rb.movement.moveCM(0,10,1f,this); //Catre fundatie
-
-        sleep(time);
-        rb.movement.moveCM(11* (float)Math.PI/10,180,0.4f,this);
-        sleep(time);
-        rb.movement.moveCM((float)IMU.BACKWARD_ANGLE, 20, 1f, this);
+        sleep(450);
+        rb.movement.moveCM((float) IMU.BACKWARD_ANGLE, 20, 1f, this);
         sleep(time);
 
-        rb.movement.rotate((float)Math.PI/1.3f,1f,this);
+        rb.movement.moveCM(13*(float)Math.PI/14,120,.5f,this);
         sleep(time);
-        rb.movement.moveCM(0,60,1f,this);
+
+        rb.movement.rotate(-10*(float)Math.PI/15,1f,this);
         sleep(time);
+        rb.movement.moveCM(0,30,1f,this);
+        sleep(time);
+
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
         sleep(200);
-        rb.movement.rotateIMUAbsolute((float)Math.PI,1f,this);
+        rb.movement.rotateIMUAbsolute(0,1f,this);
         sleep(time);
-        rb.movement.moveCM((float)Math.PI,30,1f,this);
+        rb.movement.moveCM(3*(float)Math.PI/2,30,1f,this);
         sleep(time);
+/*        rb.movement.moveCM((float)Math.PI,20,1f,this);
+        sleep(time);*/
         rb.movement.moveCM((float)Math.PI/2,130,1f,this);
+        sleep(time);
+
+
 
         sleep(time);
         telemetry.update();

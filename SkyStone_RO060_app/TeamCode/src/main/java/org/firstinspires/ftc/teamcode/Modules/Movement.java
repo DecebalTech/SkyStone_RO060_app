@@ -178,8 +178,20 @@ public class Movement {
         dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
 
+        /*
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
+        */
+
+        if(dx>dy) {
+            powx = pow;
+            powy = dx/dy * pow;
+        }
+        else
+        {
+            powy = pow;
+            powx = dx/dy * pow;
+        }
 
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
@@ -200,8 +212,19 @@ public class Movement {
         dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
 
+        /*
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
+        */
+        if(dx>dy) {
+            powx = pow;
+            powy = dx/dy * pow;
+        }
+        else
+        {
+            powy = pow;
+            powx = dx/dy * pow;
+        }
         //if(angle==Math.PI/2 ||  angle==3*Math.PI/2) powx=powy=pow;
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
@@ -230,11 +253,11 @@ public class Movement {
 
             if(error>0)
             {
-                mull = Math.max(0.2,Math.min(error/50,0.95));
+                mull = Math.max(0.15,Math.min(error/40,0.8));
             }
             else if(error<0)
             {
-                mull = Math.min(-0.2,Math.max(error/50,-0.95));
+                mull = Math.min(-0.15,Math.max(error/40,-0.8));
             }
             double power = pow * mull;
             String devName = sensor.GetName();

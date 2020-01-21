@@ -104,4 +104,8 @@ public class Scanner {
             else index++;
         }
     }
+
+    public VuforiaLocalizer getVuforia() {
+        return vuforia;
+    }
 }

@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Robot;
-@Disabled
-@Deprecated
+/*@Disabled
+@Deprecated*/
 @Autonomous
 public class AutonomousMovementTest extends LinearOpMode {
 
@@ -18,16 +18,21 @@ public class AutonomousMovementTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         initRobot();
         int time=1;
+         int scanResult = -1;
+         float stoneDist = 8f;
+         float ap = 10f;
+         float calibrateDist = 20f;
         while(!isStarted()) idle();
 
         telemetry.addData("TickPerCm", rb.movement.getTickPerCm());
         telemetry.update();
 
 
-
-        rb.movement.moveCM((float)Math.PI,-40,1f,this);
+        telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
         sleep(time);
-        rb.movement.rotateIMUAbsolute((float)Math.PI/2,1f,this);
+
+        rb.movement.rotate(-10*(float)Math.PI/13,1f,this);
+        sleep(time);
     }
 
     public void initRobot() {
