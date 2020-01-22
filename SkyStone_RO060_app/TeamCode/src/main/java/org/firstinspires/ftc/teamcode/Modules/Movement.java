@@ -26,7 +26,7 @@ public class Movement {
     public double getTickPerCm() {return MOTOR_CONFIG.getTicksPerRev() / (WHEEL_DIAMETER * Math.PI * GEAR_RATIO);}
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
-    public void Init(HardwareMap hwm) {
+    public void Init(HardwareMap hwm, boolean Autonomous) {
 
         rightDist.Init("rightDist", hwm);
         frontDist.Init("frontDist", hwm);
@@ -36,7 +36,7 @@ public class Movement {
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
         backRight.Init(Names[3], hwm);
-        imu.Init("imu", hwm);
+        if(Autonomous) imu.Init("imu", hwm);
 
         if(frontRight.IsOn()) {
             frontRight.InvertDirection();

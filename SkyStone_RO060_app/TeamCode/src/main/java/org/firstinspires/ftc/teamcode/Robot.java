@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.MarkerArm;
 import org.firstinspires.ftc.teamcode.Modules.Movement;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
+import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
 
 public class Robot {
@@ -21,12 +22,14 @@ public class Robot {
     public Auto_StoneArm stoneArm;
     public DistSensor rightDist, frontDist, backDist;
 
+
+    public ExpansionHubEx expansionHubEx;
     public RevBulkData bulkData;
 
     public Robot(HardwareMap hwm, LinearOpMode op, boolean autonomous) {
         //brat.Init("Brat", hwm);
         movement = new Movement();
-        movement.Init(hwm);
+        movement.Init(hwm, autonomous);
         op.sleep(50);
         op.sleep(250);
         prindereCub = new PrindereCub();
@@ -51,6 +54,9 @@ public class Robot {
             backDist = new DistSensor();
             backDist.Init("backDist", hwm);
         }
+
+        expansionHubEx = hwm.get(ExpansionHubEx.class, "Expansion Hub 1 (controlHub)");
+        expansionHubEx.setAllI2cBusSpeeds(ExpansionHubEx.I2cBusSpeed.HIGH_3_4M);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -15,6 +17,7 @@ public class AutonomousMovementTest extends LinearOpMode {
     private Auto_StoneArm stoneArm = new Auto_StoneArm();
 
     public void runOpMode() throws InterruptedException{
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         initRobot();
         int time=1;
          int scanResult = -1;
@@ -36,7 +39,7 @@ public class AutonomousMovementTest extends LinearOpMode {
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
         sleep(500);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
-        sleep(500);
+        sleep(100000);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
         sleep(1000);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
@@ -46,6 +49,13 @@ public class AutonomousMovementTest extends LinearOpMode {
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
         sleep(4000);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+
+        while(opModeIsActive()) {
+            telemetry.addData("Right Dist:", rb.rightDist.getDistanceCM());
+            telemetry.addData("Front Dist:", rb.frontDist.getDistanceCM());
+            telemetry.addData("Back Dist:", rb.backDist.getDistanceCM());
+            telemetry.update();
+        }
     }
 
     public void initRobot() {
