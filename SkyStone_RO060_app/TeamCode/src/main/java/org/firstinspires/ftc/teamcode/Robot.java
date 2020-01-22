@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.MarkerArm;
 import org.firstinspires.ftc.teamcode.Modules.Movement;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
+import org.openftc.revextensions2.RevBulkData;
 
 public class Robot {
     public Movement movement;
@@ -19,6 +20,8 @@ public class Robot {
     public FoundationServos foundationServos;
     public Auto_StoneArm stoneArm;
     public DistSensor rightDist, frontDist, backDist;
+
+    public RevBulkData bulkData;
 
     public Robot(HardwareMap hwm, LinearOpMode op, boolean autonomous) {
         //brat.Init("Brat", hwm);

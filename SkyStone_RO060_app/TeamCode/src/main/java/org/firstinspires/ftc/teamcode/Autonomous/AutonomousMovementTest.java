@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
@@ -24,15 +23,29 @@ public class AutonomousMovementTest extends LinearOpMode {
          float calibrateDist = 20f;
         while(!isStarted()) idle();
 
-        telemetry.addData("TickPerCm", rb.movement.getTickPerCm());
-        telemetry.update();
+//        telemetry.addData("TickPerCm", rb.movement.getTickPerCm());
+//        telemetry.update();
+//
+//
+//        telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
+//        sleep(time);
+//
+//        rb.movement.rotate(-10*(float)Math.PI/13,1f,this);
+//        sleep(time);
 
-
-        telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
-        sleep(time);
-
-        rb.movement.rotate(-10*(float)Math.PI/13,1f,this);
-        sleep(time);
+        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+        sleep(500);
+        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
+        sleep(500);
+        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+        sleep(1000);
+        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
+        sleep(1500);
+        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+        sleep(2500);
+        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
+        sleep(4000);
+        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
     }
 
     public void initRobot() {

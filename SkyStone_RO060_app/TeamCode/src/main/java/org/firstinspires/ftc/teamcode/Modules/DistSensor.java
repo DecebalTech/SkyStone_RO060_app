@@ -1,15 +1,13 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class DistSensor implements Modul {
 
     private DistanceSensor sensorRange;
-    private Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
     private String Name;
     private Boolean State;
 
@@ -17,7 +15,7 @@ public class DistSensor implements Modul {
         SetName(_sensor);
 
         try {
-            sensorRange = hwm.get(DistanceSensor.class, _sensor);
+            sensorRange = hwm.get(DistanceSensor.class, Name);
             SwitchState(true);
         }
         catch (Exception ex) {

@@ -21,7 +21,7 @@ public class RED_STONESV2 extends LinearOpMode {
     private int scanResult = -1;
     private float stoneDist = 6f;
     private float ap = 10f;
-    private float calibrateDist = 25f;
+    private float calibrateDist = 20f;
 
 
     @Override
@@ -55,6 +55,8 @@ public class RED_STONESV2 extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveCM(3*(float)Math.PI/2,35,1f,this);
                 sleep(time);
+                rb.movement.rotateIMURelative(0, 1f, this);
+                sleep(time);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
@@ -86,6 +88,8 @@ public class RED_STONESV2 extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveCM((float)Math.PI/2,25,1f,this);
                 sleep(time);
+                rb.movement.rotateIMURelative(0, 1f, this);
+                sleep(time);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
@@ -96,11 +100,11 @@ public class RED_STONESV2 extends LinearOpMode {
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
-                rb.movement.moveCM(3*(float)Math.PI/2,25,1f,this); //Catre bridge
-                sleep(time);
-                rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
-                rb.movement.moveCMNS(3*(float)Math.PI/2,80,1f,this); //Catre bridge
+//                rb.movement.moveCM(3*(float)Math.PI/2,25,1f,this); //Catre bridge
+//                sleep(time);
+//                rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
+//                sleep(time);
+                rb.movement.moveCMNS(3*(float)Math.PI/2,105,1f,this); //Catre bridge
                 sleep(time);
 
                 break;
@@ -166,15 +170,18 @@ public class RED_STONESV2 extends LinearOpMode {
         sleep(time);
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
         sleep(450);
-        rb.movement.moveCM((float) IMU.BACKWARD_ANGLE, 20, 1f, this);
+        rb.movement.moveCM((float) IMU.FORWARD_ANGLE, 20, 1f, this);
         sleep(time);
 
-        rb.movement.moveCM(13*(float)Math.PI/14,120,.5f,this);
+        rb.movement.moveCM((float)IMU.LEFTWARD_ANGLE, 20, 1f, this);
+        sleep(time);
+
+        rb.movement.moveCM(3*(float)Math.PI/4,120,.5f,this);
         sleep(time);
 
         rb.movement.rotate(-10*(float)Math.PI/15,1f,this);
         sleep(time);
-        rb.movement.moveCM(0,30,1f,this);
+        rb.movement.moveCM(0,50,1f,this);
         sleep(time);
 
         rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
