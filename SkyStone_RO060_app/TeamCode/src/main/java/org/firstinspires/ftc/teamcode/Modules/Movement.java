@@ -253,11 +253,11 @@ public class Movement {
 
             if(error>0)
             {
-                mull = Math.max(0.15,Math.min(error/40,0.8));
+                mull = Math.max(0.25,Math.min(error/45,1));
             }
             else if(error<0)
             {
-                mull = Math.min(-0.15,Math.max(error/40,-0.8));
+                mull = Math.min(-0.25,Math.max(error/45,-1));
             }
             double power = pow * mull;
             String devName = sensor.GetName();
@@ -327,7 +327,6 @@ public class Movement {
 
         while(!onTarget && op.opModeIsActive()) {
             error = imu.getError(angle);
-
             if(Math.abs(error) < Math.PI/200) {
                 steer = 0;
                 pLeft = pRight = steer * pow;

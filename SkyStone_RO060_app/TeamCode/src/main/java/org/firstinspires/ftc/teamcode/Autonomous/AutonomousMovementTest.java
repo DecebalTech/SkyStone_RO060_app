@@ -24,31 +24,10 @@ public class AutonomousMovementTest extends LinearOpMode {
          float stoneDist = 8f;
          float ap = 10f;
          float calibrateDist = 20f;
+        float wallDist = 20;
         while(!isStarted()) idle();
 
-//        telemetry.addData("TickPerCm", rb.movement.getTickPerCm());
-//        telemetry.update();
-//
-//
-//        telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
-//        sleep(time);
-//
-//        rb.movement.rotate(-10*(float)Math.PI/13,1f,this);
-//        sleep(time);
 
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-        sleep(500);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
-        sleep(100000);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-        sleep(1000);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
-        sleep(1500);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-        sleep(2500);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
-        sleep(4000);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
 
         while(opModeIsActive()) {
             telemetry.addData("Right Dist:", rb.rightDist.getDistanceCM());

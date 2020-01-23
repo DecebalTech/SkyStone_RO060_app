@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous (name = "RED Q")
 @Disabled
+@Deprecated
 public class RED_Q extends LinearOpMode {
 
     public Robot rb;

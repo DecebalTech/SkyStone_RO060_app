@@ -7,12 +7,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
+import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
+import org.firstinspires.ftc.teamcode.Modules.IMU;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Modules.Scanner;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@Autonomous (name = "BLUE_STONES", group = "RED")
-public class BLUE_STONES extends LinearOpMode {
+@Autonomous (name = "RED_STONES", group = "RED")
+public class RED_STONES extends LinearOpMode {
 
     private Robot rb = null;
     private final int time = 1;
@@ -36,7 +38,7 @@ public class BLUE_STONES extends LinearOpMode {
             int temp = scanner.scan(this);
             scanResult = (temp == -1 ? scanResult : temp);
         }
-        scanResult =2;
+
         telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
 
         switch (scanResult) {
@@ -64,7 +66,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveCM((float)Math.PI,15,1,this); //Catre bridge
                 sleep(time);
-                rb.movement.moveCMNS((float)Math.PI/2,180,1f,this); //Catre bridge
+                rb.movement.moveCMNS(3*(float)Math.PI/2,135,1f,this); //Catre bridge
 
 
                 break;
@@ -163,11 +165,11 @@ public class BLUE_STONES extends LinearOpMode {
 
         switch (scanResult) {
             case 2:
-                telemetry.addLine("1 sau 4 pe zar skystone la bridge");
+                telemetry.addLine("3 sau 6 pe zar skystone la bridge");
 
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(time);
-                rb.movement.moveCM(3*(float)Math.PI/2,185,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,185,1f,this); //Catre bridge
                 sleep(time);
                 rb.movement.moveDist(26, rb.frontDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
@@ -246,7 +248,7 @@ public class BLUE_STONES extends LinearOpMode {
                 telemetry.addLine("1 sau 4 pe zar skystone catre perete");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(time);
-                rb.movement.moveCM(3*(float)Math.PI/2,200,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,200,1f,this); //Catre bridge
                 sleep(time);
                 rb.movement.moveDist(wallDist, rb.frontDist,1,this);
                 sleep(time);
