@@ -65,6 +65,7 @@ public class Scanner {
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
                 for (Recognition recognition : updatedRecognitions) {
+                    if(!op.opModeIsActive()) return -1;
                     op.telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
                     op.telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
                             recognition.getLeft(), recognition.getTop());
