@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class BLUE_STONES extends LinearOpMode {
 
     private Robot rb = null;
-    private final int time = 1;
+    private final int t = 1;
     private Scanner scanner = new Scanner();
     private int scanResult = -1;
     private float stoneDist = 11f;
@@ -46,17 +46,17 @@ public class BLUE_STONES extends LinearOpMode {
             case 2:
                 telemetry.addLine("1 sau 4 pe zar skystone la perete");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(400);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
@@ -64,17 +64,17 @@ public class BLUE_STONES extends LinearOpMode {
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam mana(bratul) cu skystone
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI,15,1,this); //Catre bridge
-                sleep(time);
-                rb.movement.moveCMNS((float)Math.PI/2,40,0.5f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
+                rb.movement.moveCM((float)Math.PI/2,40,0.5f,this); //Catre bridge
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0,1f,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(15, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
 
-                rb.movement.moveCMNS((float)Math.PI/2,160,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,160,1f,this); //Catre bridge
 
 
                 break;
@@ -82,21 +82,21 @@ public class BLUE_STONES extends LinearOpMode {
             case 0:
                 telemetry.addLine("1 sau 4 pe zar skystone catre perete");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,60,1f,this);//40
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMURelative(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(400);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
@@ -104,32 +104,32 @@ public class BLUE_STONES extends LinearOpMode {
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam mana(bratul) cu skystone
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,25,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
-                rb.movement.moveCMNS(3*(float)Math.PI/2,190,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
+                rb.movement.moveCM(3*(float)Math.PI/2,190,1f,this); //Catre bridge
+                sleep(t);
 
 
                 break;*/
             default:
                 telemetry.addLine("mergem pe mijloc [2 sau 5]");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,20,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(400);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
@@ -137,66 +137,66 @@ public class BLUE_STONES extends LinearOpMode {
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam mana(bratul) cu skystone
                 sleep(300);
                 rb.movement.moveCM((float)Math.PI/2,40,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(17, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
 
-                rb.movement.moveCMNS((float)Math.PI/2,120,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,120,1f,this); //Catre bridge
 
 
                 break;
         }
 
         rb.movement.rotateIMUAbsolute(0, 0.4f, this);
-        sleep(time);
+        sleep(t);
 
 
 
-        sleep(time);
+        sleep(t);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
         sleep(400);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
-        sleep(time);
+        sleep(t);
 
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
         sleep(100);
 
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
-        sleep(time);
+        sleep(t);
 
         rb.movement.moveCM(3*(float)Math.PI/2,45,1f,this); // mergem dupa alt skystone
-        sleep(time);
+        sleep(t);
         rb.movement.rotateIMUAbsolute(0,1f,this);
-        sleep(time);  
+        sleep(t);  
 
 
         switch (scanResult) {
             case 2:
                 telemetry.addLine("1 sau 4 pe zar skystone la bridge");
-                sleep(time);
+                sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0,1f,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,185,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(7, rb.backDist,1,this);  // mergem la 9 cm fata de skystone
                 //rb.movement.moveCM((float)IMU.BACKWARD_ANGLE, 30, .3f, this);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(400);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
@@ -204,13 +204,13 @@ public class BLUE_STONES extends LinearOpMode {
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam mana(bratul) cu skystone
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,25,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(15, rb.rightDist,1,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,285,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // initializare
                 sleep(400);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
@@ -218,104 +218,104 @@ public class BLUE_STONES extends LinearOpMode {
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
                 sleep(200);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,170,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(300);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
                 sleep(400);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam mana(bratul) cu skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI,20,1,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,140,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.rotate((float)Math.PI/2,1f,this);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
                 rb.movement.rotate(-1*(float)Math.PI/2,1f,this);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,40,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 break;
 
  /*           case 0:
                 telemetry.addLine("1 sau 4 pe zar skystone catre perete");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,200,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(wallDist, rb.frontDist,1,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(0,70,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.prindereCub.SetDirection(PrindereCub.Direction.IN);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,35,.4f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI,60,0.6f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,35,.4f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.prindereCub.SetDirection(PrindereCub.Direction.STOP);
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(Math.PI, 0.7f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,215,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.prindereCub.SetDirection(PrindereCub.Direction.OUT);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,50,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.prindereCub.SetDirection(PrindereCub.Direction.STOP);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI,20,.3f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
 
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 break;*/
             default:
 
                 rb.movement.rotateIMUAbsolute(0,1f,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,230,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
 
                 rb.movement.rotateIMUAbsolute(0,1f,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(25, rb.backDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
                 sleep(400);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
@@ -323,13 +323,13 @@ public class BLUE_STONES extends LinearOpMode {
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam mana(bratul) cu skystone
                 sleep(300);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,25,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(15, rb.rightDist,1,this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI/2,265,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // initializare
                 sleep(400);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
@@ -339,47 +339,47 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(200);
 
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,170,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam mana jos
-                sleep(time);
+                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(300);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
                 sleep(400);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam mana(bratul) cu skystone
-                sleep(time);
+                sleep(t);
                 rb.movement.rotateIMUAbsolute(0, 1f, this);
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM((float)Math.PI,20,1,this); //Catre bridge
-                sleep(time);
+                sleep(t);
 
                 rb.movement.moveCM((float)Math.PI/2,140,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
                 rb.movement.rotate((float)Math.PI/2,1f,this);
-                sleep(time);
+                sleep(t);
 
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
 
                 rb.movement.rotate(-1*(float)Math.PI/2,1f,this);
-                sleep(time);
+                sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
-                sleep(time);
+                sleep(t);
                 rb.movement.moveCM(3*(float)Math.PI/2,40,1f,this); //Catre bridge
-                sleep(time);
+                sleep(t);
 
                 break;
         }
 
-        sleep(time);
+        sleep(t);
         telemetry.update();
 
     }

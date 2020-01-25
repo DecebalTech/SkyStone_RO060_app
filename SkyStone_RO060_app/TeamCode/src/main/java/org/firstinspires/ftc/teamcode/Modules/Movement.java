@@ -200,7 +200,8 @@ public class Movement {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
         stop();
     }
-    public void moveCMNS(float angle, int dist_cm, float pow, LinearOpMode op) {
+    // moveCMNS deprecated
+ /*   public void moveCMNS(float angle, int dist_cm, float pow, LinearOpMode op) {
         stopAndResetEncoder();
 
         int dx, dy;
@@ -212,10 +213,10 @@ public class Movement {
         dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
 
-        /*
+        *//*
         powx = (float)Math.cos(robotAngle)*pow;
         powy = (float)Math.sin(robotAngle)*pow;
-        */
+        *//*
         if(dx>dy) {
             powx = pow;
             powy = dx/dy * pow;
@@ -231,7 +232,7 @@ public class Movement {
         setPower(powx, powy, powy, powx);
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
 
-    }
+    }*/
     public void moveDist(float dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
 
         if(!sensor.IsOn()) {
