@@ -40,7 +40,7 @@ public class Scanner {
         int tfodMonitorViewId = hwm.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hwm.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.55 ;//0.7
+        tfodParameters.minimumConfidence = 0.6 ;//0.7
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
@@ -64,14 +64,14 @@ public class Scanner {
                 op.telemetry.addData("# Object Detected", updatedRecognitions.size());
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
-                for (Recognition recognition : updatedRecognitions) {
-                    if(!op.opModeIsActive()) return -1;
-                    op.telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                    op.telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                            recognition.getLeft(), recognition.getTop());
-                    op.telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                            recognition.getRight(), recognition.getBottom());
-                }
+//                for (Recognition recognition : updatedRecognitions) {
+//                    if(!op.opModeIsActive()) return -1;
+//                    op.telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+//                    op.telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+//                            recognition.getLeft(), recognition.getTop());
+//                    op.telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+//                            recognition.getRight(), recognition.getBottom());
+//                }
                 op.telemetry.update();
                 if(updatedRecognitions.size() == 3) {
                     if(updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT) {

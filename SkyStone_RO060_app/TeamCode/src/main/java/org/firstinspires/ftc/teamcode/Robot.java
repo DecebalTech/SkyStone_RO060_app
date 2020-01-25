@@ -56,7 +56,7 @@ public class Robot {
         }
 
         expansionHubEx = hwm.get(ExpansionHubEx.class, "Expansion Hub 1 (controlHub)");
-        expansionHubEx.setAllI2cBusSpeeds(ExpansionHubEx.I2cBusSpeed.HIGH_3_4M);
+        expansionHubEx.setAllI2cBusSpeeds(ExpansionHubEx.I2cBusSpeed.FASTPLUS_1M);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {

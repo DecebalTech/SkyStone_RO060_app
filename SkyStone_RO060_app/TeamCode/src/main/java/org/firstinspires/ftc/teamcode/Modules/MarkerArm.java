@@ -47,7 +47,7 @@ public class MarkerArm {
         CLOSED
     }
     private ServoPositions markerGrabPos;
-    private float[] ServoPosValues = {.4f, 0.18f};
+    private float[] ServoPosValues = {.4f, 0.2f};
     private float markerPivotPos = 0f;
 
     private int ExtenderTurboCoef = 2;

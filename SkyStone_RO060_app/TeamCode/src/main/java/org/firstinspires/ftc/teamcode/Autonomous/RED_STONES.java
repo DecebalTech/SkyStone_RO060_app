@@ -20,21 +20,24 @@ public class RED_STONES extends LinearOpMode {
     private final int time = 1;
     private Scanner scanner = new Scanner();
     private int scanResult = -1;
-    private float stoneDist = 8.3f;
-    private float ap = 12f;
-    private float calibrateDist = 25;
+//    private float stoneDist = 8.3f;
+//    private float ap = 12f;
+    private float stoneDist = 11f;
+    private float ap = 20f;
+    private float calibrateDist = 22;
     private float wallDist = 25;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+       // telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         initRobot(hardwareMap);
 
-        FtcDashboard.getInstance().startCameraStream(scanner.getVuforia(), 0);
+        //FtcDashboard.getInstance().startCameraStream(scanner.getVuforia(), 0);
 
         while(!isStarted() && !isStopRequested()) {
+            if(isStopRequested()) break;
             int temp = scanner.scan(this);
             scanResult = (temp == -1 ? scanResult : temp);
         }
@@ -84,7 +87,7 @@ public class RED_STONES extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveCM((float)Math.PI/2,60,1f,this);//40
                 sleep(time);
-                rb.movement.rotateIMURelative(0, 1f, this);
+                rb.movement.rotateIMUAbsolute(0, 1f, this);
                 sleep(time);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
@@ -270,7 +273,7 @@ public class RED_STONES extends LinearOpMode {
                 sleep(time);
                 rb.movement.rotateIMUAbsolute(Math.PI, 0.7f, this);
                 sleep(time);
-                rb.movement.moveCM((float)Math.PI/2,215,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,230,1f,this); //Catre bridge
                 sleep(time);
                 rb.prindereCub.SetDirection(PrindereCub.Direction.OUT);
                 sleep(time);
@@ -295,7 +298,7 @@ public class RED_STONES extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveCM((float)Math.PI/2,160,1f,this); //Catre bridge
                 sleep(time);
-                rb.movement.moveDist(3, rb.frontDist,1,this);  // mergem la 9 cm fata de skystone
+                rb.movement.moveDist(6.5f, rb.frontDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
                 sleep(time);
