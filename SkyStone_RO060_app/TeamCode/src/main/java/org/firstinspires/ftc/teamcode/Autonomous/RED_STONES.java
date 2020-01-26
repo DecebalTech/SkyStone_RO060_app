@@ -57,7 +57,7 @@ public class RED_STONES extends LinearOpMode {
         
         switch (scanResult) { // in functie de ce detecteaza vuforia vom executa una dintre urmatoarele cazuri
             case 2:
-                telemetry.addLine("1 sau 4 pe zar skystone la perete");
+                telemetry.addLine("3 sau 6 pe zar skystone la perete");
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
 

@@ -68,7 +68,7 @@ public class BLUE_STONES_F extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
-                rb.movement.moveCMNS((float)Math.PI/2,130,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,130,1f,this); //Catre bridge
                 sleep(time);
                 break;
             case 0:
@@ -99,7 +99,7 @@ public class BLUE_STONES_F extends LinearOpMode {
                 sleep(time);
 /*        rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
         sleep(time);*/
-                rb.movement.moveCMNS((float)Math.PI/2,80,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,80,1f,this); //Catre bridge
                 sleep(time);
 
                 break;
@@ -130,7 +130,7 @@ public class BLUE_STONES_F extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
-                rb.movement.moveCMNS((float)Math.PI/2,95,1f,this); //Catre bridge
+                rb.movement.moveCM((float)Math.PI/2,95,1f,this); //Catre bridge
 
 
                 break;
