@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Modules.DistSensor;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.MarkerArm;
 import org.firstinspires.ftc.teamcode.Modules.Movement;
+import org.firstinspires.ftc.teamcode.Modules.Odometry;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
@@ -21,6 +22,7 @@ public class Robot {
     public FoundationServos foundationServos;
     public Auto_StoneArm stoneArm;
     public DistSensor rightDist, frontDist, backDist;
+    public Odometry odm;
 
 
     public ExpansionHubEx expansionHubEx;
@@ -57,6 +59,8 @@ public class Robot {
 
         expansionHubEx = hwm.get(ExpansionHubEx.class, "Expansion Hub 1 (controlHub)");
         expansionHubEx.setAllI2cBusSpeeds(ExpansionHubEx.I2cBusSpeed.FASTPLUS_1M);
+
+        odm = new Odometry("GripMotorRight", "MarkerArmExtender", "GripMotorLeft", hwm);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {

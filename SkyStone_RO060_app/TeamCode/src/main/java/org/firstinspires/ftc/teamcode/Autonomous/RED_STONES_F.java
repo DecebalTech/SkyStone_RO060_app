@@ -73,7 +73,7 @@ public class RED_STONES_F extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
                 sleep(time);
-                rb.movement.moveCMNS(3*(float)Math.PI/2,130,1f,this); //Catre bridge
+                rb.movement.moveCM(3*(float)Math.PI/2,130,1f,this); //Catre bridge
                 sleep(time);
                 break;
             case 0:
@@ -106,7 +106,7 @@ public class RED_STONES_F extends LinearOpMode {
 //                sleep(time);
 //                rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);  // mergem la 9 cm fata de skystone
 //                sleep(time);
-                rb.movement.moveCMNS(3*(float)Math.PI/2,105,1f,this); //Catre bridge
+                rb.movement.moveCM(3*(float)Math.PI/2,105,1f,this); //Catre bridge
                 sleep(time);
 
                 break;
@@ -138,7 +138,7 @@ public class RED_STONES_F extends LinearOpMode {
                 sleep(time);
                 rb.movement.moveDist(calibrateDist, rb.rightDist,1,this);
                 sleep(time);
-                rb.movement.moveCMNS(3*(float)Math.PI/2,75,1f,this); //Catre bridge
+                rb.movement.moveCM(3*(float)Math.PI/2,75,1f,this); //Catre bridge
 
 
                 break;
