@@ -213,17 +213,14 @@ public class Movement {
         int dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
         int dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
-        //runUsingEncoder();
-
-
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
 
 
         float powCoeffX, powCoeffY;
 
-        powCoeffX = (float)Range.clip(dx/dy, .1, 1);
-        powCoeffY = (float)Range.clip(dy/dx, .1, 1);
+        powCoeffX = (float)Range.clip(Math.abs(dx/dy), 0, 1);
+        powCoeffY = (float)Range.clip(Math.abs(dy/dx), 0, 1);
 
         // ramping, prin corectarea erorii
         // pana la jumatatea drumului (|errorX|>dx/2, |errorY|>dy/2) puterea creste de la 0.25 la maxPow
@@ -232,22 +229,23 @@ public class Movement {
         // schimbarea se petrece la intervalul de stepTime milisecunde
 
         float minPow = 0.25f; // puterea minima alocata rotilor
-        float step = (maxPow - minPow) / 5; // pasul de schimbare a puterii
+        float step = (maxPow - minPow) / 10; // pasul de schimbare a puterii
         int stepTime = 10;
-        int minError = 30; // marja de eroare pentru distanta IN TICKURI
+        int minError = 20; // marja de eroare pentru distanta IN TICKURI
 
         // calcularea erorilor
         // pe axe, este media aritmetica a erorilor rotilor omoloage (de pe aceeasi axa), adica in X
         int errorX, errorY;
-        errorX = (int)Math.abs(dx) - (int)Math.abs((frontLeft.getCurrentPosition() + backRight.getCurrentPosition())/2);
-        errorY = (int)Math.abs(dy) - (int)Math.abs((frontRight.getCurrentPosition() + backLeft.getCurrentPosition())/2);
 
         float powX = minPow * powCoeffX, powY = minPow * powCoeffY;
 
-        while((errorX>minError || errorY>minError) && !op.isStopRequested()) {
-            errorX = (int)Math.abs(dx - Math.abs((frontLeft.getCurrentPosition() - backRight.getCurrentPosition())/2));
-            errorY = (int)Math.abs(dy - Math.abs((frontRight.getCurrentPosition() - backLeft.getCurrentPosition())/2));
+        //while((errorX>minError || errorY>minError) && !op.isStopRequested()) {
+        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && !op.isStopRequested()) {
+            errorX = (int)Math.abs(dx - Math.abs((frontLeft.getCurrentPosition() + backRight.getCurrentPosition())/2));
+            errorY = (int)Math.abs(dy - Math.abs((frontRight.getCurrentPosition() + backLeft.getCurrentPosition())/2));
+            op.telemetry.addData("targetX", dx);
             op.telemetry.addData("errorX", errorX);
+            op.telemetry.addData("targetY", dy);
             op.telemetry.addData("errorY", errorY);
             op.telemetry.update();
             if(errorX>dx/2) {

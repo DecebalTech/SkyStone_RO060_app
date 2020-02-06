@@ -46,9 +46,15 @@ public class AutonomousMovementTest extends LinearOpMode {
         telemetry.update();
         */
 
-        rb.movement.moveCM_ramped(Math.PI/2, 50, .8f, this);
+        rb.movement.moveCM_ramped(Math.PI, 200, .4f, this);
         sleep(100);
-        rb.movement.moveCM_ramped(0, .8f, 30, this);
+        rb.movement.moveCM_ramped(3*Math.PI/2, 150, 1f, this);
+        sleep(100);
+        rb.movement.moveCM_ramped(0, 50, .5f, this);
+        sleep(100);
+        rb.movement.moveCM_ramped(Math.PI/2, 100, .8f, this);
+        sleep(100);
+        rb.movement.moveCM_ramped(0, 30, .8f, this);
         while(!isStopRequested()) idle();
     }
 
