@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Alternative.GoBILDA5202_435RPM;
 
@@ -185,7 +186,7 @@ public class Movement {
 
         if(dx>dy) {
             powx = pow;
-            powy = dx/dy * pow;
+            powy = dy/dx * pow;
         }
         else
         {
@@ -201,38 +202,28 @@ public class Movement {
         stop();
     }
     
-    public void moveCm_ramped(double Angle, float cm, float maxPow, LinearOpMode op) {
+    public void moveCM_ramped(double angle, float dist_cm, float maxPow, LinearOpMode op) {
 
         stopAndResetEncoder();
 
         //calcularea distantelor pe axele de miscare ale robotului
         
-        float robotAngle = angle - (float)Math.PI/4;        
+        double robotAngle = angle - Math.PI/4;
      
         int dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
         int dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
-        runUsingEncoders();
+        //runUsingEncoder();
 
-        /*
+
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
-        */
 
-        // calcularea puterilor pe axele de miscare ale robotului
-        float maxPowX = maxPow * Math.cos(Angle-Math.PI/4);
-        float maxPowY = maxPow * Math.sin(Angle-Math.PI/4);
 
-        // normalizarea puterilor
-        if(maxPowX > maxPowY) {
-            maxPowY = maxPow * maxPowY/maxPowX;		
-            maxPowX = maxPow;
-        }
-        else if(maxPowX < maxPowY) {
-            maxPowX = maxPow * maxPowY/maxPowX;		
-            maxPowY = maxPow;
-        }
-        else maxPowX = maxPowY = maxPow;
+        float powCoeffX, powCoeffY;
+
+        powCoeffX = (float)Range.clip(dx/dy, .1, 1);
+        powCoeffY = (float)Range.clip(dy/dx, .1, 1);
 
         // ramping, prin corectarea erorii
         // pana la jumatatea drumului (|errorX|>dx/2, |errorY|>dy/2) puterea creste de la 0.25 la maxPow
@@ -242,32 +233,35 @@ public class Movement {
 
         float minPow = 0.25f; // puterea minima alocata rotilor
         float step = (maxPow - minPow) / 5; // pasul de schimbare a puterii
-        float stepTime = 10;
-        int minError = 10; // marja de eroare pentru distanta IN TICKURI
+        int stepTime = 10;
+        int minError = 30; // marja de eroare pentru distanta IN TICKURI
 
-        //calcularea erorilor
+        // calcularea erorilor
+        // pe axe, este media aritmetica a erorilor rotilor omoloage (de pe aceeasi axa), adica in X
         int errorX, errorY;
-        errorX = (int)Math.Abs(dx) - (int)Math.Abs((frontLeft.getCurrentPosition() - backRight.getCurrentPosition())/2);
-        errorY = (int)Math.Abs(dy) - (int)Math.Abs((frontRight.getCurrentPosition() - backLeft.getCurrentPosition())/2);
+        errorX = (int)Math.abs(dx) - (int)Math.abs((frontLeft.getCurrentPosition() + backRight.getCurrentPosition())/2);
+        errorY = (int)Math.abs(dy) - (int)Math.abs((frontRight.getCurrentPosition() + backLeft.getCurrentPosition())/2);
 
-        float powX = minPow, powY = minPow;
+        float powX = minPow * powCoeffX, powY = minPow * powCoeffY;
 
-        while((errorX>minError || errorY>minError) && op.opModeIsRunnng()) {	
-            errorX = (int)Math.Abs(dx - Math.Abs((frontLeft.getCurrentPosition() - backRight.getCurrentPosition())/2));
-            errorY = (int)Math.Abs(dy - Math.Abs((frontRight.getCurrentPosition() - backLeft.getCurrentPosition())/2));
-
+        while((errorX>minError || errorY>minError) && !op.isStopRequested()) {
+            errorX = (int)Math.abs(dx - Math.abs((frontLeft.getCurrentPosition() - backRight.getCurrentPosition())/2));
+            errorY = (int)Math.abs(dy - Math.abs((frontRight.getCurrentPosition() - backLeft.getCurrentPosition())/2));
+            op.telemetry.addData("errorX", errorX);
+            op.telemetry.addData("errorY", errorY);
+            op.telemetry.update();
             if(errorX>dx/2) {
-                powX = Math.max(powX + step, maxPowX);
+                if(powX<maxPow * powCoeffX) powX = Math.min(powX + step * powCoeffX, maxPow * powCoeffX);
             }
             else {
-                powX = Math.min(powX - step, minPow);
+                if(powX>minPow * powCoeffX) powX = Math.max(powX - step * powCoeffX, minPow * powCoeffX);
             }
 
             if(errorY>dx/2) {
-                powY = Math.max(powY + step, maxPowY);
+                if(powY < maxPow * powCoeffY) powY = Math.min(powY + step * powCoeffY, maxPow * powCoeffY);
             }
             else {
-                powY = Math.min(powY - step, minPow);
+                if(powY > minPow * powCoeffY) powY = Math.max(powY - step * powCoeffY, minPow * powCoeffY);
             }
 
             setPower(powX, powY, powY, powX);

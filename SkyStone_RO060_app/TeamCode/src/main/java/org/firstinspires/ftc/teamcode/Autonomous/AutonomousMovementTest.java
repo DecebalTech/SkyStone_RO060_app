@@ -21,6 +21,10 @@ public class AutonomousMovementTest extends LinearOpMode {
 
         initRobot();
 
+        while(!isStarted()) idle();
+
+
+        /*
         int time=1;
          int scanResult = -1;
          float stoneDist = 8f;
@@ -40,7 +44,11 @@ public class AutonomousMovementTest extends LinearOpMode {
         telemetry.addData("Right", rb.odm.getRightDistCM());
         telemetry.addData("Back", rb.odm.getBackDistCM());
         telemetry.update();
+        */
 
+        rb.movement.moveCM_ramped(Math.PI/2, 50, .8f, this);
+        sleep(100);
+        rb.movement.moveCM_ramped(0, .8f, 30, this);
         while(!isStopRequested()) idle();
     }
 
