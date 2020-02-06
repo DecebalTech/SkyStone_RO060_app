@@ -200,39 +200,84 @@ public class Movement {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
         stop();
     }
-    // moveCMNS deprecated
- /*   public void moveCMNS(float angle, int dist_cm, float pow, LinearOpMode op) {
+    
+    public void moveCm_ramped(double Angle, float cm, float maxPow, LinearOpMode op) {
+
         stopAndResetEncoder();
 
-        int dx, dy;
-        float powx, powy;
+        //calcularea distantelor pe axele de miscare ale robotului
+        
+        float robotAngle = angle - (float)Math.PI/4;        
+     
+        int dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
+        int dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
 
-        float robotAngle = angle - (float)Math.PI/4;
+        runUsingEncoders();
 
-        dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
-        dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
-
-
-        *//*
-        powx = (float)Math.cos(robotAngle)*pow;
-        powy = (float)Math.sin(robotAngle)*pow;
-        *//*
-        if(dx>dy) {
-            powx = pow;
-            powy = dx/dy * pow;
-        }
-        else
-        {
-            powy = pow;
-            powx = dx/dy * pow;
-        }
-        //if(angle==Math.PI/2 ||  angle==3*Math.PI/2) powx=powy=pow;
+        /*
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
-        setPower(powx, powy, powy, powx);
-        while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
+        */
 
-    }*/
+        // calcularea puterilor pe axele de miscare ale robotului
+        float maxPowX = maxPow * Math.cos(Angle-Math.PI/4);
+        float maxPowY = maxPow * Math.sin(Angle-Math.PI/4);
+
+        // normalizarea puterilor
+        if(maxPowX > maxPowY) {
+            maxPowY = maxPow * maxPowY/maxPowX;		
+            maxPowX = maxPow;
+        }
+        else if(maxPowX < maxPowY) {
+            maxPowX = maxPow * maxPowY/maxPowX;		
+            maxPowY = maxPow;
+        }
+        else maxPowX = maxPowY = maxPow;
+
+        // ramping, prin corectarea erorii
+        // pana la jumatatea drumului (|errorX|>dx/2, |errorY|>dy/2) puterea creste de la 0.25 la maxPow
+        // de la jumatate la final (|errorX|<dx/2, |errorY|<dx/2) puterea scade de la maxPow la 0.25
+        // pasul erorii se calculeaza ca fiind a 5-a parte din diferenta maxPow - minPow 
+        // schimbarea se petrece la intervalul de stepTime milisecunde
+
+        float minPow = 0.25f; // puterea minima alocata rotilor
+        float step = (maxPow - minPow) / 5; // pasul de schimbare a puterii
+        float stepTime = 10;
+        int minError = 10; // marja de eroare pentru distanta IN TICKURI
+
+        //calcularea erorilor
+        int errorX, errorY;
+        errorX = (int)Math.Abs(dx) - (int)Math.Abs((frontLeft.getCurrentPosition() - backRight.getCurrentPosition())/2);
+        errorY = (int)Math.Abs(dy) - (int)Math.Abs((frontRight.getCurrentPosition() - backLeft.getCurrentPosition())/2);
+
+        float powX = minPow, powY = minPow;
+
+        while((errorX>minError || errorY>minError) && op.opModeIsRunnng()) {	
+            errorX = (int)Math.Abs(dx - Math.Abs((frontLeft.getCurrentPosition() - backRight.getCurrentPosition())/2));
+            errorY = (int)Math.Abs(dy - Math.Abs((frontRight.getCurrentPosition() - backLeft.getCurrentPosition())/2));
+
+            if(errorX>dx/2) {
+                powX = Math.max(powX + step, maxPowX);
+            }
+            else {
+                powX = Math.min(powX - step, minPow);
+            }
+
+            if(errorY>dx/2) {
+                powY = Math.max(powY + step, maxPowY);
+            }
+            else {
+                powY = Math.min(powY - step, minPow);
+            }
+
+            setPower(powX, powY, powY, powX);
+            op.sleep(stepTime);
+        }
+
+        stop();	
+
+}
+    
     public void moveDist(float dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
 
         if(!sensor.IsOn()) {
