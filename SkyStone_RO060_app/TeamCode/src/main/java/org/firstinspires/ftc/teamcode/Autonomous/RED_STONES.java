@@ -54,7 +54,7 @@ public class RED_STONES extends LinearOpMode {
 
 /////////////////////////   AutonomieRobot  ///////////////////////// 
         
-        
+        scanResult =2; // anumal scanare vuforia
         switch (scanResult) { // in functie de ce detecteaza vuforia vom executa una dintre urmatoarele cazuri
             case 2:
                 telemetry.addLine("3 sau 6 pe zar skystone la perete");
@@ -70,11 +70,6 @@ public class RED_STONES extends LinearOpMode {
                 sleep(t);
 
                 //*auto initilization*//
-
-                rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la "ap" cm fata de skystone
-                sleep(t);
-                rb.movement.rotateIMUAbsolute(0, 1f, this); // corectam unghiul robotului cu pozitia initiala
-                sleep(t);
                 rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la stoneDist cm fata de skystone
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
@@ -83,11 +78,9 @@ public class RED_STONES extends LinearOpMode {
                 sleep(400);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam skystone
                 sleep(300);
-                rb.movement.rotateIMUAbsolute(0, 1f, this); // corectam unghiul robotului cu pozitia initiala
+                rb.movement.moveCM_ramped((float)Math.PI,15,1,this); // facem un strafe catre perete sa fim siguri ca nu lovim podul
                 sleep(t);
-                rb.movement.moveCM((float)Math.PI,15,1,this); // facem un strafe catre perete sa fim siguri ca nu lovim podul
-                sleep(t);
-                rb.movement.moveCM(3*(float)Math.PI/2,135,1f,this); //mergem sa colectam pucte :)
+                rb.movement.moveCM_ramped(3*(float)Math.PI/2,135,1f,this); //mergem sa colectam pucte :)
 
 
                 break;

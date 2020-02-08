@@ -11,7 +11,7 @@ public class PrindereCub {
     private boolean State;
     private String NameLeft, NameRight;
 
-    private float[] PowerValues = {-.3f, 0, .5f, .4f,.3f, 1};
+    private float[] PowerValues = {-.3f, 0, .3f, .4f,.3f, 1};
     public enum Direction {
         IN,
         STOP,

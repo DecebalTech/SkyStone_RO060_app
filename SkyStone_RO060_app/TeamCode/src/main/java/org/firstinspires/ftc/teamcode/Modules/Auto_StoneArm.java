@@ -24,7 +24,7 @@ public class Auto_StoneArm {
     }
 
 
-    private float[] armPositionValues = {0, .1f, .15f, .4f ,.30f ,.25f};
+    private float[] armPositionValues = {0, .1f, .15f, .45f ,.35f ,.25f};
     private float[] grabberPositionValues = {0, 0.2f , 0.35f};
 
     private grabberPositions grabberPosition = grabberPositions.CATCH;

@@ -230,7 +230,7 @@ public class Movement {
 
         float minPow = 0.25f; // puterea minima alocata rotilor
         float step = (maxPow - minPow) / 10; // pasul de schimbare a puterii
-        int stepTime = 10;
+        int stepTime = 5;
         int minError = 20; // marja de eroare pentru distanta IN TICKURI
 
         // calcularea erorilor
@@ -291,11 +291,11 @@ public class Movement {
 
             if(error>0)
             {
-                mull = Math.max(0.25,Math.min(error/45,1));
+                mull = Math.max(0.4,Math.min(error/45,7));
             }
             else if(error<0)
             {
-                mull = Math.min(-0.25,Math.max(error/45,-1));
+                mull = Math.min(-0.4,Math.max(error/45,-7));
             }
             double power = pow * mull;
             String devName = sensor.GetName();
@@ -366,7 +366,7 @@ public class Movement {
         while(!onTarget && op.opModeIsActive()) {
             error = imu.getError(angle);
             if(Math.abs(error) < Math.PI/200) {
-                steer = 0;
+                steer = .1;
                 pLeft = pRight = steer * pow;
                 onTarget = true;
             }
