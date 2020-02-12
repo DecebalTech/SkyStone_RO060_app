@@ -48,7 +48,7 @@ public class RED_STONES_WALL_P extends LinearOpMode {
         rb.movement.moveCM((float)Math.PI/2, 120 , 0.3f, this);
         sleep(time);
 
-        rb.prindereCub.SetDirection(PrindereCub.Direction.OUTS);
+        rb.prindereCub.SetDirection(PrindereCub.Direction.OUT);
         sleep(time);
 
         rb.movement.moveCM((float)Math.PI/(float)2.3, -230 , 1f, this);
