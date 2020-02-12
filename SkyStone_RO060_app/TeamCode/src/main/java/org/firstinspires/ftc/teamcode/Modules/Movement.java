@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Alternative.GoBILDA5202_435RPM;
+import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.GoBILDA5202_435RPM;
 
 public class Movement {
 
