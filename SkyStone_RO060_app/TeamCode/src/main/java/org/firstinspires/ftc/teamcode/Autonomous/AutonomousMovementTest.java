@@ -62,59 +62,10 @@ public class AutonomousMovementTest extends LinearOpMode {
         rb.movement.moveCM_ramped(0, 30, .8f, this);*/
 
         //*auto initilization*//
-
-        sleep(t);
-        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
-        sleep(t);
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO);
-        sleep(t);
-
-        //*auto initilization*//
-        rb.movement.moveDist(ap, rb.rightDist,1,this);  // mergem la stoneDist cm fata de skystone
-        sleep(t);
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // lasam bratul jos
-        sleep(t);
-        rb.movement.moveDist(stoneDist, rb.rightDist,1,this);  // mergem la stoneDist cm fata de skystone
-        sleep(t);
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
-        sleep(t);
-        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // colectam skystone
-        sleep(300);
-
-        rb.movement.moveCM((float)Math.PI,15,.8f,this); // facem un strafe catre perete sa fim siguri ca nu lovim podul
-        sleep(t);
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam skystone
-        sleep(t);
-        rb.movement.rotateIMUAbsolute(0,1f,this);
-        sleep(t);
-        rb.movement.moveCM_ramped(3*(float)Math.PI/2,270,1f,this); //mergem sa colectam pucte :)
-        sleep(t);
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // lasam bratul jos
-        sleep(200);
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // lasam bratul jos
-        sleep(t);
-        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // colectam skystone
-        sleep(100);
-        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // colectam skystone
-        sleep(t);
-        rb.movement.rotateIMUAbsolute((float)Math.PI/2,1f,this);
-        sleep(t);
-        rb.movement.moveCM_ramped(3*(float)Math.PI/2,10,1f,this); //mergem sa colectam pucte :)
-        sleep(t);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-        sleep(t);
-        rb.movement.moveCM_ramped(3*(float)Math.PI/2,10,1f,this); //mergem sa colectam pucte :)
-        sleep(t);
-        rb.movement.moveCM_ramped((float)Math.PI/2,70,1f,this); //mergem sa colectam pucte :)
-        sleep(t);
-        rb.movement.rotateIMUAbsolute(0,1f,this);
-        sleep(t);
-        rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
-        sleep(t);
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // lasam bratul jos
-        sleep(t);
-        rb.movement.moveCM_ramped((float)Math.PI/2,280,1f,this); //mergem sa colectam pucte :)
-        sleep(t);
+        telemetry.addData("right", rb.rightDist.getDistanceCM());
+        telemetry.addData("front", rb.frontDist.getDistanceCM());
+        telemetry.addData("back", rb.backDist.getDistanceCM());
+        telemetry.update();
 
         while(!isStopRequested()) idle();
     }

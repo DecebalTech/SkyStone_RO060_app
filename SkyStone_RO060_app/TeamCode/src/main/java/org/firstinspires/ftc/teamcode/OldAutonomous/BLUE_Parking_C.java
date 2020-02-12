@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Robot;
-
+@Disabled
+@Deprecated
 @Autonomous (name = "BLUE Parking C- park near Center")
 
 public class BLUE_Parking_C extends LinearOpMode {

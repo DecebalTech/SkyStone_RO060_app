@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -11,7 +12,8 @@ import org.firstinspires.ftc.teamcode.Modules.IMU;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Modules.Scanner;
 import org.firstinspires.ftc.teamcode.Robot;
-
+@Disabled
+@Deprecated
 @Autonomous (name = "BLUE_STONES", group = "RED")
 public class BLUE_STONES extends LinearOpMode {
 

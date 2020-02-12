@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -15,6 +16,8 @@ import org.firstinspires.ftc.teamcode.Robot;
 /*Autonomia Red Aliance starting at stones
 * 
 * este la o versiune stabila , ne putem baza pe ea in momentul de fata , inca putem face ceva tweakuri */
+@Disabled
+@Deprecated
 @Autonomous (name = "RED_STONES", group = "RED")
 public class RED_STONES extends LinearOpMode {
 
@@ -54,7 +57,7 @@ public class RED_STONES extends LinearOpMode {
 
 /////////////////////////   AutonomieRobot  ///////////////////////// 
         
-        scanResult =2; // anumal scanare vuforia
+        scanResult =2; // anulam scanare vuforia
         switch (scanResult) { // in functie de ce detecteaza vuforia vom executa una dintre urmatoarele cazuri
             case 2:
                 telemetry.addLine("3 sau 6 pe zar skystone la perete");

@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous (name = "RED FOUNDATION - foundation, 2 stones, park")
 @Disabled
+@Deprecated
 public class RED_FOUNDATION_STONES extends LinearOpMode {
 
     public Robot rb;

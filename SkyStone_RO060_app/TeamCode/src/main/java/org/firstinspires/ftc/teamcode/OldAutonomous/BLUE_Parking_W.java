@@ -7,7 +7,8 @@ import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
-
+@Disabled
+@Deprecated
 @Autonomous (name = "BLUE Parking W- park near wall")
 
 public class BLUE_Parking_W extends LinearOpMode {

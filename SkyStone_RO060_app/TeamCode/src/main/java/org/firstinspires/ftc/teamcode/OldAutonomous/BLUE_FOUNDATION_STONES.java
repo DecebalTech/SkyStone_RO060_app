@@ -6,9 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
-
-@Autonomous (name = "BLUE FOUNDATION_STONES - foundation, 2 stones, park")
 @Disabled
+@Deprecated
+@Autonomous (name = "BLUE FOUNDATION_STONES - foundation, 2 stones, park")
+
 public class BLUE_FOUNDATION_STONES extends LinearOpMode {
 
     public Robot rb;

@@ -42,7 +42,7 @@ public class Scanner {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minimumConfidence = 0.55 ;//0.7
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        //tfod.setClippingMargins(0,60,0,240);
+        tfod.setClippingMargins(0,50,0,220);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
