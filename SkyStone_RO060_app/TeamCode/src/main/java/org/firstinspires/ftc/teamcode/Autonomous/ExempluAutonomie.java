@@ -16,11 +16,6 @@ import org.firstinspires.ftc.teamcode.Robot;
 public class ExempluAutonomie extends LinearOpMode {
 
     /*
-        Ideea este să declari
-        SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
-        și să utilizezi drive-ul de aici.
-
-        Iar pentru alte chestii de pe robot, declari un robot ca în celelalte autonomii.
      */
 
     private Robot rb = null;
@@ -46,7 +41,7 @@ public class ExempluAutonomie extends LinearOpMode {
         }
 
 
-        SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
+        //SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
 
         waitForStart();
 
@@ -55,10 +50,10 @@ public class ExempluAutonomie extends LinearOpMode {
             int temp = scanner.scan(this);
             scanResult = (temp == -1 ? scanResult : temp);
         }
-        drive.setPoseEstimate(new Pose2d(-36,-66,Math.PI));
-        drive.followTrajectorySync(
+        rb.movement.setPoseEstimate(new Pose2d(-36,-66,Math.PI));
+        rb.movement.followTrajectorySync(
 
-                drive.trajectoryBuilder()
+                rb.movement.trajectoryBuilder()
                         .strafeTo(new Vector2d(-47,-30))
 
                         .build()
@@ -67,9 +62,9 @@ public class ExempluAutonomie extends LinearOpMode {
         sleep(t);
 
         sleep(t);
-        drive.followTrajectorySync(
+        rb.movement.followTrajectorySync(
 
-                drive.trajectoryBuilder()
+                rb.movement.trajectoryBuilder()
                         .strafeTo(new Vector2d(-25,-50))
                         .setReversed(true)
                         .splineTo(new Pose2d(40,-50))

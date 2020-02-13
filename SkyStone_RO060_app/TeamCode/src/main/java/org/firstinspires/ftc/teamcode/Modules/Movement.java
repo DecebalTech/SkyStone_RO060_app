@@ -1,21 +1,31 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.GoBILDA5202_435RPM;
+import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants;
+import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.SampleMecanumDriveBase;
 
-public class Movement {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    public static final MotorConfigurationType MOTOR_CONFIG = MotorConfigurationType.getMotorType(GoBILDA5202_435RPM.class);
-    public static final double WHEEL_DIAMETER = 10; //in cm
-    public static final double GEAR_RATIO = 0.5;
+import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.INCHtoCM;
+import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.getMotorVelocityF;
+
+public class Movement extends SampleMecanumDriveBase {
 
     public DistSensor rightDist = new DistSensor(), frontDist = new DistSensor(), backDist = new DistSensor();
     private Motor frontLeft = new Motor(), frontRight = new Motor(), backLeft = new Motor(), backRight = new Motor();
+    private List<Motor> motors;
     //private Gyro gyro = new Gyro();
     private IMU imu = new IMU();
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
@@ -24,7 +34,6 @@ public class Movement {
     private int TurboIndex = 1;
 
     //private static float TickPerCm = 24.42f; //this is only for forward/backward movement
-    public double getTickPerCm() {return MOTOR_CONFIG.getTicksPerRev() / (WHEEL_DIAMETER * Math.PI * GEAR_RATIO);}
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
     public void Init(HardwareMap hwm, boolean Autonomous) {
@@ -37,7 +46,9 @@ public class Movement {
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
         backRight.Init(Names[3], hwm);
+        motors = Arrays.asList(frontLeft, frontRight, backLeft, backRight);
         if(Autonomous) imu.Init("imu", hwm);
+
 
         if(frontRight.IsOn()) {
             frontRight.InvertDirection();
@@ -175,8 +186,8 @@ public class Movement {
 
         float robotAngle = angle - (float)Math.PI/4;
 
-        dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
-        dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
+        dx = -(int)(Math.cos(robotAngle) * dist_cm * DriveConstants.getTicksPerCM());
+        dy = -(int)(Math.sin(robotAngle) * dist_cm * DriveConstants.getTicksPerCM());
 
 
         /*
@@ -210,8 +221,8 @@ public class Movement {
         
         double robotAngle = angle - Math.PI/4;
      
-        int dx = -(int)(Math.cos(robotAngle) * dist_cm * getTickPerCm());
-        int dy = -(int)(Math.sin(robotAngle) * dist_cm * getTickPerCm());
+        int dx = -(int)(Math.cos(robotAngle) * dist_cm * DriveConstants.getTicksPerCM());
+        int dy = -(int)(Math.sin(robotAngle) * dist_cm * DriveConstants.getTicksPerCM());
 
         setTargetPosition(dx, dy, dy, dx);
         runToPosition();
@@ -344,7 +355,7 @@ public class Movement {
         stopAndResetEncoder();
         runToPosition();
 
-        int d = (int)(Radius * angle * getTickPerCm());
+        int d = (int)(Radius * angle * DriveConstants.getTicksPerCM());
 
         setTargetPosition(d, -d, d, -d);
         setPower(pow);
@@ -442,37 +453,33 @@ public class Movement {
     */
     public void runUsingEncoder() {
         if(AreWheelsActive()) {
-            frontLeft.runUsingEncoder();
-            frontRight.runUsingEncoder();
-            backLeft.runUsingEncoder();
-            backRight.runUsingEncoder();
+            for(Motor m : motors) {
+                m.runUsingEncoder();
+            }
         }
     }
 
     public void stopAndResetEncoder() {
         if(AreWheelsActive()) {
-            frontLeft.stopAndResetEncoder();
-            frontRight.stopAndResetEncoder();
-            backLeft.stopAndResetEncoder();
-            backRight.stopAndResetEncoder();
+            for(Motor m : motors) {
+                m.stopAndResetEncoder();
+            }
         }
     }
 
     public void runToPosition() {
         if(AreWheelsActive()) {
-            frontLeft.runToPosition();
-            frontRight.runToPosition();
-            backLeft.runToPosition();
-            backRight.runToPosition();
+            for(Motor m : motors) {
+                m.runToPosition();
+            }
         }
     }
 
     public void Brake_ZeroPowerBehavior() {
         if(AreWheelsActive()) {
-            frontLeft.Brake();
-            frontRight.Brake();
-            backLeft.Brake();
-            backRight.Brake();
+            for(Motor m : motors) {
+                m.Brake();
+            }
         }
     }
 
@@ -483,5 +490,37 @@ public class Movement {
 
     public boolean AreWheelsActive() {
         return frontLeft.IsOn() && frontRight.IsOn() && backLeft.IsOn() && backRight.IsOn();
+    }
+
+    @Override
+    public PIDCoefficients getPIDCoefficients(DcMotor.RunMode runMode) {
+        return null;
+    }
+
+    @Override
+    public void setPIDCoefficients(DcMotor.RunMode runMode, PIDCoefficients coefficients) {
+        for(Motor m : motors) {
+            m.setPIDFCoefficients(runMode, new PIDFCoefficients(
+                    coefficients.kP, coefficients.kI, coefficients.kD, getMotorVelocityF()));
+        }
+    }
+
+    @Override
+    public List<Double> getWheelPositions() {
+        List<Double> wheelPositions = new ArrayList<>();
+        for (Motor m : motors) {
+            wheelPositions.add(INCHtoCM(encoderTicksToInches(m.getCurrentPosition())));
+        }
+        return wheelPositions;
+    }
+
+    @Override
+    public void setMotorPowers(double v, double v1, double v2, double v3) {
+        setPower((float)v, (float)v1, (float)v2, (float)v3);
+    }
+
+    @Override
+    protected double getRawExternalHeading() {
+        return imu.GetAngles().firstAngle;
     }
 }
