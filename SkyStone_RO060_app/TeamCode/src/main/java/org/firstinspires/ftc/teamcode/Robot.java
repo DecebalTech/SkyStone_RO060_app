@@ -23,13 +23,13 @@ public class Robot {
     public DistSensor rightDist, frontDist, backDist;
 
 
-    public ExpansionHubEx expansionHubEx;
+    public ExpansionHubEx controlHub, expansionHub;
     public RevBulkData bulkData;
 
     public Robot(HardwareMap hwm, LinearOpMode op, boolean autonomous) {
         //brat.Init("Brat", hwm);
         movement = new Movement();
-        movement.Init(hwm, autonomous);
+        movement.Init(hwm, this, autonomous);
         op.sleep(50);
         op.sleep(250);
         prindereCub = new PrindereCub();
@@ -55,8 +55,10 @@ public class Robot {
             backDist.Init("backDist", hwm);
         }
 
-        expansionHubEx = hwm.get(ExpansionHubEx.class, "Expansion Hub 1 (controlHub)");
-        //expansionHubEx.setAllI2cBusSpeeds(ExpansionHubEx.I2cBusSpeed.FASTPLUS_1M);
+        controlHub = hwm.get(ExpansionHubEx.class, "Expansion Hub 1 (controlHub)");
+        expansionHub = hwm.get(ExpansionHubEx.class, "Expansion Hub 2 (expansionHub)");
+        expansionHub.setAllI2cBusSpeeds(ExpansionHubEx.I2cBusSpeed.STANDARD_100K);
+        controlHub.setAllI2cBusSpeeds(ExpansionHubEx.I2cBusSpeed.STANDARD_100K);
     }
 
     public void LinearUpdate(Gamepad gamepad1, Gamepad gamepad2, OpMode op) {
@@ -85,6 +87,11 @@ public class Robot {
 
         op.telemetry.addLine(stoneArm.Update(gamepad2));
 
+    }
+
+    public RevBulkData getBulkData(ExpansionHubEx hub) {
+        bulkData = hub.getBulkInputData();
+        return bulkData;
     }
 
 }

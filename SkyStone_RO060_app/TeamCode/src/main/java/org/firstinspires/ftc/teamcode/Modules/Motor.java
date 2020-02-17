@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.openftc.revextensions2.RevBulkData;
+
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.getMotorVelocityF;
 
 public class Motor implements Modul {
@@ -72,9 +74,13 @@ public class Motor implements Modul {
     }
     public void stopAndResetEncoder(){ Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); }
     public int getCurrentPosition() {return Motor.getCurrentPosition();}
+    public int getCurrentPosition(RevBulkData bulkData) {return bulkData.getMotorCurrentPosition(Motor);}
     public boolean isBusy() {return Motor.isBusy(); }
     public void setPIDFCoefficients(DcMotor.RunMode runMode, PIDFCoefficients coefficients) {
         Motor.setPIDFCoefficients(runMode, coefficients);
+    }
+    public PIDFCoefficients getPIDFCoefficients(DcMotor.RunMode runMode) {
+        return Motor.getPIDFCoefficients(runMode);
     }
 
 }

@@ -9,44 +9,45 @@ public class Auto_StoneArm {
     private Servo_Pos arm = new Servo_Pos();
 
     public enum armPositions{
-        UP, // sus
-        MID, // ca sa treaca sub bridge
-        AUTO, // deplasare autonomie
-        DOWN,  // prindere stone
-        FOUNDATION, // pentru pus pe fundatie
-        PICKandGO // special pentru colectare stone
+        DOWN, // sus
+        AUTO, // ca sa treaca sub bridge
+        MID, // deplasare autonomie
+        UP,  // prindere stone
+        PICKandGO, // pentru pus pe fundatie
+        FOUNDATION, // special pentru colectare stone FOUNDATION
+        Init
     }
 
     public enum grabberPositions{
+        CLOSED,
         CATCH,
-        RELEASE,
-        OPEN
+        RELEASE
     }
 
 
-    private float[] armPositionValues = {0, .1f, .15f, .45f ,.35f ,.25f};
-    private float[] grabberPositionValues = {0, 0.2f , 0.35f};
+    private float[] armPositionValues = {0, .1f, .15f, .55f ,.12f ,.25f,.7f};
+    private float[] grabberPositionValues = {0, 0.17f , 0.7f};
 
-    private grabberPositions grabberPosition = grabberPositions.CATCH;
-    private armPositions armPosition = armPositions.UP;
+    private grabberPositions grabberPosition = grabberPositions.CLOSED;
+    private armPositions armPosition = armPositions.Init;
 
     public void Init(String _grabberName, String _armName, HardwareMap hwm){
         grabber.Init(_grabberName,hwm);
         arm.Init(_armName,hwm);
-        grabberSetPosition(grabberPositions.CATCH);
-        armSetPosition(armPositions.MID);
+        grabberSetPosition(grabberPositions.CLOSED);
+        armSetPosition(armPositions.Init);
     }
 
     public void grabberSetPosition(grabberPositions _pos){
         grabberPosition = _pos;
 
-        if(grabberPosition == grabberPositions.CATCH){
+        if(grabberPosition == grabberPositions.CLOSED){
             if(grabber.IsOn()) grabber.SetPosition(grabberPositionValues[0]);
         }
-        else if(grabberPosition == grabberPositions.RELEASE){
+        else if(grabberPosition == grabberPositions.CATCH){
             if(grabber.IsOn()) grabber.SetPosition(grabberPositionValues[1]);
         }
-        else if(grabberPosition == grabberPositions.OPEN){
+        else if(grabberPosition == grabberPositions.RELEASE){
             if(grabber.IsOn()) grabber.SetPosition(grabberPositionValues[2]);
         }
     }
@@ -54,23 +55,26 @@ public class Auto_StoneArm {
     public void armSetPosition(armPositions _pos){
         armPosition = _pos;
 
-        if(armPosition == armPositions.UP){
+        if(armPosition == armPositions.DOWN){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[0]);
         }
-        else if(armPosition == armPositions.MID){
+        else if(armPosition == armPositions.AUTO){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[1]);
         }
-        else if(armPosition == armPositions.AUTO){
+        else if(armPosition == armPositions.MID){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[2]);
         }
-        else if(armPosition == armPositions.DOWN){
+        else if(armPosition == armPositions.UP){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[3]);
         }
-        else if(armPosition == armPositions.FOUNDATION){
+        else if(armPosition == armPositions.PICKandGO){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[4]);
         }
-        else if(armPosition == armPositions.PICKandGO){
+        else if(armPosition == armPositions.FOUNDATION){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[5]);
+        }
+        else if(armPosition == armPositions.Init){
+            if(arm.IsOn()) arm.SetPosition(armPositionValues[6]);
         }
     }
 

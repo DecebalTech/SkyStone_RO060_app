@@ -2,19 +2,26 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
+import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Robot;
 /*@Disabled
 @Deprecated*/
 @Autonomous
+
 public class AutonomousMovementTest extends LinearOpMode {
 
     private Robot rb;
     private Auto_StoneArm stoneArm = new Auto_StoneArm();
+
+    double PoseX=0,PoseY=0,catchTarget=0;
 
     public void runOpMode() throws InterruptedException{
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -28,49 +35,59 @@ public class AutonomousMovementTest extends LinearOpMode {
 
         while(!isStarted()) idle();
 
+        while(opModeIsActive()) {
+/*            rb.movement.setPoseEstimate(new Pose2d(-42,64.5,0));
+            rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
+            sleep(t);
+            rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare*/
+/*            sleep(t);
+            telemetry.addData("right", rb.rightDist.getDistanceCM());
+            telemetry.addData("front", rb.frontDist.getDistanceCM());
+            telemetry.addData("back", rb.backDist.getDistanceCM());
+            telemetry.update();*/
+            sleep(t);/*
 
-        /*
-        int time=1;
-         int scanResult = -1;
-         float stoneDist = 8f;
-         float ap = 10f;
-         float calibrateDist = 20f;
-        float wallDist = 20;
-        while(!isStarted()) idle();
-        telemetry.addData("Left", rb.odm.getLeftDist());
-        telemetry.addData("Right", rb.odm.getRightDist());
-        telemetry.addData("Back", rb.odm.getBackDist());
-        telemetry.update();
-
-
-        rb.movement.moveCM((float)Math.PI/2, 100, .5f, this);
-        sleep(time);
-        telemetry.addData("Left", rb.odm.getLeftDistCM());
-        telemetry.addData("Right", rb.odm.getRightDistCM());
-        telemetry.addData("Back", rb.odm.getBackDistCM());
-        telemetry.update();
-        */
-
-/*        rb.movement.moveCM_ramped(Math.PI, 200, .4f, this);
-        sleep(100);
-        rb.movement.moveCM_ramped(3*Math.PI/2, 150, 1f, this);
-        sleep(100);
-        rb.movement.moveCM_ramped(0, 50, .5f, this);
-        sleep(100);
-        rb.movement.moveCM_ramped(Math.PI/2, 100, .8f, this);
-        sleep(100);
-        rb.movement.moveCM_ramped(0, 30, .8f, this);*/
-
-        //*auto initilization*//
-        telemetry.addData("right", rb.rightDist.getDistanceCM());
-        telemetry.addData("front", rb.frontDist.getDistanceCM());
-        telemetry.addData("back", rb.backDist.getDistanceCM());
-        telemetry.update();
-
+/*            rb.movement.followTrajectorySync(
+                    rb.movement.trajectoryBuilder()
+                            .setReversed(false)
+                            .splineTo(new Pose2d(35,58,Math.PI))
+                            .build()
+            );*/
+/*            rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+            sleep(450);
+            rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
+            sleep(450);*/
+stop();
+        }
         while(!isStopRequested()) idle();
     }
 
     public void initRobot() {
         rb = new Robot(hardwareMap, this, true);
+    }
+    int t=1;
+    public void catchStones()  {
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
+        sleep(t);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
+        sleep(t);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
+        sleep(250);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // pridem skystone-ul
+        sleep(400);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam skystone-ul la cer
+        sleep(t);
+
+    }
+    public void releaseStones(){
+        sleep(t);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
+        sleep(450);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
+        sleep(200);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
+        sleep(150);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
+        sleep(t);
     }
 }

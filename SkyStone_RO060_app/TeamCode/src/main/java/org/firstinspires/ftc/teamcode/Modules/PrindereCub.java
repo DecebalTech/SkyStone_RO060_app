@@ -11,12 +11,13 @@ public class PrindereCub {
     private boolean State;
     private String NameLeft, NameRight;
 
-    private float[] PowerValues = {-.3f, 0, .3f, 1};
+    private float[] PowerValues = {-.3f, 0, .3f, 1,-.47f};
     public enum Direction {
         IN,
         STOP,
         OUT,
-        OUTA
+        OUTA,
+        inAuto
     }
     private Direction direction;
 
@@ -68,6 +69,8 @@ public class PrindereCub {
             SetPower(PowerValues[2]);
         else if(direction == Direction.OUTA)
             SetPower(PowerValues[3]);
+        else if(direction == Direction.inAuto)
+            SetPower(PowerValues[4]);
         else direction = _Direction;
     }
 

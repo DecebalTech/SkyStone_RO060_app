@@ -44,7 +44,7 @@ public class BLUE_STONES_F extends LinearOpMode {
 
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(time);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE);
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);
@@ -75,7 +75,7 @@ public class BLUE_STONES_F extends LinearOpMode {
                 telemetry.addLine("3 sau 6 pe zar");
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(time);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE);
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);
@@ -108,7 +108,7 @@ public class BLUE_STONES_F extends LinearOpMode {
 
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(time);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN);
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE);
                 sleep(time);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(time);

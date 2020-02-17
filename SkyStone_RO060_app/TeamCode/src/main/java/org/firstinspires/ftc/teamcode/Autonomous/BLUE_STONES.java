@@ -49,7 +49,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
@@ -79,7 +79,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
@@ -110,7 +110,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
@@ -165,7 +165,7 @@ public class BLUE_STONES extends LinearOpMode {
                     sleep(t);
                     rb.movement.moveDist(7, rb.backDist,1,this);  // mergem la dist_cm fata de perete cu spatele pentru a elimina orice eroare umana
                     sleep(t);
-                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // pregatim prinderea urmatorului skystone
+                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // pregatim prinderea urmatorului skystone
                     sleep(t);
                     rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // pregatim prinderea urmatorului skystone
                     sleep(t);
@@ -203,7 +203,7 @@ public class BLUE_STONES extends LinearOpMode {
                     sleep(t);
                     rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO); // pregatim bratul pentru a prinde un stone
                     sleep(t);
-                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // pregatim bratul pentru colectare
+                    rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // pregatim bratul pentru colectare
                     sleep(t);
                     rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
                     sleep(t);
@@ -242,7 +242,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(t);
                 rb.movement.moveDist(35, rb.backDist,1,this);  // mergem la dist_cm fata de perete cu spatele pentru a elimina orice eroare umana
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // pregatim prinderea urmatorului skystone
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // pregatim prinderea urmatorului skystone
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // pregatim prinderea urmatorului skystone
                 sleep(t);
@@ -280,7 +280,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO); // pregatim bratul pentru a prinde un stone
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // pregatim bratul pentru colectare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // pregatim bratul pentru colectare
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
                 sleep(t);
@@ -317,7 +317,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(t);
                 rb.movement.moveDist(25, rb.backDist,1,this);  // mergem la dist_cm fata de perete cu spatele pentru a elimina orice eroare umana
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // pregatim prinderea urmatorului skystone
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // pregatim prinderea urmatorului skystone
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // pregatim prinderea urmatorului skystone
                 sleep(t);
@@ -355,7 +355,7 @@ public class BLUE_STONES extends LinearOpMode {
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.AUTO); // pregatim bratul pentru a prinde un stone
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.OPEN); // pregatim bratul pentru colectare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // pregatim bratul pentru colectare
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
                 sleep(t);

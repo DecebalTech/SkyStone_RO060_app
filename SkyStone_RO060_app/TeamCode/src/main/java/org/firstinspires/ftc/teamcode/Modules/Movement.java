@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -12,12 +13,15 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants;
 import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.SampleMecanumDriveBase;
+import org.firstinspires.ftc.teamcode.Robot;
+import org.openftc.revextensions2.RevBulkData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.INCHtoCM;
+import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.MOTOR_VELO_PID;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.encoderTicksToInches;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.getMotorVelocityF;
 
@@ -29,14 +33,15 @@ public class Movement extends SampleMecanumDriveBase {
     //private Gyro gyro = new Gyro();
     private IMU imu = new IMU();
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
+    private Robot rb;
 
-    private float[] TurboMultipliers = {0.25f, 0.5f, 1};
+    private float[] TurboMultipliers = {.25f, 1f, 1f};
     private int TurboIndex = 1;
 
     //private static float TickPerCm = 24.42f; //this is only for forward/backward movement
     private static float Radius = 34.85f; //distance from center of robot to center of a wheel
 
-    public void Init(HardwareMap hwm, boolean Autonomous) {
+    public void Init(HardwareMap hwm, Robot _rb, boolean Autonomous) {
 
         rightDist.Init("rightDist", hwm);
         frontDist.Init("frontDist", hwm);
@@ -46,7 +51,7 @@ public class Movement extends SampleMecanumDriveBase {
         frontRight.Init(Names[1], hwm);
         backLeft.Init(Names[2], hwm);
         backRight.Init(Names[3], hwm);
-        motors = Arrays.asList(frontLeft, frontRight, backLeft, backRight);
+        motors = Arrays.asList(frontLeft, backLeft, backRight, frontRight);
         if(Autonomous) imu.Init("imu", hwm);
 
 
@@ -57,6 +62,12 @@ public class Movement extends SampleMecanumDriveBase {
         if(backRight.IsOn()) {
             backRight.InvertDirection();
         }
+
+        if(AreWheelsActive()) {
+            setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
+        }
+
+        rb = _rb;
 
         runUsingEncoder();
         Brake_ZeroPowerBehavior();
@@ -85,6 +96,7 @@ public class Movement extends SampleMecanumDriveBase {
 
         powX = (float)(Math.cos(angle)*r);
         powY = (float)(Math.sin(angle)*r);
+
 
         String s = "";
 
@@ -281,7 +293,7 @@ public class Movement extends SampleMecanumDriveBase {
 
 }
     
-    public void moveDist(float dist_cm, DistSensor sensor, float pow, LinearOpMode op) {
+    public void moveDist(double dist_cm, DistSensor sensor, double pow, LinearOpMode op) {
 
         if(!sensor.IsOn()) {
             op.telemetry.addLine("Cannot find DistanceSensor");
@@ -296,17 +308,17 @@ public class Movement extends SampleMecanumDriveBase {
 
         error = sensor.getDistanceCM()-dist_cm;
 
-        while (Math.abs(error)>2 && op.opModeIsActive())
+        while (Math.abs(error)>0.8 && op.opModeIsActive())
         {
             error = sensor.getDistanceCM()-dist_cm;
 
             if(error>0)
             {
-                mull = Math.max(0.4,Math.min(error/45,7));
+                mull = Math.max(0.25,Math.min(error/45,.6));
             }
             else if(error<0)
             {
-                mull = Math.min(-0.4,Math.max(error/45,-7));
+                mull = Math.min(-0.25,Math.max(error/45,-.6));
             }
             double power = pow * mull;
             String devName = sensor.GetName();
@@ -362,6 +374,7 @@ public class Movement extends SampleMecanumDriveBase {
         while(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy() && op.opModeIsActive()) { op.idle(); }
         stop();
     }
+
     public void rotateIMUAbsolute(double angle, float pow, LinearOpMode op) { //the reference orientation is the one the DecebalBot has at Init
         if(!imu.IsOn()) {
             op.telemetry.addLine("Error. Cannot find IMU.");
@@ -377,7 +390,7 @@ public class Movement extends SampleMecanumDriveBase {
         while(!onTarget && op.opModeIsActive()) {
             error = imu.getError(angle);
             if(Math.abs(error) < Math.PI/200) {
-                steer = .1;
+                steer = 0;
                 pLeft = pRight = steer * pow;
                 onTarget = true;
             }
@@ -494,7 +507,8 @@ public class Movement extends SampleMecanumDriveBase {
 
     @Override
     public PIDCoefficients getPIDCoefficients(DcMotor.RunMode runMode) {
-        return null;
+        PIDFCoefficients coefficients = frontLeft.getPIDFCoefficients(runMode);
+        return new PIDCoefficients(coefficients.p, coefficients.i, coefficients.d);
     }
 
     @Override
@@ -508,15 +522,16 @@ public class Movement extends SampleMecanumDriveBase {
     @Override
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
+        RevBulkData bulkData = rb.getBulkData(rb.expansionHub);
         for (Motor m : motors) {
-            wheelPositions.add(INCHtoCM(encoderTicksToInches(m.getCurrentPosition())));
+            wheelPositions.add((encoderTicksToInches(-m.getCurrentPosition(bulkData))));
         }
         return wheelPositions;
     }
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        setPower((float)v, (float)v1, (float)v2, (float)v3);
+        setPower(-(float)v, -(float)v3, -(float)v1, -(float)v2);
     }
 
     @Override
