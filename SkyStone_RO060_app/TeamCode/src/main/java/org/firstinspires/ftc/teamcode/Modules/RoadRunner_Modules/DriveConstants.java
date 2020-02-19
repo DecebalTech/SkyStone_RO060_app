@@ -45,7 +45,8 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = CMtoINCH(5.1);
     public static double GEAR_RATIO = 0.5; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 14.5;
+    public static double TRACK_WIDTH = 14.5; // lateral distance between pairs of wheels on different sides of the robot
+    public static double WHEEL_BASE = CMtoINCH(33.5) ; // distance between pairs of wheels on the same side of the robot
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using

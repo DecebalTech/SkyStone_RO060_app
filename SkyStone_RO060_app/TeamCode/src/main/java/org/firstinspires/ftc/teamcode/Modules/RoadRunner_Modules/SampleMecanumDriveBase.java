@@ -27,6 +27,7 @@ import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.BASE_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.WHEEL_BASE;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.kStatic;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.kV;
@@ -64,7 +65,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     private double lastTimestamp;
 
     public SampleMecanumDriveBase() {
-        super(kV, kA, kStatic, TRACK_WIDTH);
+        super(kV, kA, kStatic, TRACK_WIDTH, WHEEL_BASE);
 
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);

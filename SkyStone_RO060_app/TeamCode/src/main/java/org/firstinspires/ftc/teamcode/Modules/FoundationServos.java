@@ -11,25 +11,25 @@ public class FoundationServos {
         DOWN
     };
 
-    private ServoPositions ServoPosition = ServoPositions.UP;
-    private float[] ServoPositionsValues = {.3f, .83f};
+    private ServoPositions ServoPosition = ServoPositions.DOWN;
+    private float[] ServoPositionsValues = {.51f, .99f };
 
     public void Init(String _FoundationLeftName, String _FoundationRightName, HardwareMap hwm) {
         FoundationLeft.Init(_FoundationLeftName, hwm);
         FoundationRight.Init(_FoundationRightName, hwm);
-        SetPosition(ServoPositions.UP);
+        SetPosition(ServoPositions.DOWN);
     }
 
     public void SetPosition(ServoPositions _pos) {
         ServoPosition = _pos;
 
-        if(ServoPosition == ServoPositions.UP) {
+        if(ServoPosition == ServoPositions.DOWN) {
             if(FoundationLeft.IsOn()) FoundationLeft.SetPosition(ServoPositionsValues[0]);
-            if(FoundationRight.IsOn()) FoundationRight.SetPosition(1-ServoPositionsValues[0]);
+        //    if(FoundationRight.IsOn()) FoundationRight.SetPosition(1-ServoPositionsValues[0]);
         }
-        else if (ServoPosition == ServoPositions.DOWN) {
-            if(FoundationLeft.IsOn()) FoundationLeft.SetPosition(ServoPositionsValues[1]);
-            if(FoundationRight.IsOn()) FoundationRight.SetPosition(1-ServoPositionsValues[1]);
+        else if (ServoPosition == ServoPositions.UP) {
+            if (FoundationLeft.IsOn()) FoundationLeft.SetPosition(ServoPositionsValues[1]);
+            //  if(FoundationRight.IsOn()) FoundationRight.SetPosition(1-ServoPositionsValues[1]);
         }
     }
 

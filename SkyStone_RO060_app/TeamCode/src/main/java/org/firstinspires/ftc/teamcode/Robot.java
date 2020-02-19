@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
+import org.firstinspires.ftc.teamcode.Modules.CapstoneRelease;
 import org.firstinspires.ftc.teamcode.Modules.DistSensor;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.MarkerArm;
@@ -21,6 +22,7 @@ public class Robot {
     public FoundationServos foundationServos;
     public Auto_StoneArm stoneArm;
     public DistSensor rightDist, frontDist, backDist;
+    public CapstoneRelease capstoneRelease;
 
 
     public ExpansionHubEx controlHub, expansionHub;
@@ -43,6 +45,9 @@ public class Robot {
 
         stoneArm = new Auto_StoneArm();
         stoneArm.Init("grabber", "arm", hwm);
+
+        capstoneRelease = new CapstoneRelease();
+        capstoneRelease.Init("capRelease", hwm);
 
         if(autonomous) {
             rightDist = new DistSensor();
@@ -86,6 +91,7 @@ public class Robot {
         }*/
 
         op.telemetry.addLine(stoneArm.Update(gamepad2));
+        op.telemetry.addLine(capstoneRelease.Update(gamepad2));
 
     }
 

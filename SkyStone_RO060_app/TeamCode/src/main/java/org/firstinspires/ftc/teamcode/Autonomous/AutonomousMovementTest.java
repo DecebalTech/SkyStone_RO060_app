@@ -57,7 +57,7 @@ public class AutonomousMovementTest extends LinearOpMode {
             sleep(450);
             rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
             sleep(450);*/
-stop();
+            stop();
         }
         while(!isStopRequested()) idle();
     }
