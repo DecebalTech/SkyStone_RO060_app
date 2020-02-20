@@ -6,11 +6,10 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
-import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.SampleMecanumDriveBase;
-import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.SampleMecanumDriveREV;
 import org.firstinspires.ftc.teamcode.Modules.Scanner;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -44,17 +43,19 @@ public class Red_2_foundation extends LinearOpMode {
 //        waitForStart();
 
         while(!isStarted() && !isStopRequested()) {
-            if(isStopRequested()) break;
-            int temp = scanner.scan(this);
-            scanResult = (temp == -1 ? scanResult : temp);
-            telemetry.addData("Result:", scanResult);
-            telemetry.update();
-
+//            if(isStopRequested()) break;
+//            int temp = scanner.scan(this);
+//            scanResult = (temp == -1 ? scanResult : temp);
+//            telemetry.addData("Result:", scanResult);
+//            telemetry.update();
+            idle();
         }
+
+        scanResult = scanner.scanWithAverage(this);
         rb.movement.setPoseEstimate(new Pose2d(-28,-64,Math.PI));
 
 
-        scanResult=2;
+//        scanResult=2;
 
         switch (scanResult) {
             case 2:

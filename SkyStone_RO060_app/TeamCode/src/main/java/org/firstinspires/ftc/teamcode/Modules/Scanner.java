@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
-import android.os.Build;
+import android.graphics.Bitmap;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.vuforia.Image;
+import com.vuforia.PIXEL_FORMAT;
+import com.vuforia.Vuforia;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -11,18 +14,33 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class Scanner {
+
+    class ClippingMargins {
+
+        public int left, top, right, bottom;
+
+        ClippingMargins (int _left, int _top, int _right, int _bottom) {
+            left = _left;
+            top = _top;
+            right = _right;
+            bottom = _bottom;
+        }
+    }
 
     private static final String VUFORIA_KEY = "AbXLjNX/////AAABmd7RkeSKpEklu5OVocY44bJIRu7RtNd3OkIDmFdoeUUQfYIgvhVG4DSt83DCY3sX1zqoC4AkeMz58y+JEtZY8lt5oOea/F4rxQ9/RUavbOVmW8ArTs3CrpKDg/u5Vw8YA280sHCm/3U9L+5tJntAD1w5Yw3ZfAtGN/7C1F8OqU/E5PR1zXAfORaW1hdMeCT0Pq/1EqM71Sci4NUWsoliqrqKDnHcbhvC53taDIh8c55KTuaYfy7UibCyFkWAXod+zMr3fp39MW4HsT75YSE7iV4gB/I536009S39cR0wNa0jbBAEQcde0feNvnDGqx22XkkDTdTn9iJpekBmVJ5ONqPHlhqS4hYPKm1Vtw4socTh";
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
+    private ClippingMargins clippingMargins = new ClippingMargins(0, 50, 0, 220);
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
+    private Image grayScaleImage;
+
+
 
     public void Init(String webcamName, HardwareMap hwm) {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
@@ -42,7 +60,7 @@ public class Scanner {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minimumConfidence = 0.58 ;//0.7
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.setClippingMargins(0,50,0,220);
+        tfod.setClippingMargins(clippingMargins.left, clippingMargins.top, clippingMargins.right, clippingMargins.bottom);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
@@ -110,4 +128,64 @@ public class Scanner {
     public VuforiaLocalizer getVuforia() {
         return vuforia;
     }
+
+    public void initForGrayscale() {
+        Vuforia.setFrameFormat(PIXEL_FORMAT.GRAYSCALE, true);
+        vuforia.setFrameQueueCapacity(1);
+    }
+
+    //scanarea asta se face dupa init, inainte de orice
+    // DE TESTAT
+    public int scanWithAverage(LinearOpMode op) throws InterruptedException {
+
+        VuforiaLocalizer.CloseableFrame frame = vuforia.getFrameQueue().take();
+        Image img = frame.getImage(0);
+
+        Bitmap bm = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.RGB_565);
+        bm.copyPixelsFromBuffer(img.getPixels());
+
+        double averageLeft = 0, averageCenter = 0, averageRight = 0;
+        int pixelCount = bm.getWidth() * bm.getHeight();
+
+        for(int i=0;i<bm.getWidth()/3;i++) {
+            for(int j=0;j<bm.getHeight();j++) {
+                if(op.isStopRequested()) return -1;
+                int p = bm.getPixel(i, j);
+
+                averageLeft += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
+            }
+        }
+
+        averageLeft /= pixelCount;
+
+        for(int i=(int)(bm.getWidth()/3);i<2*bm.getWidth()/3;i++) {
+            for(int j=0;j<bm.getHeight();j++) {
+                if(op.isStopRequested()) return -1;
+                int p = bm.getPixel(i, j);
+
+                averageCenter += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
+            }
+        }
+
+        averageCenter /= pixelCount;
+
+        for(int i=(int)(2*bm.getWidth()/3);i<bm.getWidth();i++) {
+            for(int j=0;j<bm.getHeight();j++) {
+                if(op.isStopRequested()) return -1;
+                int p = bm.getPixel(i, j);
+
+                averageRight += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
+            }
+        }
+
+        averageRight /= pixelCount;
+
+
+        double minimum = Math.min(averageLeft, Math.min(averageCenter, averageRight));
+
+        if(minimum == averageLeft) return 0;
+        else if (minimum == averageRight) return 2;
+        else return 1;
+    }
+
 }
