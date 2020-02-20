@@ -147,6 +147,21 @@ public class Scanner {
         double averageLeft = 0, averageCenter = 0, averageRight = 0;
         int pixelCount = bm.getWidth() * bm.getHeight();
 
+        //bordare top
+        for(int i=0;i<bm.getWidth();i++) {
+            for(int j=0;j<clippingMargins.top;j++) {
+                bm.setPixel(i, j, 0);
+            }
+        }
+
+        //bordare bottom
+        for(int i=0;i<bm.getWidth();i++) {
+            for(int j=bm.getHeight() - clippingMargins.bottom; j<bm.getHeight(); j++) {
+                bm.setPixel(i, j, 0);
+            }
+        }
+
+        //calculare avg left
         for(int i=0;i<bm.getWidth()/3;i++) {
             for(int j=0;j<bm.getHeight();j++) {
                 if(op.isStopRequested()) return -1;
@@ -158,6 +173,8 @@ public class Scanner {
 
         averageLeft /= pixelCount;
 
+
+        // calculare avg center
         for(int i=(int)(bm.getWidth()/3);i<2*bm.getWidth()/3;i++) {
             for(int j=0;j<bm.getHeight();j++) {
                 if(op.isStopRequested()) return -1;
@@ -169,6 +186,8 @@ public class Scanner {
 
         averageCenter /= pixelCount;
 
+
+        //calculare avg right
         for(int i=(int)(2*bm.getWidth()/3);i<bm.getWidth();i++) {
             for(int j=0;j<bm.getHeight();j++) {
                 if(op.isStopRequested()) return -1;
