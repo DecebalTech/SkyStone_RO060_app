@@ -35,6 +35,10 @@ public class Scanner {
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
     private ClippingMargins clippingMargins = new ClippingMargins(0, 50, 0, 220);
+    private ClippingMargins LEFT_MARGINS = new ClippingMargins(0, 50, 426, 220);
+    private ClippingMargins MIDDLE_MARGINS = new ClippingMargins(213, 50, 213, 220);
+    private ClippingMargins RIGHT_MARGINS = new ClippingMargins(426, 50, 0, 220);
+    private ClippingMargins TWO_STONES_MARGINS = new ClippingMargins(0, 50, 213, 220);
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -48,7 +52,10 @@ public class Scanner {
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = hwm.get(WebcamName.class, webcamName);
 
+
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
+        vuforia.setFrameQueueCapacity(1);
     }
 
     public void initTfod(HardwareMap hwm) {
@@ -70,6 +77,10 @@ public class Scanner {
             return true;
         }
         return false;
+    }
+
+    public void stopTfod() {
+        tfod.deactivate();
     }
 
     public int scan(LinearOpMode op) {
@@ -129,82 +140,136 @@ public class Scanner {
         return vuforia;
     }
 
-    public void initForGrayscale() {
-        Vuforia.setFrameFormat(PIXEL_FORMAT.GRAYSCALE, true);
-        vuforia.setFrameQueueCapacity(1);
+    public int scanWithAverage(LinearOpMode op) {
+        try {
+            VuforiaLocalizer.CloseableFrame frame = vuforia.getFrameQueue().take();
+            Image img = null;
+            for(int i=0; i<frame.getNumImages(); i++) {
+                Image image = frame.getImage(i);
+                if(image.getFormat() == PIXEL_FORMAT.RGB565) {
+                    img = image;
+                    break;
+                }
+            }
+            if(img==null) return -1;
+            Bitmap bm = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.RGB_565);
+            bm.copyPixelsFromBuffer(img.getPixels());
+
+            double averageLeft = 0, averageCenter = 0, averageRight = 0;
+            int pixelCount = bm.getWidth() * bm.getHeight();
+
+            //bordare top
+            for (int i = 0; i < bm.getWidth(); i++) {
+                for (int j = 0; j < clippingMargins.top; j++) {
+                    bm.setPixel(i, j, 0);
+                }
+            }
+
+            //bordare bottom
+            for (int i = 0; i < bm.getWidth(); i++) {
+                for (int j = bm.getHeight() - clippingMargins.bottom; j < bm.getHeight(); j++) {
+                    bm.setPixel(i, j, 0);
+                }
+            }
+
+            //calculare avg left
+            for (int i = 0; i < bm.getWidth() / 3; i++) {
+                for (int j = 0; j < bm.getHeight(); j++) {
+                    if (op.isStopRequested()) return -1;
+                    int p = bm.getPixel(i, j);
+
+                    averageLeft += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
+                }
+            }
+
+            averageLeft /= pixelCount/3;
+
+
+            // calculare avg center
+            for (int i = (int) (bm.getWidth() / 3); i < 2 * bm.getWidth() / 3; i++) {
+                for (int j = 0; j < bm.getHeight(); j++) {
+                    if (op.isStopRequested()) return -1;
+                    int p = bm.getPixel(i, j);
+
+                    averageCenter += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
+                }
+            }
+
+            averageCenter /= pixelCount/3;
+
+
+            //calculare avg right
+            for (int i = (int) (2 * bm.getWidth() / 3); i < bm.getWidth(); i++) {
+                for (int j = 0; j < bm.getHeight(); j++) {
+                    if (op.isStopRequested()) return -1;
+                    int p = bm.getPixel(i, j);
+
+                    averageRight += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
+                }
+            }
+
+            averageRight /= pixelCount/3;
+
+            double maximum = Math.max(averageLeft, Math.max(averageCenter, averageRight));
+
+            if (maximum == averageLeft) return 0;
+            else if (maximum == averageRight) return 2;
+            else return 1;
+        }
+        catch (Exception ex) {
+            return -1;
+        }
     }
 
-    //scanarea asta se face dupa init, inainte de orice
-    // DE TESTAT
-    public int scanWithAverage(LinearOpMode op) throws InterruptedException {
+    public int scanFirstTwo(LinearOpMode op) {
+        if(tfod!=null) {
+            tfod.setClippingMargins(TWO_STONES_MARGINS.left, TWO_STONES_MARGINS.top, TWO_STONES_MARGINS.right, TWO_STONES_MARGINS.bottom);
+            List<Recognition> updateRecognition = tfod.getUpdatedRecognitions();
 
-        VuforiaLocalizer.CloseableFrame frame = vuforia.getFrameQueue().take();
-        Image img = frame.getImage(0);
+            if (updateRecognition != null && updateRecognition.size() == 2) {
+                    if(updateRecognition.get(0).getLeft() > updateRecognition.get(1).getLeft()) {
+                        Recognition temp = updateRecognition.get(0);
+                        updateRecognition.set(0, updateRecognition.get(1));
+                        updateRecognition.set(1, temp);
+                    }
+                    if (updateRecognition.get(0).getLabel() == LABEL_SECOND_ELEMENT)
+                        return 0;
+                    else if (updateRecognition.get(1).getLabel() == LABEL_SECOND_ELEMENT)
+                        return 1;
+                    else return 2;
+            } else return -1;
+        }
+        else return -1;
+    }
 
-        Bitmap bm = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.RGB_565);
-        bm.copyPixelsFromBuffer(img.getPixels());
+    public int scanWithCrop(LinearOpMode op) {
+        if(tfod!=null) {
+            //scanare prima fasa
+            tfod.setClippingMargins(LEFT_MARGINS.left, LEFT_MARGINS.top, LEFT_MARGINS.right, LEFT_MARGINS.bottom);
 
-        double averageLeft = 0, averageCenter = 0, averageRight = 0;
-        int pixelCount = bm.getWidth() * bm.getHeight();
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
 
-        //bordare top
-        for(int i=0;i<bm.getWidth();i++) {
-            for(int j=0;j<clippingMargins.top;j++) {
-                bm.setPixel(i, j, 0);
+            if(updatedRecognitions!=null && updatedRecognitions.size() > 0) {
+                if(updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT)
+                    return 0;
             }
+
+            //scanare a doua fasa
+
+            tfod.setClippingMargins(MIDDLE_MARGINS.left, MIDDLE_MARGINS.top, MIDDLE_MARGINS.right, MIDDLE_MARGINS.bottom);
+
+            updatedRecognitions = tfod.getUpdatedRecognitions();
+
+            if(updatedRecognitions!=null && updatedRecognitions.size() > 0) {
+                if(updatedRecognitions.get(0).getLabel() == LABEL_SECOND_ELEMENT)
+                    return 1;
+            }
+
+
+            return 2;
         }
 
-        //bordare bottom
-        for(int i=0;i<bm.getWidth();i++) {
-            for(int j=bm.getHeight() - clippingMargins.bottom; j<bm.getHeight(); j++) {
-                bm.setPixel(i, j, 0);
-            }
-        }
-
-        //calculare avg left
-        for(int i=0;i<bm.getWidth()/3;i++) {
-            for(int j=0;j<bm.getHeight();j++) {
-                if(op.isStopRequested()) return -1;
-                int p = bm.getPixel(i, j);
-
-                averageLeft += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
-            }
-        }
-
-        averageLeft /= pixelCount;
-
-
-        // calculare avg center
-        for(int i=(int)(bm.getWidth()/3);i<2*bm.getWidth()/3;i++) {
-            for(int j=0;j<bm.getHeight();j++) {
-                if(op.isStopRequested()) return -1;
-                int p = bm.getPixel(i, j);
-
-                averageCenter += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
-            }
-        }
-
-        averageCenter /= pixelCount;
-
-
-        //calculare avg right
-        for(int i=(int)(2*bm.getWidth()/3);i<bm.getWidth();i++) {
-            for(int j=0;j<bm.getHeight();j++) {
-                if(op.isStopRequested()) return -1;
-                int p = bm.getPixel(i, j);
-
-                averageRight += (((p & 0xff0000) >> 16 + (p & 0xff00) >> 8 + p & 0xff)) / 3;
-            }
-        }
-
-        averageRight /= pixelCount;
-
-
-        double minimum = Math.min(averageLeft, Math.min(averageCenter, averageRight));
-
-        if(minimum == averageLeft) return 0;
-        else if (minimum == averageRight) return 2;
-        else return 1;
+        return -1;
     }
 
 }

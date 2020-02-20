@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.Modules;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants;
@@ -20,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.INCHtoCM;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.MOTOR_VELO_PID;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.encoderTicksToInches;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.getMotorVelocityF;
@@ -35,7 +31,7 @@ public class Movement extends SampleMecanumDriveBase {
     private static String Names[] = {"frontLeft", "frontRight", "backLeft", "backRight"};
     private Robot rb;
 
-    private float[] TurboMultipliers = {.25f, 1f, 1f};
+    private float[] TurboMultipliers = {.25f, 0.65f, 1f};
     private int TurboIndex = 1;
 
     //private static float TickPerCm = 24.42f; //this is only for forward/backward movement

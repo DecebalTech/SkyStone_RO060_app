@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
-import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
 import org.firstinspires.ftc.teamcode.Modules.Scanner;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -44,15 +43,17 @@ public class Blue_2_foundation extends LinearOpMode {
 
         while(!isStarted() && !isStopRequested()) {
             if(isStopRequested()) break;
-            int temp = scanner.scan(this);
+            int temp = scanner.scanFirstTwo(this);
             scanResult = (temp == -1 ? scanResult : temp);
+            telemetry.addData("Result:", scanResult);
+            telemetry.update();
         }
+
+        scanner.stopTfod();
         voltComp = ((rb.controlHub.read12vMonitor(ExpansionHubEx.VoltageUnits.VOLTS)-13.7)*compOffset);
 
         rb.movement.setPoseEstimate(new Pose2d(-42,64.5,0));
 
-
-        scanResult=-1;
 
         switch (scanResult) {
             case 2:
@@ -181,7 +182,7 @@ public class Blue_2_foundation extends LinearOpMode {
                 break;
 
             case 0: //requires work
-                telemetry.addLine("3 sau 6 pe zar skystone catre perete");
+                telemetry.addLine("3 sau 6 pe zar skystone spre skybridge");
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(t);
@@ -418,7 +419,7 @@ public class Blue_2_foundation extends LinearOpMode {
 
                 break;
         }
-        stop();
+
     }
 
     public void initRobot(HardwareMap hwm) {

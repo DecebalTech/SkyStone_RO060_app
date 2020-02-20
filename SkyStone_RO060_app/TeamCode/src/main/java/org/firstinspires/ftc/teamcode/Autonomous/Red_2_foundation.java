@@ -43,22 +43,26 @@ public class Red_2_foundation extends LinearOpMode {
 //        waitForStart();
 
         while(!isStarted() && !isStopRequested()) {
-//            if(isStopRequested()) break;
-//            int temp = scanner.scan(this);
-//            scanResult = (temp == -1 ? scanResult : temp);
-//            telemetry.addData("Result:", scanResult);
-//            telemetry.update();
-            idle();
+            if(isStopRequested()) break;
+            int temp = scanner.scanFirstTwo(this);
+            scanResult = (temp == -1 ? scanResult : temp);
+            telemetry.addData("Result:", scanResult);
+            telemetry.update();
         }
 
-        scanResult = scanner.scanWithAverage(this);
+        scanner.stopTfod();
+
+        //scanResult = scanner.scanWithAverage(this);
+
+        telemetry.addData("scan result", scanResult);
+
         rb.movement.setPoseEstimate(new Pose2d(-28,-64,Math.PI));
 
 
 //        scanResult=2;
 
         switch (scanResult) {
-            case 2:
+            case 0:
                 telemetry.addLine("1 sau 4 pe zar skystone la perete");
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
@@ -78,8 +82,8 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                // .strafeTo(new Vector2d(-22,-38))
                                 .setReversed(true)
-                                .splineTo(new Pose2d(0,-38,Math.PI))
-                                .splineTo(new Pose2d(40,-31.5-voltComp,Math.PI))
+                                .splineTo(new Pose2d(0,-36.5,Math.PI))
+                                .splineTo(new Pose2d(40,-29-voltComp,Math.PI))
                                 .setReversed(false)
                                 .build()
                 );
@@ -99,7 +103,8 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .splineTo(new Pose2d(-65,-20.5-voltComp,Math.PI*3/4))
-/*                                .lineTo(new Vector2d(-50,-21))*/
+/*                                .setReversed(true)
+                                .lineTo(new Vector2d(-50,-21))*/
 
                                 .build()
 
@@ -122,7 +127,7 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.rotateIMUAbsolute((float)Math.PI/2,1f,this);
                 sleep(1);
 
-                if(rb.backDist.getDistanceCM()<30&&rb.backDist.getDistanceCM()>0){
+                if(rb.backDist.getDistanceCM()<35&&rb.backDist.getDistanceCM()>0){
                     sleep(t);
                     rb.movement.moveDist(4.7f,rb.backDist,1f,this);
                     sleep(1);
@@ -132,7 +137,7 @@ public class Red_2_foundation extends LinearOpMode {
                     rb.movement.followTrajectorySync(
                             rb.movement.trajectoryBuilder()
                                     .setReversed(true)
-                                    .strafeTo(new Vector2d(45,-31))
+                                    .lineTo(new Vector2d(45,-26))
                                     .build()
                     );
                 }
@@ -163,8 +168,8 @@ public class Red_2_foundation extends LinearOpMode {
                 );
                 break;
 
-            case 0: //requires work
-                telemetry.addLine("3 sau 6 pe zar skystone catre perete");
+            case 2: //requires work
+                telemetry.addLine("3 sau 6 pe zar skystone spre bridge");
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(t);
@@ -183,8 +188,9 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
                                 //.splineTo(new Pose2d(-22,-38,Math.PI))
-                                .splineTo(new Pose2d(7,-38,Math.PI))
-                                .splineTo(new Pose2d(38,-31.3-voltComp,Math.PI))
+                                .splineTo(new Pose2d(7,-35.5,Math.PI))
+                                .splineTo(new Pose2d(37,-30,Math.PI))
+                                .strafeTo(new Vector2d(38,-29.3-voltComp))
                                 .setReversed(false)
                                 .build()
                 );
@@ -193,7 +199,7 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
 
-                                .splineTo(new Pose2d(5,-36,Math.PI))
+                                .splineTo(new Pose2d(5,-35,Math.PI))
                                 .splineTo(new Pose2d(-50,-32,Math.PI))
                                 .build()
 
@@ -205,7 +211,7 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .strafeTo(new Vector2d(-52.5,-31.3-voltComp))
+                                .strafeTo(new Vector2d(-52.5,-30-voltComp))
                                 .build()
                 );
                 catchStones();
@@ -214,8 +220,8 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                // .strafeTo(new Vector2d(-22,-38))
                                 .setReversed(true)
-                                .splineTo(new Pose2d(5,-38,Math.PI))
-                                .splineTo(new Pose2d(55,-31.4-voltComp,Math.PI))
+                                .splineTo(new Pose2d(5,-36,Math.PI))
+                                .splineTo(new Pose2d(55,-29-voltComp,Math.PI))
                                 .setReversed(false)
                                 .build()
                 );
@@ -269,8 +275,8 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
                                 //.splineTo(new Pose2d(25,-42,Math.PI))
-                                .strafeTo(new Vector2d(25,-39))
-                                .splineTo(new Pose2d(8,-39,Math.PI))
+                                .strafeTo(new Vector2d(25,-37.5))
+                                .splineTo(new Pose2d(8,-37.5,Math.PI))
                                 .build()
                 );
 
@@ -295,8 +301,8 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .splineTo(new Pose2d(7,-38,Math.PI))
-                                .splineTo(new Pose2d(40,-32-voltComp,Math.PI))
+                                .splineTo(new Pose2d(7,-37.5,Math.PI))
+                                .splineTo(new Pose2d(40,-31.5-voltComp,Math.PI))
                                 .setReversed(false)
                                 .build()
                 );
@@ -306,7 +312,7 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
 
-                                .splineTo(new Pose2d(5,-36,Math.PI))
+                                .splineTo(new Pose2d(5,-35,Math.PI))
                                 .splineTo(new Pose2d(-62,-33,Math.PI))
                                 .build()
 
@@ -324,9 +330,9 @@ public class Red_2_foundation extends LinearOpMode {
                 catchStones();
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
-                                .strafeTo(new Vector2d(-22,-41))
+                                .strafeTo(new Vector2d(-22,-38))
                                 .setReversed(true)
-                                .splineTo(new Pose2d(5,-41,Math.PI))
+                                .splineTo(new Pose2d(5,-38,Math.PI))
                                 .splineTo(new Pose2d(55,-33-voltComp,Math.PI))
                                 .setReversed(false)
                                 .build()
@@ -380,8 +386,8 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
                                // .splineTo(new Pose2d(25,-37,Math.PI))
-                                .strafeTo(new Vector2d(25,-37))
-                                .splineTo(new Pose2d(7,-37,Math.PI))
+                                .strafeTo(new Vector2d(25,-35))
+                                .splineTo(new Pose2d(7,-35,Math.PI))
                                 .build()
                 );
 
