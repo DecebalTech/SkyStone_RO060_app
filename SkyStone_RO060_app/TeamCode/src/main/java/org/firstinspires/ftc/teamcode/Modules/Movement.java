@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.StrictMath.abs;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.MOTOR_VELO_PID;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.encoderTicksToInches;
 import static org.firstinspires.ftc.teamcode.Modules.RoadRunner_Modules.DriveConstants.getMotorVelocityF;
@@ -81,6 +82,7 @@ public class Movement extends SampleMecanumDriveBase {
     }
 
     public String Move(Gamepad gamepad1) {
+
         float angle, r, powX, powY;
 
         if(gamepad1.left_trigger>0) TurboIndex = 0;
@@ -92,7 +94,6 @@ public class Movement extends SampleMecanumDriveBase {
 
         powX = (float)(Math.cos(angle)*r);
         powY = (float)(Math.sin(angle)*r);
-
 
         String s = "";
 

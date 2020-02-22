@@ -1,34 +1,82 @@
 package org.firstinspires.ftc.teamcode.OldAutonomous;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
+import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
+import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
+import org.firstinspires.ftc.teamcode.Modules.Scanner;
 import org.firstinspires.ftc.teamcode.Robot;
-@Disabled
-@Deprecated
-@Autonomous (name = "RED Parking W- park near wall")
+import org.openftc.revextensions2.ExpansionHubEx;
 
+@Autonomous (name = "RED_Parking_W", group = "RED")
 public class RED_Parking_W extends LinearOpMode {
 
-    public Robot rb;
+    /*
+     */
+
+    private Robot rb = null;
+    private final int t = 1; // pauza intre executarea unei noi functii
+    // private Scanner scanner = new Scanner(); // definire vuforia
+    //private int scanResult = -1; // valoare initiala pentru rezultatul scanrii
+    private float stoneDist = 10.2f; // distanta fata de stone pentru al putea colecta
+    private float ap = 13;  // distanta mai mare fata de stone pentru a putea pregati bratul
+    private float calibrateDist = 22; // distanta fata de stone pentru a "putea calibra robotul" sa treaca sigur sub bridge safe
+    private float wallDist = 25; // distanta fata de perete [frontdist] pentru a colecta al doi-lea stone ca sa fim siguri ca il prindem
+    private double voltComp =0;
+    static double compOffset =1.12; // multiplier
 
     @Override
-    public void runOpMode() throws InterruptedException{
-        int time=1,gtime=600;
-        float ac=.45f;
-        initRobot();
+    public void runOpMode() throws InterruptedException {
 
-        while(!isStarted()) idle();
+        initRobot(hardwareMap);
+        voltComp = ((rb.controlHub.read12vMonitor(ExpansionHubEx.VoltageUnits.VOLTS) - 13.7) * compOffset);
+
+
+        //SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
+
+//        waitForStart();
+
+        while (!isStarted() && !isStopRequested()) {
+            if (isStopRequested()) break;
+            //   int temp = scanner.scanFirstTwo(this);
+            //   scanResult = (temp == -1 ? scanResult : temp);
+            //    telemetry.addData("Result:", scanResult);
+            //  telemetry.update();
+        }
+
+        //   scanner.stopTfod();
+
+        //scanResult = scanner.scanWithAverage(this);
+
+        //  telemetry.addData("scan result", scanResult);
+
+        rb.movement.setPoseEstimate(new Pose2d(-28, 64, 0));
+        rb.movement.followTrajectorySync(
+                rb.movement.trajectoryBuilder()
+                        .strafeTo(new Vector2d(-28,60))
+                        .setReversed(false)
+                        .splineTo(new Pose2d(0,64,0))
+                        .build()
+
+        );
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CLOSED); // initializare
+        sleep(t);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
-        sleep(time);
-        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // deschidem servoul de prindere
-        sleep(time);
-        rb.movement.moveCM((float)Math.PI/1.8f, -70 , 1f, this);
-        sleep(time);
+        sleep(26000);
+        return ;
     }
 
-    public void initRobot() {
-        rb = new Robot(hardwareMap, this,true);
+    public void initRobot(HardwareMap hwm) {
+        rb = new Robot(hwm, this, true);
+        //  scanner.Init("webcam", hwm);
+        //   scanner.initTfod(hwm);
+        //  scanner.activateTfod();
+
+        //rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE);
     }
+
 }

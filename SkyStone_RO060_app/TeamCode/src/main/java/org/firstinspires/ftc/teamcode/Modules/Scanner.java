@@ -65,7 +65,7 @@ public class Scanner {
         int tfodMonitorViewId = hwm.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hwm.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.58 ;//0.7
+        tfodParameters.minimumConfidence = 0.52 ;//0.7
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.setClippingMargins(clippingMargins.left, clippingMargins.top, clippingMargins.right, clippingMargins.bottom);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);

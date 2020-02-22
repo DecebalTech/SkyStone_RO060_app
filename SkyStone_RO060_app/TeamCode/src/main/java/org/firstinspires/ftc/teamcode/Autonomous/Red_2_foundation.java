@@ -73,28 +73,28 @@ public class Red_2_foundation extends LinearOpMode {
                 sleep(t);
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
-                                .strafeTo(new Vector2d(-43.3,-30.5-voltComp))
+                                .strafeTo(new Vector2d(-43,-29.5-voltComp))
                                 .build()
 
                 );
                 catchStones();
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
-                               // .strafeTo(new Vector2d(-22,-38))
                                 .setReversed(true)
-                                .splineTo(new Pose2d(0,-36.5,Math.PI))
-                                .splineTo(new Pose2d(40,-29-voltComp,Math.PI))
+                                //.splineTo(new Pose2d(-22,-38,Math.PI))
+                                .splineTo(new Pose2d(7,-35,Math.PI))
+                                .splineTo(new Pose2d(40,-31,Math.PI))
+                               // .strafeTo(new Vector2d(41,-29.3-voltComp))
                                 .setReversed(false)
                                 .build()
                 );
                 releaseStones();
 
-
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
 
-                                .splineTo(new Pose2d(5,-36,Math.PI))
-                                .splineTo(new Pose2d(-40,-36,Math.PI))
+                                .splineTo(new Pose2d(5,-35,Math.PI))
+                                .splineTo(new Pose2d(-40,-35,Math.PI))
                                 .build()
 
                 );
@@ -102,7 +102,7 @@ public class Red_2_foundation extends LinearOpMode {
 
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
-                                .splineTo(new Pose2d(-65,-20.5-voltComp,Math.PI*3/4))
+                                .splineTo(new Pose2d(-65,-20-voltComp,Math.PI*3/4))
 /*                                .setReversed(true)
                                 .lineTo(new Vector2d(-50,-21))*/
 
@@ -114,9 +114,9 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .splineTo(new Pose2d(-40,-34,Math.PI))
-                                .splineTo(new Pose2d(0,-34,Math.PI))
-                                .splineTo(new Pose2d(45,-34,Math.PI/2*3))
+                                .splineTo(new Pose2d(-40,-31,Math.PI))
+                                .splineTo(new Pose2d(0,-31,Math.PI))
+                                .splineTo(new Pose2d(45,-31,Math.PI/2*3))
                                 .build()
                 );
 
@@ -132,38 +132,58 @@ public class Red_2_foundation extends LinearOpMode {
                     rb.movement.moveDist(4.7f,rb.backDist,1f,this);
                     sleep(1);
 
+                    rb.prindereCub.SetDirection(PrindereCub.Direction.STOP); // pornim intake-ul
+                    sleep(t);
+                    rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+                    sleep(450);
+                    rb.movement.setPoseEstimate(new Pose2d(45,-31,Math.PI/-2));
+                    rb.movement.followTrajectorySync(
+                            rb.movement.trajectoryBuilder()
+                                    .setReversed(false)
+                                    .strafeTo(new Vector2d(40,-55))
+                                    .build()
+                    );
+                    rb.movement.rotateIMUAbsolute(0,1f,this);
+                    sleep(t);
+
+                    rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
+                    sleep(t);
+                    rb.movement.setPoseEstimate(new Pose2d(43,-38,Math.PI));
+
                 }
                 else{
                     rb.movement.followTrajectorySync(
                             rb.movement.trajectoryBuilder()
                                     .setReversed(true)
-                                    .lineTo(new Vector2d(45,-26))
+                                    .lineTo(new Vector2d(45,-24.5))
                                     .build()
                     );
+                    rb.prindereCub.SetDirection(PrindereCub.Direction.STOP); // pornim intake-ul
+                    sleep(t);
+                    rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
+                    sleep(450);
+                    rb.movement.setPoseEstimate(new Pose2d(45,-31,Math.PI/-2));
+                    rb.movement.followTrajectorySync(
+                            rb.movement.trajectoryBuilder()
+                                    .setReversed(false)
+                                    .strafeTo(new Vector2d(40,-58))
+                                    .build()
+                    );
+                    rb.movement.rotateIMUAbsolute(0,1f,this);
+                    sleep(t);
+
+                    rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
+                    sleep(t);
+                    rb.movement.setPoseEstimate(new Pose2d(43,-38,Math.PI));
                 }
 
-                rb.prindereCub.SetDirection(PrindereCub.Direction.STOP); // pornim intake-ul
-                sleep(t);
-                rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
-                sleep(450);
-                rb.movement.setPoseEstimate(new Pose2d(45,-31,Math.PI/-2));
-                rb.movement.followTrajectorySync(
-                        rb.movement.trajectoryBuilder()
-                                .setReversed(false)
-                                .strafeTo(new Vector2d(40,-55))
-                                .build()
-                );
-                rb.movement.rotateIMUAbsolute(0,1f,this);
-                sleep(t);
 
-                rb.foundationServos.SetPosition(FoundationServos.ServoPositions.UP);
-                sleep(t);
-                rb.movement.setPoseEstimate(new Pose2d(43,-42,Math.PI));
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
-                                .splineTo(new Pose2d(25,-36,Math.PI))
-                                .splineTo(new Pose2d(4,-36,Math.PI))
+                                .strafeTo(new Vector2d(40,-33))
+                                .splineTo(new Pose2d(25,-33,Math.PI))
+                                .splineTo(new Pose2d(4,-33,Math.PI))
                                 .build()
                 );
                 break;
@@ -173,7 +193,7 @@ public class Red_2_foundation extends LinearOpMode {
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(t);
-                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
+                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // initializare
                 sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
                 sleep(t);
@@ -183,14 +203,14 @@ public class Red_2_foundation extends LinearOpMode {
                                 .build()
 
                 );
-                catchStones();
+                catchFirstStone();
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
                                 //.splineTo(new Pose2d(-22,-38,Math.PI))
                                 .splineTo(new Pose2d(7,-35.5,Math.PI))
-                                .splineTo(new Pose2d(37,-30,Math.PI))
-                                .strafeTo(new Vector2d(38,-29.3-voltComp))
+                                .splineTo(new Pose2d(40,-31,Math.PI))
+                                .strafeTo(new Vector2d(41,-29.3-voltComp))
                                 .setReversed(false)
                                 .build()
                 );
@@ -200,7 +220,7 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
 
                                 .splineTo(new Pose2d(5,-35,Math.PI))
-                                .splineTo(new Pose2d(-50,-32,Math.PI))
+                                .splineTo(new Pose2d(-50,-34,Math.PI))
                                 .build()
 
                 );
@@ -218,13 +238,14 @@ public class Red_2_foundation extends LinearOpMode {
               //  rb.movement.setPoseEstimate(new Pose2d(-48,-31.3,Math.PI));
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
-                               // .strafeTo(new Vector2d(-22,-38))
                                 .setReversed(true)
-                                .splineTo(new Pose2d(5,-36,Math.PI))
-                                .splineTo(new Pose2d(55,-29-voltComp,Math.PI))
+                                .splineTo(new Pose2d(7,-35,Math.PI))
+                                .splineTo(new Pose2d(43,-30,Math.PI))
+                                .strafeTo(new Vector2d(44,-28.5-voltComp))
                                 .setReversed(false)
                                 .build()
                 );
+
                 releaseStones();
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
@@ -250,7 +271,7 @@ public class Red_2_foundation extends LinearOpMode {
                     rb.movement.followTrajectorySync(
                             rb.movement.trajectoryBuilder()
                                     .setReversed(true)
-                                    .lineTo(new Vector2d(45,-31))
+                                    .lineTo(new Vector2d(45,-24))
                                     .build()
                     );
                 }
@@ -262,7 +283,7 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
-                                .strafeTo(new Vector2d(40,-55))
+                                .strafeTo(new Vector2d(38,-60))
                                 .build()
                 );
                 rb.movement.rotateIMUAbsolute(0,1f,this);
@@ -275,7 +296,7 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
                                 //.splineTo(new Pose2d(25,-42,Math.PI))
-                                .strafeTo(new Vector2d(25,-37.5))
+                                .strafeTo(new Vector2d(38,-37.5))
                                 .splineTo(new Pose2d(8,-37.5,Math.PI))
                                 .build()
                 );
@@ -301,8 +322,10 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .splineTo(new Pose2d(7,-37.5,Math.PI))
-                                .splineTo(new Pose2d(40,-31.5-voltComp,Math.PI))
+                                .splineTo(new Pose2d(0,-36,Math.PI))
+                                .splineTo(new Pose2d(7,-36,Math.PI))
+                                .splineTo(new Pose2d(37,-30,Math.PI))
+                                .strafeTo(new Vector2d(38,-28.8-voltComp))
                                 .setReversed(false)
                                 .build()
                 );
@@ -313,7 +336,7 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
 
                                 .splineTo(new Pose2d(5,-35,Math.PI))
-                                .splineTo(new Pose2d(-62,-33,Math.PI))
+                                .splineTo(new Pose2d(-62,-35,Math.PI))
                                 .build()
 
                 );
@@ -324,24 +347,25 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .strafeTo(new Vector2d(-63,-30-voltComp))
+                                .strafeTo(new Vector2d(-62.5,-29-voltComp))
                                 .build()
                 );
                 catchStones();
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
-                                .strafeTo(new Vector2d(-22,-38))
                                 .setReversed(true)
-                                .splineTo(new Pose2d(5,-38,Math.PI))
-                                .splineTo(new Pose2d(55,-33-voltComp,Math.PI))
+                                .splineTo(new Pose2d(7,-35,Math.PI))
+                                .splineTo(new Pose2d(38,-30,Math.PI))
+                                .strafeTo(new Vector2d(39,-28.5-voltComp))
                                 .setReversed(false)
                                 .build()
                 );
+
                 releaseStones();
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
-                                .strafeTo(new Vector2d(50,-32.5))
+                                .strafeTo(new Vector2d(49,-31))
                                 .build()
                 );
 
@@ -363,9 +387,10 @@ public class Red_2_foundation extends LinearOpMode {
                     rb.movement.followTrajectorySync(
                             rb.movement.trajectoryBuilder()
                                     .setReversed(true)
-                                    .lineTo(new Vector2d(45,-31))
+                                    .lineTo(new Vector2d(45,-25))
                                     .build()
                     );
+                    rb.movement.setPoseEstimate(new Pose2d(49,-31,Math.PI/2));
                 }
                 rb.foundationServos.SetPosition(FoundationServos.ServoPositions.DOWN);
                 sleep(450);
@@ -373,7 +398,7 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
-                                .strafeTo(new Vector2d(40,-55))
+                                .strafeTo(new Vector2d(38,-60))
                                 .build()
                 );
                 rb.movement.rotateIMUAbsolute(0,1f,this);
@@ -386,13 +411,17 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
                                // .splineTo(new Pose2d(25,-37,Math.PI))
-                                .strafeTo(new Vector2d(25,-35))
+                                .strafeTo(new Vector2d(35,-35))
                                 .splineTo(new Pose2d(7,-35,Math.PI))
                                 .build()
                 );
 
                 break;
         }
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CLOSED); // initializare
+        sleep(t);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
+        sleep(1);
 return ;
     }
 
@@ -404,33 +433,53 @@ return ;
 
         //rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE);
     }
+    public void catchFirstStone()  {
+
+/*        if(rb.rightDist.getDistanceCM()>32)
+            return;
+        sleep(t);*/
+
+/*        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
+        sleep(t);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
+        sleep(t);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
+        sleep(200);
+
+ */
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // pridem skystone-ul
+        sleep(450);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam skystone-ul la cer
+        sleep(50);
+
+    }
     public void catchStones()  {
 
 /*        if(rb.rightDist.getDistanceCM()>32)
             return;
         sleep(t);*/
 
-        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
+/*        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
         sleep(t);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
-        sleep(t);
+        sleep(t);*/
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
-        sleep(400);
+        sleep(200);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // pridem skystone-ul
-        sleep(400);
+        sleep(450);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam skystone-ul la cer
-        sleep(100);
+        sleep(50);
 
     }
     public void releaseStones(){
         sleep(t);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
-        sleep(200);
+        sleep(90);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
         sleep(50);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
-        sleep(100);
-        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // incepem sa inchidem ghiara
+        sleep(50);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
         sleep(t);
     }
 }
