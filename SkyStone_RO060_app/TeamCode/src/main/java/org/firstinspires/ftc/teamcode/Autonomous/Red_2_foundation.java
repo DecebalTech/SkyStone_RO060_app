@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Modules.Auto_StoneArm;
 import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
@@ -42,12 +44,22 @@ public class Red_2_foundation extends LinearOpMode {
 
 //        waitForStart();
 
+        //ElapsedTime elapsedTime = new ElapsedTime();
+
         while(!isStarted() && !isStopRequested()) {
             if(isStopRequested()) break;
             int temp = scanner.scanFirstTwo(this);
             scanResult = (temp == -1 ? scanResult : temp);
             telemetry.addData("Result:", scanResult);
             telemetry.update();
+
+            //RESET TFOD EVERY N SECS IT SCANS -1
+//            if(elapsedTime.seconds()==5 && temp==-1 && !isStopRequested()) {
+//                scanner.setCropping(new Scanner.ClippingMargins(640, 0, 0, 0));
+//                sleep(100);
+//                scanner.setCropping(scanner.TWO_STONES_MARGINS);
+//                elapsedTime.reset();
+//            }
         }
 
         scanner.stopTfod();
@@ -69,7 +81,7 @@ public class Red_2_foundation extends LinearOpMode {
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
                 sleep(t);
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
@@ -82,7 +94,7 @@ public class Red_2_foundation extends LinearOpMode {
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
                                 //.splineTo(new Pose2d(-22,-38,Math.PI))
-                                .splineTo(new Pose2d(7,-35,Math.PI))
+                                .splineTo(new Pose2d(7,-37,Math.PI))
                                 .splineTo(new Pose2d(40,-31,Math.PI))
                                // .strafeTo(new Vector2d(41,-29.3-voltComp))
                                 .setReversed(false)
@@ -98,7 +110,7 @@ public class Red_2_foundation extends LinearOpMode {
                                 .build()
 
                 );
-                rb.prindereCub.SetDirection(PrindereCub.Direction.inAuto); // pornim intake-ul
+                rb.prindereCub.SetDirection(PrindereCub.Direction.IN); // pornim intake-ul
 
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
@@ -110,13 +122,17 @@ public class Red_2_foundation extends LinearOpMode {
 
                 );
               //  rb.movement.setPoseEstimate(new Pose2d(-62,-21,Math.PI));
-
+                //.splineTo(new Pose2d(25,41,Math.PI)),new SplineInterpolator((x,y));
+                sleep(t);
+                rb.prindereCub.SetDirection(PrindereCub.Direction.inAuto);
+                sleep(t);
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .splineTo(new Pose2d(-40,-31,Math.PI))
-                                .splineTo(new Pose2d(0,-31,Math.PI))
-                                .splineTo(new Pose2d(45,-31,Math.PI/2*3))
+                                .splineTo(new Pose2d(-40,-32,Math.PI),new SplineInterpolator(Math.PI,0))
+
+                                .splineTo(new Pose2d(0,-32,0))
+                                .splineTo(new Pose2d(45,-32,Math.PI/2*3))
                                 .build()
                 );
 
@@ -193,22 +209,22 @@ public class Red_2_foundation extends LinearOpMode {
                 sleep(t);
                 telemetry.addData("distance in cm", rb.rightDist.getDistanceCM());
                 sleep(t);
-                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // initializare
+                rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
                 sleep(t);
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
-                                .strafeTo(new Vector2d(-27,-30.5-voltComp))
+                                .strafeTo(new Vector2d(-25,-30.5-voltComp))
                                 .build()
 
                 );
-                catchFirstStone();
+                catchStones();
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
                                 //.splineTo(new Pose2d(-22,-38,Math.PI))
-                                .splineTo(new Pose2d(7,-35.5,Math.PI))
+                                .splineTo(new Pose2d(7,-37,Math.PI))
                                 .splineTo(new Pose2d(40,-31,Math.PI))
                                 .strafeTo(new Vector2d(41,-29.3-voltComp))
                                 .setReversed(false)
@@ -226,12 +242,12 @@ public class Red_2_foundation extends LinearOpMode {
                 );
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
                 sleep(t);
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .strafeTo(new Vector2d(-52.5,-30-voltComp))
+                                .strafeTo(new Vector2d(-52.5,-29.7-voltComp))
                                 .build()
                 );
                 catchStones();
@@ -239,9 +255,9 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .splineTo(new Pose2d(7,-35,Math.PI))
-                                .splineTo(new Pose2d(43,-30,Math.PI))
-                                .strafeTo(new Vector2d(44,-28.5-voltComp))
+                                .splineTo(new Pose2d(7,-37,Math.PI))
+                                .splineTo(new Pose2d(58,-30,Math.PI))
+                                .strafeTo(new Vector2d(60,-28.5-voltComp))
                                 .setReversed(false)
                                 .build()
                 );
@@ -310,7 +326,7 @@ public class Red_2_foundation extends LinearOpMode {
                 sleep(t);
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
                 sleep(t);
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
@@ -342,7 +358,7 @@ public class Red_2_foundation extends LinearOpMode {
                 );
                 rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
                 sleep(t);
-                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
+                rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
                 sleep(t);
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
@@ -459,10 +475,10 @@ return ;
             return;
         sleep(t);*/
 
-/*        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
         sleep(t);
-        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // initializare
-        sleep(t);*/
+       // rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
+        sleep(t);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
         sleep(200);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // pridem skystone-ul

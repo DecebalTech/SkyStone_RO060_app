@@ -21,12 +21,13 @@ public class Auto_StoneArm {
     public enum grabberPositions{
         CLOSED,
         CATCH,
-        RELEASE
+        RELEASE,
+        autoCatch
     }
 
 
-    private float[] armPositionValues = {0, .1f, .15f, .55f ,.12f ,.18f,.7f};
-    private float[] grabberPositionValues = {0, 0.13f , 0.7f};
+    private float[] armPositionValues = {0, .1f, .15f, .55f ,.135f ,.18f,.7f};
+    private float[] grabberPositionValues = {0, 0.2f , 0.28f , .6f};
 
     private grabberPositions grabberPosition = grabberPositions.CLOSED;
     private armPositions armPosition = armPositions.Init;
@@ -49,6 +50,9 @@ public class Auto_StoneArm {
         }
         else if(grabberPosition == grabberPositions.RELEASE){
             if(grabber.IsOn()) grabber.SetPosition(grabberPositionValues[2]);
+        }
+        else if(grabberPosition == grabberPositions.autoCatch){
+            if(grabber.IsOn()) grabber.SetPosition(grabberPositionValues[3]);
         }
     }
 

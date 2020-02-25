@@ -18,11 +18,11 @@ import java.util.List;
 
 public class Scanner {
 
-    class ClippingMargins {
+    public static class ClippingMargins {
 
         public int left, top, right, bottom;
 
-        ClippingMargins (int _left, int _top, int _right, int _bottom) {
+        public ClippingMargins(int _left, int _top, int _right, int _bottom) {
             left = _left;
             top = _top;
             right = _right;
@@ -38,7 +38,7 @@ public class Scanner {
     private ClippingMargins LEFT_MARGINS = new ClippingMargins(0, 50, 426, 220);
     private ClippingMargins MIDDLE_MARGINS = new ClippingMargins(213, 50, 213, 220);
     private ClippingMargins RIGHT_MARGINS = new ClippingMargins(426, 50, 0, 220);
-    private ClippingMargins TWO_STONES_MARGINS = new ClippingMargins(0, 50, 213, 220);
+    public ClippingMargins TWO_STONES_MARGINS = new ClippingMargins(0, 50, 213, 220);
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -65,7 +65,7 @@ public class Scanner {
         int tfodMonitorViewId = hwm.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hwm.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.52 ;//0.7
+        tfodParameters.minimumConfidence = 0.54 ;//0.7
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.setClippingMargins(clippingMargins.left, clippingMargins.top, clippingMargins.right, clippingMargins.bottom);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
@@ -270,6 +270,10 @@ public class Scanner {
         }
 
         return -1;
+    }
+
+    public void setCropping(ClippingMargins margins) {
+        tfod.setClippingMargins(margins.left, margins.top, margins.right, margins.bottom);
     }
 
 }
