@@ -11,7 +11,7 @@ public class PrindereCub {
     private boolean State;
     private String NameLeft, NameRight;
 
-    private float[] PowerValues = {-.43f, 0, .43f, 1,-1f};
+    private float[] PowerValues = {-.55f, 0, .43f, 1,-1f};
     public enum Direction {
         IN,
         STOP,
@@ -81,6 +81,9 @@ public class PrindereCub {
             SetDirection((Direction.IN));
         else if(gamepad2.dpad_left)
             SetDirection((Direction.OUTA));
+
+        else if(gamepad2.dpad_right)
+            SetDirection((Direction.inAuto));
        else
             SetDirection(Direction.STOP);
 

@@ -129,7 +129,7 @@ public class Red_2_foundation extends LinearOpMode {
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
-                                .splineTo(new Pose2d(-40,-32,Math.PI),new SplineInterpolator(Math.PI,0))
+                                .splineTo(new Pose2d(-40,-32,Math.PI),new SplineInterpolator(Math.PI,0)) ////// ASTA este cea mai mare smecherie bro
 
                                 .splineTo(new Pose2d(0,-32,0))
                                 .splineTo(new Pose2d(45,-32,Math.PI/2*3))
