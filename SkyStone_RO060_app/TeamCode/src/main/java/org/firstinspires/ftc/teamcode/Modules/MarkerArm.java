@@ -98,7 +98,7 @@ public class MarkerArm {
 
         if(Rotation.IsOn()) {
             float rotPow = gamepad2.left_stick_y;
-            if( rotPow > 0) rotPow /= 1.2;//was 2   
+            if( rotPow > 0) rotPow /= 1.05;//was 2
 
             if(!Rotation.IsMoving()) Rotation.SetPower(rotPow);
 

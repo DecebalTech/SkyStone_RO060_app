@@ -15,7 +15,8 @@ public class Auto_StoneArm {
         UP,  // prindere stone
         PICKandGO, // pentru pus pe fundatie
         FOUNDATION, // special pentru colectare stone FOUNDATION
-        Init
+        Init,
+        Drive
     }
 
     public enum grabberPositions{
@@ -26,8 +27,8 @@ public class Auto_StoneArm {
     }
 
 
-    private float[] armPositionValues = {0, .1f, .15f, .55f ,.135f ,.18f,.7f};
-    private float[] grabberPositionValues = {0, 0.2f , 0.28f , .6f};
+    private float[] armPositionValues = {0, .1f, .15f, .55f ,.135f ,.18f,.62f,.60f};
+    private float[] grabberPositionValues = {.6f, 0.4f , 0.13f , 0};
 
     private grabberPositions grabberPosition = grabberPositions.CLOSED;
     private armPositions armPosition = armPositions.Init;
@@ -36,7 +37,7 @@ public class Auto_StoneArm {
         grabber.Init(_grabberName,hwm);
         arm.Init(_armName,hwm);
         grabberSetPosition(grabberPositions.CLOSED);
-        armSetPosition(armPositions.Init);
+        armSetPosition(armPositions.Drive);
     }
 
     public void grabberSetPosition(grabberPositions _pos){
@@ -80,22 +81,27 @@ public class Auto_StoneArm {
         else if(armPosition == armPositions.Init){
             if(arm.IsOn()) arm.SetPosition(armPositionValues[6]);
         }
+        else if(armPosition == armPositions.Drive){
+            if(arm.IsOn()) arm.SetPosition(armPositionValues[7]);
+        }
     }
 
     public String Update(Gamepad gamepad1) {
-        if(gamepad1.dpad_up){
-            armSetPosition(armPositions.UP);
+/*        if(gamepad1.dpad_right){
+            armSetPosition(armPositions.Init);
         }
-        else if(gamepad1.dpad_down){
+        else if(gamepad1.dpad_left){
             armSetPosition(armPositions.DOWN);
-        }
+        }*/
 
+/*
         if(gamepad1.dpad_left){
             grabberSetPosition(grabberPositions.RELEASE);
         }
         else if(gamepad1.dpad_right){
-            grabberSetPosition(grabberPositions.CATCH);
+            grabberSetPosition(grabberPositions.CLOSED);
         }
+*/
 
         return "Arm position: [" + armPosition.toString() + "] " + "Grabber position: [" + grabberPosition.toString() + "]";
 

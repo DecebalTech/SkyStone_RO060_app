@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.Modules.FoundationServos;
 import org.firstinspires.ftc.teamcode.Modules.MarkerArm;
 import org.firstinspires.ftc.teamcode.Modules.Movement;
 import org.firstinspires.ftc.teamcode.Modules.PrindereCub;
+import org.firstinspires.ftc.teamcode.Modules.autoRotate;
+import org.firstinspires.ftc.teamcode.Modules.stone_Rotate;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
 
@@ -23,6 +25,9 @@ public class Robot {
     public Auto_StoneArm stoneArm;
     public DistSensor rightDist, frontDist, backDist;
     public CapstoneRelease capstoneRelease;
+    public stone_Rotate stoneRotare;
+    public autoRotate autoRotate;
+
 
 
     public ExpansionHubEx controlHub, expansionHub;
@@ -48,6 +53,12 @@ public class Robot {
 
         capstoneRelease = new CapstoneRelease();
         capstoneRelease.Init("capRelease", hwm);
+
+        stoneRotare = new stone_Rotate();
+        stoneRotare.Init("stone_Rotate", hwm);
+
+        autoRotate = new autoRotate();
+        autoRotate.Init("autoRotate", hwm);
 
         if(autonomous) {
             rightDist = new DistSensor();
@@ -91,6 +102,8 @@ public class Robot {
         }*/
 
         op.telemetry.addLine(stoneArm.Update(gamepad2));
+        op.telemetry.addLine(stoneRotare.UpdateS(gamepad2));
+        op.telemetry.addLine(autoRotate.UpdateS(gamepad2));
         op.telemetry.addLine(capstoneRelease.Update(gamepad2));
 
     }
@@ -101,3 +114,4 @@ public class Robot {
     }
 
 }
+
