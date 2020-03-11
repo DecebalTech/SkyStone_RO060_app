@@ -32,7 +32,7 @@ public class Red_2_foundation extends LinearOpMode {
     private float calibrateDist = 22; // distanta fata de stone pentru a "putea calibra robotul" sa treaca sigur sub bridge safe
     private float wallDist = 25; // distanta fata de perete [frontdist] pentru a colecta al doi-lea stone ca sa fim siguri ca il prindem
     private double voltComp =0;
-    static double compOffset =1.12; // multiplier
+    static double compOffset =1.13; // multiplier
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -99,53 +99,53 @@ public class Red_2_foundation extends LinearOpMode {
                                 .setReversed(true)
                                 //.splineTo(new Pose2d(-22,-38,Math.PI))
                                 .splineTo(new Pose2d(7,-35,Math.PI))
-                                .splineTo(new Pose2d(43.05,-30.3,Math.PI))
+                                .splineTo(new Pose2d(43+voltComp,-30.3,Math.PI))
 
                                 .build()
                 );
                 rb.autoRotate.armSetPosition(autoRotate.armPositions.side);
-                sleep(100);
+                sleep(50);
                 releaseStones();
 
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
 
-                                .splineTo(new Pose2d(5,-34,Math.PI))
-                                .splineTo(new Pose2d(-57,-34,Math.PI),new SplineInterpolator(Math.PI,Math.PI*3/2))
+                                .splineTo(new Pose2d(5,-33,Math.PI))
+                                .splineTo(new Pose2d(-57,-33,Math.PI),new SplineInterpolator(Math.PI,Math.PI*3/2))
+                                .setReversed(true)
+                                .lineTo(new Vector2d(-57,-23+voltComp))
+                                .strafeTo(new Vector2d(-54,-21+voltComp))
                                 .build()
 
                 );
+
+                //rb.movement.setPoseEstimate(new Pose2d(-53,-34,(float)Math.PI*3/2));
+
+
                 rb.autoRotate.armSetPosition(autoRotate.armPositions.side);
                 sleep(t);
                 rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
                 sleep(t);
-                //rb.movement.setPoseEstimate(new Pose2d(-53,-34,(float)Math.PI*3/2));
-
-                rb.movement.followTrajectorySync(
-                        rb.movement.trajectoryBuilder()
-                                .setReversed(true)
-                                .lineTo(new Vector2d(-57,-20))
-                                .strafeTo(new Vector2d(-57,-19.7))
-                                .build()
-
-                );
-                catchStones();
+                SpecialcatchStones();
                 rb.autoRotate.armSetPosition(autoRotate.armPositions.forward);
                 sleep(t);
-                rb.movement.setPoseEstimate(new Pose2d(-47,-25,(float)Math.PI*3/2));
+              //  rb.movement.setPoseEstimate(new Pose2d(-47,-25,(float)Math.PI*3/2));
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(false)
                                 //.splineTo(new Pose2d(-22,-38,Math.PI))
-                                .splineTo(new Pose2d(-30,-31,0))
-                                .splineTo(new Pose2d(0,-31,0),new SplineInterpolator(0,Math.PI))
-
+                                .splineTo(new Pose2d(-30,-35,0))
+                                .splineTo(new Pose2d(40,-35,0),new SplineInterpolator(0,Math.PI/2))
+                              ////
+                              /*  .setReversed(false)
+                                .splineTo(new Pose2d(40,-30.5,Math.PI))*/
                                // .splineTo(new Pose2d(43.25,-30.5,0))
 
                                 .build()
                 );
-rb.movement.rotateIMUAbsolute(0,1f,this);
-                rb.movement.setPoseEstimate(new Pose2d(0,-35,Math.PI));
+//rb.movement.rotateIMUAbsolute(0,1f,this);
+               // rb.movement.setPoseEstimate(new Pose2d(0,-35,Math.PI));
+/*
                 rb.movement.followTrajectorySync(
                         rb.movement.trajectoryBuilder()
                                 .setReversed(true)
@@ -154,6 +154,7 @@ rb.movement.rotateIMUAbsolute(0,1f,this);
                                 //.strafeTo(new Vector2d(39,-28.5))
                                 .build()
                 );
+*/
 
                 rb.autoRotate.armSetPosition(autoRotate.armPositions.side);
                 sleep(150);
@@ -548,9 +549,27 @@ sleep(1);
        // rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
         sleep(t);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
-        sleep(400);
+        sleep(70);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // pridem skystone-ul
-        sleep(500);
+        sleep(120);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam skystone-ul la cer
+        sleep(1);
+
+    }
+    public void SpecialcatchStones()  {
+
+/*        if(rb.rightDist.getDistanceCM()>32)
+            return;
+        sleep(t);*/
+        sleep(1);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.PICKandGO); // initializare
+        sleep(t);
+        // rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.autoCatch); // initializare
+        sleep(t);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.DOWN); // lasam bratul jos
+        sleep(300);
+        rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // pridem skystone-ul
+        sleep(120);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // ridicam skystone-ul la cer
         sleep(1);
 
@@ -558,14 +577,18 @@ sleep(1);
     public void releaseStones(){
         sleep(t);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
-        sleep(350);
+        sleep(100);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.RELEASE); // dam drumul la skystone
+        sleep(1);
+        rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.FOUNDATION); // initializare
         sleep(200);
         rb.stoneArm.armSetPosition(Auto_StoneArm.armPositions.UP); // initializare
-        sleep(400);
+        sleep(1);
+
+        rb.autoRotate.armSetPosition(autoRotate.armPositions.forward);
+        sleep(1);
         rb.stoneArm.grabberSetPosition(Auto_StoneArm.grabberPositions.CATCH); // incepem sa inchidem ghiara
         sleep(t);
-        rb.autoRotate.armSetPosition(autoRotate.armPositions.forward);
         sleep(1);
     }
 }
